@@ -29,11 +29,9 @@ jobs:
 
             - name: Build and push Docker image
               id: push
-              uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-              with:
-                  context: .
-                  push: true
-                  tags: latest
+              run: |
+                  npm install
+                  npm run docker:build
 
             - name: Generate artifact attestation
               uses: actions/attest-build-provenance@v1
