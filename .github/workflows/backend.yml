@@ -6,6 +6,10 @@ env:
     REGISTRY: ghcr.io
     IMAGE_NAME: ${{ github.repository }}
 
+defaults:
+  run:
+    working-directory: ./backend
+
 jobs:
     build_and_publish:
         runs-on: ubuntu-latest
@@ -21,7 +25,7 @@ jobs:
               id: push
               uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
               with:
-                  context: ./backend
+                  context: .
                   push: true
                   tags: latest
 
