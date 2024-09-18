@@ -6,7 +6,7 @@
         "dev": "nodemon ./bin/www",
         "start": "node ./bin/www",
         "format": "prettier --write .",
-        "docker:build": "docker build -t express-app:latest .",
+        "docker:build": "docker build -t ghcr.io/manangandhi1810/leetcode-clone:latest .",
         "test": "vitest"
     },
     "type": "module",
