@@ -4,7 +4,7 @@ on: [push]
 
 env:
     REGISTRY: ghcr.io
-    IMAGE_NAME: ${{ github.repository }}
+    IMAGE_NAME: manangandhi1810/leetcode-clone
 
 defaults:
     run:
