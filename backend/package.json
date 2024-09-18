@@ -1,0 +1,35 @@
+{
+    "name": "express-auth-template",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon ./bin/www",
+        "start": "node ./bin/www",
+        "format": "prettier --write .",
+        "docker:build": "docker build -t express-app:latest .",
+        "test": "vitest"
+    },
+    "type": "module",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "@prisma/client": "^5.19.0",
+        "argon2": "^0.41.0",
+        "bcrypt": "^5.1.1",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "jsonwebtoken": "^9.0.2",
+        "morgan": "^1.10.0",
+        "redis": "^4.7.0",
+        "resend": "^4.0.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.4",
+        "prettier": "^3.3.3",
+        "supertest": "^7.0.0",
+        "vitest": "^2.0.5"
+    }
+}
