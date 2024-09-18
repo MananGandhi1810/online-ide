@@ -8,7 +8,7 @@ env:
 
 defaults:
     run:
-        working-directory: ./backend
+        working-directory: backend
 
 jobs:
     build_and_publish:
@@ -27,7 +27,7 @@ jobs:
               id: push
               uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
               with:
-                  context: .\backend
+                  context: .
                   push: true
                   tags: latest
 
