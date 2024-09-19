@@ -9,7 +9,7 @@ const resend = new Resend(resendApiKey);
 
 const sendEmail = async (to, subject, html) => {
     await resend.emails.send({
-        from: `Manan <${resendEmail}>`,
+        from: `LeetCode Clone <${resendEmail}>`,
         to: [to],
         subject: subject,
         html: html,
