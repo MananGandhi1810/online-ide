@@ -7,10 +7,12 @@ services:
         ports:
             - 3000:3000/tcp
         volumes:
-            - ./.env:/app/.env
+            - ./.env:/usr/src/app/.env
             - /var/run/docker.sock:/var/run/docker.sock
             # - /path/to/ssl/fullchain.pem:/usr/src/app/ssl/fullchain.pem
             # - /path/to/ssl/privkey.pem:/usr/src/app/ssl/privkey.pem
+        user: root
+        command: sh -c "npx prisma migrate deploy && npm run start"
 
     postgresql:
         image: bitnami/postgresql:latest
