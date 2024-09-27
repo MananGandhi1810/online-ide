@@ -27,6 +27,5 @@ jobs:
             - name: Build and push Docker image
               id: push
               run: |
-                  npm install
-                  npm run docker:build
+                  docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
                   docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
