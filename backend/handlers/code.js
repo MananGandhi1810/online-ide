@@ -1,8 +1,24 @@
 import { createDockerContainer } from "../utils/docker.js";
 
+const languages = ["python", "jaavscript", "c", "cpp"];
+
 const executeCode = async (req, res) => {
     const { language } = req.params;
+    if (!language || !languages.includes(language)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid Language",
+            data: null,
+        });
+    }
     const { code } = req.body;
+    if (!code) {
+        return res.status(400).json({
+            success: false,
+            message: "Code cannot be empty",
+            data: null,
+        });
+    }
     const container = await createDockerContainer(language, code);
     await container.start();
     const tle = setTimeout(async () => {

@@ -7,7 +7,7 @@ services:
         ports:
             - 3000:3000/tcp
         volumes:
-            - ./.env:/usr/src/app/.env
+            - ./backend/.env.prod:/usr/src/app/.env
             - /var/run/docker.sock:/var/run/docker.sock
             # - /path/to/ssl/fullchain.pem:/usr/src/app/ssl/fullchain.pem
             # - /path/to/ssl/privkey.pem:/usr/src/app/ssl/privkey.pem
