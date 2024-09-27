@@ -12,5 +12,5 @@ COPY --from=builder /usr/src/app/prisma ./prisma/
 COPY . . 
 EXPOSE 3000
 USER node
-RUN sudo chmod o+rw /var/run/docker.sock
+RUN chmod o+rw /var/run/docker.sock
 CMD ["npm", "start"]
