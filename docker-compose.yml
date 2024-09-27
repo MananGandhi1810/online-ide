@@ -1,7 +1,7 @@
 name: online-ide
 
 services:
-    backend:
+    online-ide:
         image: ghcr.io/manangandhi1810/online-ide
         restart: unless-stopped
         ports:
@@ -11,7 +11,34 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
             # - /path/to/ssl/fullchain.pem:/usr/src/app/ssl/fullchain.pem
             # - /path/to/ssl/privkey.pem:/usr/src/app/ssl/privkey.pem
-        
+
+    postgresql:
+        image: bitnami/postgresql:latest
+        restart: unless-stopped
+        ports:
+            - "5432:5432/tcp"
+        volumes:
+            - pg-data:/bitnami/postgresql
+        environment:
+            - POSTGRESQL_PGAUDIT_LOG=READ,WRITE
+            - POSTGRESQL_LOG_HOSTNAME=true
+            - POSTGRESQL_REPLICATION_MODE=master
+            - POSTGRESQL_REPLICATION_USER=repl_user
+            - POSTGRESQL_REPLICATION_PASSWORD=repl_user
+            - POSTGRESQL_USERNAME=postgres
+            - POSTGRESQL_PASSWORD=postgres
+            - POSTGRESQL_DATABASE=cloud-ide
+
+    redis:
+        image: bitnami/redis:latest
+        restart: unless-stopped
+        ports:
+            - "6379:6379/tcp"
+        environment:
+            - ALLOW_EMPTY_PASSWORD=yes
+
+    code-runner:
+        image: ghcr.io/manangandhi1810/code-runner
 
 volumes:
-    db-data:
+    pg-data:
