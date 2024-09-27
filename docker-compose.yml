@@ -1,6 +1,13 @@
 name: online-ide
 
 services:
+    watchtower:
+        image: containrrr/watchtower
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /root/.docker/config.json:/config.json
+        command: --interval 30
+
     online-ide:
         image: ghcr.io/manangandhi1810/online-ide
         restart: unless-stopped
@@ -30,6 +37,8 @@ services:
             - POSTGRESQL_USERNAME=postgres
             - POSTGRESQL_PASSWORD=postgres
             - POSTGRESQL_DATABASE=cloud-ide
+        labels:
+            - "com.centurylinklabs.watchtower.enable=false"
 
     redis:
         image: bitnami/redis:latest
@@ -38,6 +47,8 @@ services:
             - "6379:6379/tcp"
         environment:
             - ALLOW_EMPTY_PASSWORD=yes
+        labels:
+            - "com.centurylinklabs.watchtower.enable=false"
 
     code-runner:
         image: ghcr.io/manangandhi1810/code-runner
