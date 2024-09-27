@@ -1,13 +1,6 @@
 name: online-ide
 
 services:
-    watchtower:
-        image: containrrr/watchtower
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - /root/.docker/config.json:/config.json
-        command: --interval 30
-
     online-ide:
         image: ghcr.io/manangandhi1810/online-ide
         restart: unless-stopped
