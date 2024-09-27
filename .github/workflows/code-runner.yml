@@ -1,4 +1,4 @@
-name: Docker Image CI for Backend Image
+name: Docker Image CI for Code Runner Image
 
 on: [push]
 
