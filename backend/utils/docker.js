@@ -4,7 +4,6 @@ const docker = dockerode();
 
 const getExecutionCommand = (language, code) => {
     let cmd;
-
     switch (language) {
         case "cpp":
             cmd = [
@@ -38,7 +37,6 @@ const getExecutionCommand = (language, code) => {
             cmd = [];
             break;
     }
-
     return cmd;
 };
 

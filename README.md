@@ -1,3 +1,3 @@
-# Leetcode Clone
+# Online IDE
 
-Leetcode Clone, built using Express.js and React.js
+Online IDE, built using Express.js and React.js

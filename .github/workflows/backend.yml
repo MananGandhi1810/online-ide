@@ -4,7 +4,7 @@ on: [push]
 
 env:
     REGISTRY: ghcr.io
-    IMAGE_NAME: manangandhi1810/leetcode-clone
+    IMAGE_NAME: manangandhi1810/cloud-ide
 
 defaults:
     run:

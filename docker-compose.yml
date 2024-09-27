@@ -1,0 +1,17 @@
+name: online-ide
+
+services:
+    backend:
+        image: ghcr.io/manangandhi1810/online-ide
+        restart: unless-stopped
+        ports:
+            - 3000:3000/tcp
+        volumes:
+            - ./.env:/app/.env
+            - /var/run/docker.sock:/var/run/docker.sock
+            # - /path/to/ssl/fullchain.pem:/usr/src/app/ssl/fullchain.pem
+            # - /path/to/ssl/privkey.pem:/usr/src/app/ssl/privkey.pem
+        
+
+volumes:
+    db-data:
