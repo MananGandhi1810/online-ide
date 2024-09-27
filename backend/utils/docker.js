@@ -44,7 +44,7 @@ const getExecutionCommand = (language, code) => {
 
 const createDockerContainer = async (language, code) => {
     return await docker.createContainer({
-        Image: "code-runner",
+        Image: process.env.CODE_RUNNER_CONTAINER,
         Cmd: getExecutionCommand(language, code),
         Tty: true,
         HostConfig: { AutoRemove: true },
