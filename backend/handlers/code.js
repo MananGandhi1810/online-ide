@@ -13,12 +13,14 @@ const executeCode = async (req, res) => {
             data: null,
         });
         await container.stop();
+        await container.remove();
     }, 4000);
 
     const containerExitStatus = await container.wait();
     const logs = await container.logs({ stdout: true, stderr: true });
     let success = containerExitStatus.StatusCode === 0 ? true : false;
     clearTimeout(tle);
+    await container.remove();
 
     res.json({
         success,

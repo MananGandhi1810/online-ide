@@ -47,7 +47,6 @@ const createDockerContainer = async (language, code) => {
         Image: process.env.CODE_RUNNER_CONTAINER,
         Cmd: getExecutionCommand(language, code),
         Tty: true,
-        HostConfig: { AutoRemove: true },
     });
 };
 
