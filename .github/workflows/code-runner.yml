@@ -1,14 +1,14 @@
-name: Docker Image CI for Code Runner Image
+name: Docker Image CI for Backend Image
 
 on: [push]
 
 env:
     REGISTRY: ghcr.io
-    IMAGE_NAME: manangandhi1810/leetcode-clone
+    IMAGE_NAME: manangandhi1810/code-runner
 
 defaults:
     run:
-        working-directory: code-runner
+        working-directory: backend
 
 jobs:
     build_and_publish:

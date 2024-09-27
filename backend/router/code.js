@@ -1,10 +1,9 @@
 import { Router } from "express";
 import { checkAuth } from "../middlewares/auth.js";
+import { executeCode } from "../handlers/code.js";
 
 var router = Router();
 
-router.post("/getAllProblems", checkAuth, (req, res) => {
-    res.json({ success: true, message: "Questions loaded", data: {} });
-});
+router.post("/execute/:language", checkAuth, executeCode);
 
 export default router;
