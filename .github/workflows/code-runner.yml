@@ -27,5 +27,5 @@ jobs:
             - name: Build and push Docker image
               id: push
               run: |
-                  docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+                  docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} --platform linux/amd64,linux/arm64
                   docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
