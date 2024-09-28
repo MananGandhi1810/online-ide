@@ -28,6 +28,7 @@ jobs:
             - name: Install Dependencies
               id: npm-install
               run: |
+                  cd backend
                   npm install
 
             - name: Set up Docker Buildx
