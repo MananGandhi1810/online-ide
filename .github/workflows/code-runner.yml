@@ -24,8 +24,14 @@ jobs:
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Build and push Docker image
-              id: push
-              run: |
-                  docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} --platform linux/amd64,linux/arm64
-                  docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+            - name: Build and Push Docker Image
+              uses: docker/build-push-action@v5
+              with:
+                  context: .
+                  platforms: linux/amd64, linux/arm64
+                  push: true
+                  tags: |
+                      ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+                      ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
