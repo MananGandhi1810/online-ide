@@ -6,10 +6,6 @@ env:
     REGISTRY: ghcr.io
     IMAGE_NAME: manangandhi1810/online-ide
 
-defaults:
-    run:
-        working-directory: backend
-
 jobs:
     build_and_publish:
         runs-on: ubuntu-latest
@@ -40,7 +36,7 @@ jobs:
             - name: Build and Push Docker Image
               uses: docker/build-push-action@v5
               with:
-                  context: .
+                  context: ./backend
                   platforms: linux/amd64, linux/arm64
                   push: true
                   tags: |
