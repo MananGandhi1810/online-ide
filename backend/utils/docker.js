@@ -11,8 +11,8 @@ const getExecutionCommand = (language, code) => {
                 "-c",
                 `echo "${code}" > myapp.cpp && g++ -o myapp myapp.cpp && ./myapp`,
             ];
-            console.log(cmd);
             break;
+            
         case "javascript":
             cmd = ["node", "-e", code];
             break;
