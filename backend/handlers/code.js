@@ -1,6 +1,6 @@
 import { createDockerContainer } from "../utils/docker.js";
 
-const languages = ["python", "jaavscript", "c", "cpp"];
+const languages = ["python", "javascript", "c", "cpp"];
 
 const executeCode = async (req, res) => {
     const { language } = req.params;
@@ -41,7 +41,9 @@ const executeCode = async (req, res) => {
     res.json({
         success,
         message: success ? "Code executed succesfully" : "An error occurred",
-        data: { logs: logs.toString() },
+        data: {
+            logs: logs.toString(),
+        },
     });
 };
 
