@@ -46,5 +46,33 @@ services:
     code-runner:
         image: ghcr.io/manangandhi1810/code-runner
 
+    zookeeper:
+        image: zookeeper:latest
+        ports:
+            - 2181:2181/tcp
+
+    kafka:
+        image: wurstmeister/kafka:latest
+        restart: unless-stopped
+        ports:
+            - 9092:9092/tcp
+        expose:
+            - "9093"
+        environment:
+            KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
+            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+            KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+            KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+            KAFKA_CREATE_TOPICS: "resume-upload:1:1,feedback-request:1:1"
+        depends_on:
+            zookeeper:
+                condition: service_started
+        healthcheck:
+            test: kafka-cluster.sh cluster-id --bootstrap-server localhost:9092 || exit 1
+            interval: 5s
+            timeout: 5s
+            retries: 10
+
 volumes:
     pg-data:
