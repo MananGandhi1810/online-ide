@@ -2,15 +2,20 @@ import dockerode from "dockerode";
 
 const docker = dockerode();
 
-const getExecutionCommand = (language, code) => {
+const cleanStr = (str) => {
+    return str.replaceAll('"', '\\"');
+};
+
+const getExecutionCommand = (language, code, input) => {
     let cmd;
-    code = code.replaceAll('"', '\\"');
+    code = cleanStr(code);
+    input = cleanStr(input);
     switch (language) {
         case "cpp":
             cmd = [
                 "bash",
                 "-c",
-                `echo "${code}" > myapp.cpp && g++ -o myapp myapp.cpp && ./myapp`,
+                `echo "Manan" > /dev/stdin && echo "${code}" > myapp.cpp && g++ -o myapp myapp.cpp && ./myapp`,
             ];
             break;
 
@@ -22,7 +27,7 @@ const getExecutionCommand = (language, code) => {
             cmd = [
                 "bash",
                 "-c",
-                `echo "${code}" > myapp.py && python3 myapp.py`,
+                `echo "${code}" > myapp.py && python3 myapp.py <<< "${input}"`,
             ];
             break;
 
@@ -30,7 +35,7 @@ const getExecutionCommand = (language, code) => {
             cmd = [
                 "bash",
                 "-c",
-                `echo "${code}" > myapp.c && gcc -o myapp myapp.c && ./myapp`,
+                `echo "Manan" > /dev/stdin && echo "${code}" > myapp.c && gcc -o myapp myapp.c && ./myapp`,
             ];
             break;
 
@@ -41,10 +46,10 @@ const getExecutionCommand = (language, code) => {
     return cmd;
 };
 
-const createDockerContainer = async (language, code) => {
+const createDockerContainer = async (language, code, input) => {
     return await docker.createContainer({
         Image: process.env.CODE_RUNNER_CONTAINER,
-        Cmd: getExecutionCommand(language, code),
+        Cmd: getExecutionCommand(language, code, input),
         Tty: true,
     });
 };
