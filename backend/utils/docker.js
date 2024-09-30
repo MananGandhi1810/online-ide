@@ -4,6 +4,7 @@ const docker = dockerode();
 
 const getExecutionCommand = (language, code) => {
     let cmd;
+    code = code.replaceAll('"', '\\"');
     switch (language) {
         case "cpp":
             cmd = [
@@ -12,7 +13,7 @@ const getExecutionCommand = (language, code) => {
                 `echo "${code}" > myapp.cpp && g++ -o myapp myapp.cpp && ./myapp`,
             ];
             break;
-            
+
         case "javascript":
             cmd = ["node", "-e", code];
             break;
