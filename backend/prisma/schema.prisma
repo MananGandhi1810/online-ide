@@ -7,13 +7,59 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum SubmissionStatus {
+    Queued
+    Executing
+    Executed
+}
+
+enum Difficulty {
+    Easy
+    Medium
+    Hard
+}
+
 model User {
-    id                String   @id @default(cuid())
-    email             String   @unique
+    id                String       @id @default(cuid())
+    email             String       @unique
     name              String?
     password          String
-    isVerified        Boolean  @default(false)
-    createdAt         DateTime @default(now())
-    updatedAt         DateTime @updatedAt
-    passwordUpdatedAt DateTime @default(now())
+    isVerified        Boolean      @default(false)
+    createdAt         DateTime     @default(now())
+    updatedAt         DateTime     @updatedAt
+    passwordUpdatedAt DateTime     @default(now())
+    submissions       Submission[]
+}
+
+model Submission {
+    id                 String           @id @default(cuid())
+    User               User?            @relation(fields: [userId], references: [id])
+    userId             String?
+    time               DateTime         @default(now())
+    success            Boolean?
+    code               String
+    language           String
+    status             SubmissionStatus @default(Queued)
+    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id])
+    problemStatementId String
+}
+
+model ProblemStatement {
+    id                String       @id @default(cuid())
+    Submission        Submission[]
+    name              String
+    description       String
+    difficulty        Difficulty
+    testCases         TestCases    @relation(name: "testCases", fields: [testCasesId], references: [id])
+    hiddenTestCases   TestCases    @relation(name: "hiddenTestCases", fields: [hiddenTestCasesId], references: [id])
+    testCasesId       String
+    hiddenTestCasesId String
+}
+
+model TestCases {
+    id                       String             @id @default(cuid())
+    input                    String
+    output                   String
+    problemStatement         ProblemStatement[] @relation(name: "testCases")
+    hiddenInProblemStatement ProblemStatement[] @relation(name: "hiddenTestCases")
 }
