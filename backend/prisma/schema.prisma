@@ -29,6 +29,7 @@ model User {
     updatedAt         DateTime     @updatedAt
     passwordUpdatedAt DateTime     @default(now())
     submissions       Submission[]
+    admin             Boolean      @default(false)
 }
 
 model Submission {
