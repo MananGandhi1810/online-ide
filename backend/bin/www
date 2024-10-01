@@ -10,7 +10,7 @@ import http from "http";
 import https from "https";
 import fs from "fs";
 import { onQueueMessage, subscribeToQueue } from "../utils/queue-manager.js";
-import { executeFromQueue } from "../utils/execute.js";
+import { executeFromQueue } from "../execution-worker/execute.js";
 
 /**
  * Get port from environment and store in Express.

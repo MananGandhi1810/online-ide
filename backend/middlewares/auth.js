@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 const redis = createClient({ url: process.env.REDIS_URL });
 redis.connect();
 
-const checkAuth = async (req, res, next) => {
+const checkAuth = async (req, res, next, admin = false) => {
     const { authorization } = req.headers;
     if (!authorization) {
         return res.status(403).json({
@@ -80,6 +80,13 @@ const checkAuth = async (req, res, next) => {
         return res.status(403).json({
             success: false,
             message: "A password reset for this account has been requested",
+            data: null,
+        });
+    }
+    if (admin && !user.admin) {
+        return res.status(403).json({
+            success: false,
+            message: "Cannot access this route",
             data: null,
         });
     }

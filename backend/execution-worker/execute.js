@@ -1,4 +1,4 @@
-import { createDockerContainer } from "./docker.js";
+import { createDockerContainer } from "../utils/docker.js";
 
 const executeFromQueue = async (message) => {
     const { code, language } = JSON.parse(message);
