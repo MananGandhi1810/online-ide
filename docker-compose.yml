@@ -64,7 +64,7 @@ services:
             KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
             KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
             KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-            KAFKA_CREATE_TOPICS: "resume-upload:1:1,feedback-request:1:1"
+            KAFKA_CREATE_TOPICS: "execute:1:1"
         depends_on:
             zookeeper:
                 condition: service_started

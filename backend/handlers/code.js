@@ -1,4 +1,5 @@
 import { createDockerContainer } from "../utils/docker.js";
+import { sendQueueMessage } from "../utils/queue-manager.js";
 
 const languages = ["python", "javascript", "c", "cpp"];
 
@@ -19,34 +20,18 @@ const executeCode = async (req, res) => {
             data: null,
         });
     }
-    const input = Date.now().toString();
-    const container = await createDockerContainer(language, code, input);
-    await container.start();
-    const tle = setTimeout(async () => {
-        console.log("sending a tle");
-        res.json({
-            success: false,
-            message: "Time Limit Exceeded",
-            data: null,
-        });
-        await container.stop();
-        await container.remove();
-        return;
-    }, 4000);
-
-    const containerExitStatus = await container.wait();
-    const logs = await container.logs({ stdout: true, stderr: true });
-    let success = containerExitStatus.StatusCode === 0 ? true : false;
-    clearTimeout(tle);
-
+    await sendQueueMessage(
+        "execute",
+        JSON.stringify({
+            code,
+            language,
+        }),
+    );
     res.json({
-        success,
-        message: success ? "Code executed succesfully" : "An error occurred",
-        data: {
-            logs: logs.toString(),
-        },
+        success: true,
+        message: "Code is queued",
+        data: null,
     });
-    await container.remove();
 };
 
 export { executeCode };

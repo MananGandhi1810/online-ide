@@ -4,6 +4,6 @@ import { executeCode } from "../handlers/code.js";
 
 var router = Router();
 
-router.post("/execute/:language", checkAuth, executeCode);
+router.post("/submit/:language", checkAuth, executeCode);
 
 export default router;

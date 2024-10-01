@@ -9,6 +9,8 @@ import debug from "debug";
 import http from "http";
 import https from "https";
 import fs from "fs";
+import { onQueueMessage, subscribeToQueue } from "../utils/queue-manager.js";
+import { executeFromQueue } from "../utils/execute.js";
 
 /**
  * Get port from environment and store in Express.
@@ -34,6 +36,12 @@ if (
     var server = http.createServer(app);
 }
 
+try {
+    await subscribeToQueue("execute");
+    await onQueueMessage("execute", executeFromQueue);
+} catch (e) {
+    console.log("Could not subscribe to kafka queue");
+}
 /**
  * Listen on provided port, on all network interfaces.
  */
