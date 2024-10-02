@@ -8,14 +8,14 @@ import {
 
 var router = Router();
 
-router.get("/problem-statements/all", checkAuth, getProblemStatements);
+router.get("/all", checkAuth, getProblemStatements);
 router.get(
-    "/problem-statements/:problemStatementId",
+    "/:problemStatementId",
     checkAuth,
     getProblemStatementById,
 );
 router.post(
-    "/problem-statements/new",
+    "/new",
     (req, res, next) => checkAuth(req, res, next, true),
     newProblemStatement,
 );

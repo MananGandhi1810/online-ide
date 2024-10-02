@@ -46,22 +46,19 @@ model Submission {
 }
 
 model ProblemStatement {
-    id                String       @id @default(cuid())
-    Submission        Submission[]
-    name              String
-    description       String
-    difficulty        Difficulty
-    testCases         TestCases    @relation(name: "testCases", fields: [testCasesId], references: [id])
-    hiddenTestCases   TestCases[]  @relation(name: "hiddenTestCases")
-    testCasesId       String       @unique
-    hiddenTestCasesId String
+    id          String       @id @default(cuid())
+    title       String
+    description String
+    difficulty  Difficulty
+    submissions Submission[]
+    testCase    Testcase[]
 }
 
-model TestCases {
-    id                       String            @id @default(cuid())
-    input                    String
-    output                   String
-    problemStatement         ProblemStatement? @relation(name: "testCases")
-    hiddenInProblemStatement ProblemStatement  @relation(name: "hiddenTestCases", fields: [problemStatementId], references: [id])
-    problemStatementId       String
+model Testcase {
+    id                 String           @id @default(cuid())
+    input              String
+    output             String
+    hidden             Boolean          @default(true)
+    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id])
+    problemStatementId String
 }
