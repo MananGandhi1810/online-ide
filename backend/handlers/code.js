@@ -54,7 +54,9 @@ const executeCode = async (req, res) => {
             JSON.stringify({
                 code,
                 language,
+                problemStatementId,
                 submissionId: submission.id,
+                userId: req.user.id,
             }),
         );
         await res.json({

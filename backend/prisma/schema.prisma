@@ -40,6 +40,7 @@ model Submission {
     success            Boolean?
     code               String
     language           String
+    output             String
     status             SubmissionStatus @default(Queued)
     problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id])
     problemStatementId String
