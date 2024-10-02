@@ -3,18 +3,45 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const getProblemStatements = async (req, res) => {
+    const problemStatements = await prisma.problemStatement.findMany({
+        select: {
+            id: true,
+            title: true,
+            difficulty: true,
+        },
+    });
     res.json({
         success: true,
         message: "Fetched problem statements",
-        data: null,
+        data: {
+            problemStatements,
+        },
     });
 };
 
 const getProblemStatementById = async (req, res) => {
+    const { problemStatementId } = req.params;
+    if (!problemStatementId) {
+        return res.status(400).json({
+            success: false,
+            message: "Problem Statement Id is compulsory",
+            data: null,
+        });
+    }
+    const problemStatement = await prisma.problemStatement.findUnique({
+        where: { id: problemStatementId },
+    });
+    if (!problemStatement) {
+        return res.status(404).json({
+            success: false,
+            message: "Problem Statement not found",
+            data: null,
+        });
+    }
     res.json({
         success: true,
         message: "Fetched problem statement",
-        data: null,
+        data: { problemStatement },
     });
 };
 
