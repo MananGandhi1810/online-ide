@@ -11,6 +11,7 @@ enum SubmissionStatus {
     Queued
     Executing
     Executed
+    TimeLimitExceeded
 }
 
 enum Difficulty {
@@ -40,7 +41,7 @@ model Submission {
     success            Boolean?
     code               String
     language           String
-    output             String?
+    output             String[]
     status             SubmissionStatus @default(Queued)
     problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id])
     problemStatementId String

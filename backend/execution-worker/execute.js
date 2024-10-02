@@ -28,31 +28,54 @@ const executeFromQueue = async (message) => {
         return;
     }
     const testCases = problemStatement.testCase;
-    console.log(testCases);
-    const container = await createDockerContainer(language, code, testCases[0].input);
-    await container.start();
+    const containers = await Promise.all(
+        testCases.map(async (testCase) => {
+            return await createDockerContainer(language, code, testCase.input);
+        }),
+    );
     const tle = setTimeout(async () => {
         console.log("TLE");
-        await container.stop();
-        await container.remove();
+        await prisma.submission.update({
+            where: { id: submissionId },
+            data: {
+                status: "TimeLimitExceeded",
+                success: false,
+            },
+        });
         return;
     }, 2000);
-
-    const containerExitStatus = await container.wait();
-    const logs = await container.logs({ stdout: true, stderr: true });
-    let success = containerExitStatus.StatusCode === 0 ? true : false;
-    const correctResult = logs == testCases[0].output;
-    console.log(correctResult)
+    const execResult = await Promise.all(
+        containers.map(async (container) => {
+            await container.start();
+            const containerExitStatus = await container.wait();
+            const logs = await container.logs({ stdout: true, stderr: true });
+            const success = containerExitStatus.StatusCode === 0 ? true : false;
+            return { success, logs };
+        }),
+    );
     clearTimeout(tle);
-
+    const success = execResult.every((result) => result.success);
+    const correctResult = execResult.every(
+        (result, i) => result.logs == testCases[i].output,
+    );
+    const logs = execResult.map((result) => result.logs);
     console.log({
         success,
         message: success ? "Code executed succesfully" : "An error occurred",
         data: {
-            logs: logs.toString(),
+            correctResult,
+            logs: logs.map((log) => log.toString()),
         },
     });
-    await container.remove();
+    await prisma.submission.update({
+        where: { id: submissionId },
+        data: {
+            output: logs.map((log) => log.toString()),
+            status: "Executed",
+            success: correctResult,
+        },
+    });
+    await Promise.all(containers.map((container) => container.remove()));
 };
 
 export { executeFromQueue };
