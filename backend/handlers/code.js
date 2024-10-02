@@ -1,12 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import { createDockerContainer } from "../utils/docker.js";
 import { sendQueueMessage } from "../utils/queue-manager.js";
 
 const languages = ["python", "javascript", "c", "cpp"];
 
 const prisma = new PrismaClient();
 
-const executeCode = async (req, res) => {
+const queueCode = async (req, res) => {
     const { problemStatementId, language } = req.params;
     if (!language || !languages.includes(language)) {
         return res.status(404).json({
@@ -74,4 +73,50 @@ const executeCode = async (req, res) => {
     }
 };
 
-export { executeCode };
+const checkExecution = async (req, res) => {
+    const {submissionId} = req.params;
+    if (!submissionId || submissionId.trim() == "") {
+        return res.status(400).json({
+            success: false,
+            message: "Submission ID is compulsory",
+            data: null,
+        });
+    }
+    const submission = await prisma.submission.findUnique({
+        where: { id: submissionId, userId: req.user.id },
+    });
+    if (!submission) {
+        return res.status(404).json({
+            success: false,
+            message: "Submission not found",
+            data: null,
+        });
+    }
+    var message;
+    switch (submission.status) {
+        case "Executed":
+            message = "Submission executed";
+            break;
+        case "Executing":
+            message = "Submission executing";
+            break;
+        case "Queued":
+            message = "Waiting for submission to be executed";
+            break;
+        case "TimeLimitExceeded":
+            message = "Time limit exceeded";
+            break;
+        default:
+            message = "Submission status unknown";
+    }
+    res.json({
+        success: submission.status == "Executed",
+        message,
+        data: {
+            status: submission.status,
+            success: submission.success,
+        },
+    });
+};
+
+export { queueCode, checkExecution };
