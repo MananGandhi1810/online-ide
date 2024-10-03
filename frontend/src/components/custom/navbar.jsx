@@ -11,7 +11,6 @@ export default function NavBar() {
                     <Link
                         to="/"
                         className="flex items-center gap-2"
-                        prefetch={false}
                     >
                         <Terminal /> <span className="font-medium">Code</span>
                     </Link>
@@ -19,14 +18,12 @@ export default function NavBar() {
                         <Link
                             to="/"
                             className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                            prefetch={false}
                         >
                             Home
                         </Link>
                         <Link
                             to="/problems"
                             className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                            prefetch={false}
                         >
                             Problems
                         </Link>
@@ -59,14 +56,12 @@ export default function NavBar() {
                                     <Link
                                         to="/"
                                         className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                                        prefetch={false}
                                     >
                                         Home
                                     </Link>
                                     <Link
                                         to="/problems"
                                         className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                                        prefetch={false}
                                     >
                                         Problems
                                     </Link>
