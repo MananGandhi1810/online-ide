@@ -1,20 +1,45 @@
 import "./App.css";
 import { ThemeProvider } from "./components/theme-provider";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/home";
+import {
+    BrowserRouter,
+    createBrowserRouter,
+    Outlet,
+    RouterProvider,
+} from "react-router-dom";
+import Home from "./pages/Home";
+import Layout from "./pages/Layout";
 import NavBar from "./components/custom/navbar";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Problems from "./pages/problems";
 
 const router = createBrowserRouter([
     {
-        path: "/",
-        element: <Home />,
+        element: <Layout />,
+        children: [
+            {
+                path: "/",
+                element: <Home />,
+            },
+            {
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/register",
+                element: <Register />,
+            },
+            {
+                path: "/problems",
+                element: <Problems />,
+            },
+        ],
     },
 ]);
 
 function App() {
     return (
         <ThemeProvider defaultTheme="dark">
-            <NavBar />
             <RouterProvider router={router} />
         </ThemeProvider>
     );
