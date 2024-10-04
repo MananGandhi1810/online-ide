@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
-import NavBar from "./components/custom/navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Problems from "./pages/problems";
@@ -39,9 +38,11 @@ const router = createBrowserRouter([
 
 function App() {
     return (
-        <ThemeProvider defaultTheme="dark">
-            <RouterProvider router={router} />
-        </ThemeProvider>
+        <div className="font-inter">
+            <ThemeProvider defaultTheme="dark">
+                <RouterProvider router={router} />
+            </ThemeProvider>
+        </div>
     );
 }
 

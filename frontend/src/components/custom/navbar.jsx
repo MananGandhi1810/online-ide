@@ -6,12 +6,9 @@ import { Link, Outlet } from "react-router-dom";
 export default function NavBar() {
     return (
         <>
-            <header className="sticky top-0 z-50 w-full border-b bg-background dark:bg-background">
+            <header className="fixed top-0 z-50 w-full border-b bg-background dark:bg-background">
                 <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-6">
-                    <Link
-                        to="/"
-                        className="flex items-center gap-2"
-                    >
+                    <Link to="/" className="flex items-center gap-2">
                         <Terminal /> <span className="font-medium">Code</span>
                     </Link>
                     <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
