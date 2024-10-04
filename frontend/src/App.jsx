@@ -11,6 +11,7 @@ import Layout from "./pages/Layout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Problems from "./pages/problems";
+import AuthContext from "./context/auth-provider";
 
 const router = createBrowserRouter([
     {
@@ -39,9 +40,11 @@ const router = createBrowserRouter([
 function App() {
     return (
         <div className="font-inter">
-            <ThemeProvider defaultTheme="dark">
-                <RouterProvider router={router} />
-            </ThemeProvider>
+            <AuthContext.Provider>
+                <ThemeProvider defaultTheme="dark">
+                    <RouterProvider router={router} />
+                </ThemeProvider>
+            </AuthContext.Provider>
         </div>
     );
 }

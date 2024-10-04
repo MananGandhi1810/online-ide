@@ -1,17 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+import { useAuth } from "@/context/auth-provider";
 import { Terminal, ArrowRight } from "lucide-react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function NavBar() {
+    const auth = useAuth();
+
     return (
         <>
             <header className="fixed top-0 z-50 w-full border-b bg-background dark:bg-background">
                 <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-6">
-                    <Link to="/" className="flex items-center gap-2">
+                    <Link
+                        to="/"
+                        className="flex items-center gap-2 flex-1 justify-start"
+                    >
                         <Terminal /> <span className="font-medium">Code</span>
                     </Link>
-                    <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
+                    <nav className="hidden items-center justify-center gap-6 text-sm font-medium md:flex flex-1">
                         <Link
                             to="/"
                             className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
@@ -25,16 +31,22 @@ export default function NavBar() {
                             Problems
                         </Link>
                     </nav>
-                    <div className="flex items-center gap-4">
-                        <Button variant="outline" asChild>
-                            <Link to="/login">Login</Link>
-                        </Button>
-                        <Button className="group" asChild>
-                            <Link to="/register">
-                                Register
-                                <ArrowRight className="ml-2 z-10 group-hover:ml-3 duration-200" />
-                            </Link>
-                        </Button>
+                    <div className="flex items-center justify-end flex-1">
+                        {!auth.user.isAuthenticated ? (
+                            <div className="flex gap-4">
+                                <Button variant="outline" asChild>
+                                    <Link to="/login">Login</Link>
+                                </Button>
+                                <Button className="group" asChild>
+                                    <Link to="/register">
+                                        Register
+                                        <ArrowRight className="ml-2 z-10 group-hover:ml-3 duration-200" />
+                                    </Link>
+                                </Button>
+                            </div>
+                        ) : (
+                            <div>Hello!</div>
+                        )}
                         <Sheet>
                             <SheetTrigger asChild>
                                 <Button
