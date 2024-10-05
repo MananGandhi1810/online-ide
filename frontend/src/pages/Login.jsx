@@ -13,24 +13,47 @@ import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Loader2 } from "lucide-react";
 import AuthContext from "@/context/auth-provider";
+import axios from "axios";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const { user, setUser } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
+    const { toast } = useToast();
+    const navigate = useNavigate();
 
     const login = async (email, password) => {
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
+        const res = await axios
+            .post(
+                `${process.env.SERVER_URL}/auth/login`,
+                {
+                    email,
+                    password,
+                },
+                {
+                    validateStatus: false,
+                },
+            )
+            .then((res) => res.data);
+        console.log(res);
+        if (res.success) {
             setUser({
-                name: "Manan Gandhi",
-                email: "ardumanan@gmail.com",
-                token: "",
+                name: res.data.user.name,
+                email: res.data.user.email,
+                token: res.data.token,
                 isAuthenticated: true,
             });
-        }, 1000);
+            toast({
+                title: "Success",
+                description: res.message,
+            });
+            navigate("/");
+        }
+        setLoading(false);
     };
 
     return (

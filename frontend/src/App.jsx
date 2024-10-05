@@ -39,15 +39,21 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-    const [user, setUser] = useState({
+    const initialState = {
         name: undefined,
         email: undefined,
         token: undefined,
         isAuthenticated: false,
-    });
+    };
+    const [user, setUser] = useState(
+        () =>
+            JSON.parse(localStorage.getItem("user") ?? initialState) ||
+            initialState,
+    );
 
     useEffect(() => {
         console.log(user, "updated");
+        localStorage.setItem("user", JSON.stringify(user));
     }, [user]);
 
     return (
