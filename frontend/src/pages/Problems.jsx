@@ -15,6 +15,14 @@ function Problems() {
     const problemStatements = useLoaderData();
     const navigate = useNavigate();
 
+    if (problemStatements == null) {
+        return (
+            <div className="w-screen h-full-w-nav flex justify-center align-middle">
+                An error occurred while fetching problem statements
+            </div>
+        );
+    }
+
     return (
         <div className="w-screen flex justify-center">
             <div className="text-2xl w-[1152] max-w-6xl flex items-center justify-center pt-5 flex-col gap-5">
