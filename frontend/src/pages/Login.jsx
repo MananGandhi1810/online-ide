@@ -15,7 +15,7 @@ import { Loader2 } from "lucide-react";
 import AuthContext from "@/context/auth-provider";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate, useSearchParams } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -50,7 +50,7 @@ function Login() {
                 title: "Success",
                 description: res.message,
             });
-            navigate("/");
+            navigate(searchParams.get("next") || "/");
         } else {
             toast({
                 title: "Couldn't log in",

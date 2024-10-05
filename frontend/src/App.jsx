@@ -1,42 +1,21 @@
 import "./App.css";
 import { ThemeProvider } from "./components/theme-provider";
 import {
-    BrowserRouter,
     createBrowserRouter,
-    Outlet,
+    redirect,
     RouterProvider,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Problems from "./pages/problems";
+import Problems from "./pages/Code";
+import Code from "./pages/Problems";
 import AuthContext from "./context/auth-provider";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
-const router = createBrowserRouter([
-    {
-        element: <Layout />,
-        children: [
-            {
-                path: "/",
-                element: <Home />,
-            },
-            {
-                path: "/login",
-                element: <Login />,
-            },
-            {
-                path: "/register",
-                element: <Register />,
-            },
-            {
-                path: "/problems",
-                element: <Problems />,
-            },
-        ],
-    },
-]);
+var isAuthenticated = false;
 
 function App() {
     const initialState = {
@@ -51,8 +30,70 @@ function App() {
             initialState,
     );
 
+    const router = createBrowserRouter([
+        {
+            element: <Layout />,
+            children: [
+                {
+                    path: "/",
+                    element: <Home />,
+                },
+                {
+                    path: "/login",
+                    loader: ({ request }) => {
+                        const searchParams = new URL(request.url).searchParams;
+                        if (user.isAuthenticated) {
+                            return redirect(searchParams.get("next") || "/");
+                        }
+                        return;
+                    },
+                    element: <Login />,
+                },
+                {
+                    path: "/register",
+                    element: <Register />,
+                },
+                {
+                    path: "/problems",
+                    loader: async () => {
+                        if (!user.isAuthenticated) {
+                            return redirect("/login?next=/problems");
+                        }
+                        var res;
+                        try {
+                            res = await axios
+                                .get(
+                                    `${process.env.SERVER_URL}/problem-statement/all`,
+                                    {
+                                        validateStatus: false,
+                                        headers: {
+                                            authorization: `Bearer ${user.token}`,
+                                        },
+                                    },
+                                )
+                                .then((res) => res.data);
+                        } catch (e) {
+                            return null;
+                        }
+                        if (!res.success) {
+                            return null;
+                        }
+                        const problems = res.data.problemStatements;
+                        return problems;
+                    },
+                    element: <Problems />,
+                },
+                {
+                    path: "/problem/:id",
+                    element: <Code />,
+                },
+            ],
+        },
+    ]);
+
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(user));
+        isAuthenticated = true;
     }, [user]);
 
     return (
