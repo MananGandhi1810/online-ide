@@ -9,8 +9,8 @@ import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Problems from "./pages/Code";
-import Code from "./pages/Problems";
+import Code from "./pages/Code";
+import Problems from "./pages/Problems";
 import AuthContext from "./context/auth-provider";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -51,6 +51,13 @@ function App() {
                 },
                 {
                     path: "/register",
+                    loader: ({ request }) => {
+                        const searchParams = new URL(request.url).searchParams;
+                        if (user.isAuthenticated) {
+                            return redirect(searchParams.get("next") || "/");
+                        }
+                        return;
+                    },
                     element: <Register />,
                 },
                 {
@@ -85,6 +92,13 @@ function App() {
                 },
                 {
                     path: "/problem/:id",
+                    loader: async ({ params: { id } }) => {
+                        if (!user.isAuthenticated) {
+                            return redirect("/login?next=/problems");
+                        }
+                        console.log(id);
+                        return null;
+                    },
                     element: <Code />,
                 },
             ],
