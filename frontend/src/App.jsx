@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Problems from "./pages/problems";
 import AuthContext from "./context/auth-provider";
+import { useEffect, useState } from "react";
 
 const router = createBrowserRouter([
     {
@@ -38,9 +39,25 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+    const [user, setUser] = useState({
+        name: undefined,
+        email: undefined,
+        token: undefined,
+        isAuthenticated: false,
+    });
+
+    useEffect(() => {
+        console.log(user, "updated");
+    }, [user]);
+
     return (
         <div className="font-inter">
-            <AuthContext.Provider>
+            <AuthContext.Provider
+                value={{
+                    user,
+                    setUser,
+                }}
+            >
                 <ThemeProvider defaultTheme="dark">
                     <RouterProvider router={router} />
                 </ThemeProvider>

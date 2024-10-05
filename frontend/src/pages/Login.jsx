@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -12,32 +12,33 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Loader2 } from "lucide-react";
-import { useAuth } from "@/context/auth-provider";
+import AuthContext from "@/context/auth-provider";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const { setUser } = useAuth();
+    const { user, setUser } = useContext(AuthContext);
 
-    const login = (email, password) => {
-        console.log(email, password);
-        setUser({
-            name: "Manan Gandhi",
-            email: "ardumanan@gmail.com",
-            token: "",
-            isAuthenticated: true,
-        });
+    const login = async (email, password) => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            setUser({
+                name: "Manan Gandhi",
+                email: "ardumanan@gmail.com",
+                token: "",
+                isAuthenticated: true,
+            });
+        }, 1000);
     };
 
     return (
-        <div className="h-screen w-screen m-auto flex items-center justify-center">
+        <div className="h-full w-screen m-auto flex items-center justify-center -translate-y-[64px]">
             <Card className="w-[350px]">
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        setLoading(true);
-                        setTimeout(() => setLoading(false), 1000);
                         login(email, password);
                     }}
                 >
