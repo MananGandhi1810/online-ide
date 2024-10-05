@@ -30,6 +30,11 @@ const getProblemStatementById = async (req, res) => {
     }
     const problemStatement = await prisma.problemStatement.findUnique({
         where: { id: problemStatementId },
+        include: {
+            testCase: {
+                where: { hidden: false },
+            },
+        },
     });
     if (!problemStatement) {
         return res.status(404).json({
