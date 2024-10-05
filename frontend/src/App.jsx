@@ -40,9 +40,9 @@ const router = createBrowserRouter([
 
 function App() {
     const initialState = {
-        name: undefined,
-        email: undefined,
-        token: undefined,
+        name: null,
+        email: null,
+        token: null,
         isAuthenticated: false,
     };
     const [user, setUser] = useState(
@@ -52,7 +52,6 @@ function App() {
     );
 
     useEffect(() => {
-        console.log(user, "updated");
         localStorage.setItem("user", JSON.stringify(user));
     }, [user]);
 

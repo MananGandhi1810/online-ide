@@ -39,7 +39,6 @@ function Login() {
                 },
             )
             .then((res) => res.data);
-        console.log(res);
         if (res.success) {
             setUser({
                 name: res.data.user.name,
@@ -52,12 +51,17 @@ function Login() {
                 description: res.message,
             });
             navigate("/");
+        } else {
+            toast({
+                title: "Couldn't log in",
+                description: res.message,
+            });
         }
         setLoading(false);
     };
 
     return (
-        <div className="h-full w-screen m-auto flex items-center justify-center -translate-y-[64px]">
+        <div className="h-full-w-nav w-screen m-auto flex items-center justify-center">
             <Card className="w-[350px]">
                 <form
                     onSubmit={(e) => {

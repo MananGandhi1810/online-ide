@@ -5,9 +5,29 @@ import { Terminal, ArrowRight } from "lucide-react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { LogOut } from "lucide-react";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function NavBar() {
     const { user, setUser } = useContext(AuthContext);
+
+    const logout = () => {
+        setUser({
+            email: null,
+            name: null,
+            token: null,
+            isAuthenticated: false,
+        });
+    };
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background dark:bg-background">
@@ -47,14 +67,35 @@ export default function NavBar() {
                         </div>
                     ) : (
                         <div>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="rounded-full md:hidden"
-                                onClick={() => {}}
-                            >
-                                <LogOut />
-                            </Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="rounded-full"
+                                    >
+                                        <LogOut />
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Log Out?
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Are you sure you want to log out?
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Cancel
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction onClick={logout}>
+                                            Yes, log out
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
                         </div>
                     )}
                     <Sheet>

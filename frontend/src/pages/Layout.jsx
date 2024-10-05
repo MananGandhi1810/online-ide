@@ -5,9 +5,11 @@ import { Toaster } from "@/components/ui/toaster";
 
 function Layout() {
     return (
-        <div className="min-h-screen">
-            <NavBar />
-            <Outlet />
+        <div className="min-h-full">
+            <main>
+                <NavBar />
+                <Outlet />
+            </main>
             <Toaster />
         </div>
     );

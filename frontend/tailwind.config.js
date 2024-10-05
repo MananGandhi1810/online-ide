@@ -4,6 +4,9 @@ export default {
     content: ["./src/**/*.{js,jsx,ts,tsx}"],
     theme: {
         extend: {
+            spacing: {
+                "full-w-nav": "calc(100vh - 64px)",
+            },
             fontFamily: {
                 inter: ["inter"],
             },
