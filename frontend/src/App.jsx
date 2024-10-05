@@ -45,7 +45,7 @@ function App() {
                         if (user.isAuthenticated) {
                             return redirect(searchParams.get("next") || "/");
                         }
-                        return;
+                        return null;
                     },
                     element: <Login />,
                 },
@@ -56,7 +56,7 @@ function App() {
                         if (user.isAuthenticated) {
                             return redirect(searchParams.get("next") || "/");
                         }
-                        return;
+                        return null;
                     },
                     element: <Register />,
                 },
@@ -85,8 +85,7 @@ function App() {
                         if (!res.success) {
                             return null;
                         }
-                        const problems = res.data.problemStatements;
-                        return problems;
+                        return res.data.problemStatements;
                     },
                     element: <Problems />,
                 },
@@ -94,10 +93,28 @@ function App() {
                     path: "/problem/:id",
                     loader: async ({ params: { id } }) => {
                         if (!user.isAuthenticated) {
-                            return redirect("/login?next=/problems");
+                            return redirect(`/login?next=/problem/${id}`);
                         }
-                        console.log(id);
-                        return null;
+                        var res;
+                        try {
+                            res = await axios
+                                .get(
+                                    `${process.env.SERVER_URL}/problem-statement/${id}`,
+                                    {
+                                        validateStatus: false,
+                                        headers: {
+                                            authorization: `Bearer ${user.token}`,
+                                        },
+                                    },
+                                )
+                                .then((res) => res.data);
+                        } catch (e) {
+                            return null;
+                        }
+                        if (!res.success) {
+                            return null;
+                        }
+                        return res.data.problemStatement;
                     },
                     element: <Code />,
                 },
