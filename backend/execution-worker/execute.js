@@ -34,7 +34,9 @@ const executeFromQueue = async (message) => {
         }),
     );
     const tle = setTimeout(async () => {
-        console.log("TLE");
+        await Promise.all(
+            containers.map((container) => container.stop()),
+        ).catch((e) => console.log(e));
         await prisma.submission.update({
             where: { id: submissionId },
             data: {
@@ -42,8 +44,7 @@ const executeFromQueue = async (message) => {
                 success: false,
             },
         });
-        await Promise.all(containers.map((container) => container.stop()));
-    }, 2000);
+    }, 3000);
     const execResult = await Promise.all(
         containers.map(async (container) => {
             await container.start();
