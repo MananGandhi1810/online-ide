@@ -42,6 +42,7 @@ const executeFromQueue = async (message) => {
                 success: false,
             },
         });
+        await Promise.all(containers.map((container) => container.remove()));
         return;
     }, 2000);
     const execResult = await Promise.all(
