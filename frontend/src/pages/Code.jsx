@@ -7,17 +7,51 @@ import {
 } from "@/components/ui/resizable";
 import { Button } from "@/components/ui/button";
 import Editor, { useMonaco } from "@monaco-editor/react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Play } from "lucide-react";
 import axios from "axios";
 import AuthContext from "@/context/auth-provider";
 import { toast } from "@/hooks/use-toast";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { useHotkeys } from "react-hotkeys-hook";
 
 function Code() {
     const problemStatement = useLoaderData();
     const [loading, setLoading] = useState(false);
-    const [code, setCode] = useState("# Your Code Goes Here");
+    const [code, setCode] = useState();
     const { id } = useParams();
     const { user } = useContext(AuthContext);
+    const [language, setLanguage] = useState(
+        () => localStorage.getItem("preferredLanguage") || "python",
+    );
+    const initialCode = {
+        c: "// Your code here",
+        cpp: "// Your code here",
+        python: "# Your code here",
+    };
+    // const monaco = useMonaco();
+
+    // useEffect(() => {
+    //     if (monaco) {
+    //         monaco.editor.addEditorAction({
+    //             id: "run-code",
+    //             label: "Run Code",
+    //             keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
+    //             run: submit,
+    //         });
+    //     }
+    // }, [monaco]);
+
+    useEffect(() => {
+        console.log(language);
+        localStorage.setItem("preferredLanguage", language);
+        setCode(initialCode[language]);
+    }, [language]);
 
     const submit = async () => {
         if (loading) {
@@ -26,7 +60,7 @@ function Code() {
         setLoading(true);
         const res = await axios
             .post(
-                `${process.env.SERVER_URL}/code/submit/${id}/python`,
+                `${process.env.SERVER_URL}/code/submit/${id}/${language}`,
                 { code },
                 {
                     headers: {
@@ -49,6 +83,8 @@ function Code() {
             });
         }
     };
+
+    useHotkeys("ctrl+enter", submit);
 
     const pollForResult = async (submissionId, tryNo = 0) => {
         const res = await axios
@@ -85,7 +121,7 @@ function Code() {
                 setTimeout(async () => {
                     await pollForResult(submissionId, tryNo + 1);
                     resolve();
-                }, 150),
+                }, 250),
             );
         } else {
             setLoading(false);
@@ -124,29 +160,52 @@ function Code() {
                 <ResizablePanel defaultSize={50}>
                     <ResizablePanelGroup direction="vertical">
                         <ResizablePanel defaultSize={50}>
-                            <div className="z-0 relative flex h-full">
-                                <Editor
-                                    theme="vs-dark"
-                                    defaultLanguage="python"
-                                    value={code}
-                                    onChange={(value) => setCode(value)}
-                                />
-                                {loading ? (
-                                    <Button
-                                        disabled
-                                        className="z-10 absolute self-end m-2"
+                            <div className="z-0 flex flex-col h-full">
+                                <div className="flex flex-row gap-2 m-1">
+                                    <Select
+                                        onValueChange={(e) => setLanguage(e)}
+                                        value={language}
                                     >
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Running
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        onClick={submit}
-                                        className="z-10 absolute self-end m-2"
-                                    >
-                                        Run
-                                    </Button>
-                                )}
+                                        <SelectTrigger className="w-[180px]">
+                                            <SelectValue placeholder="Language" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="python">
+                                                Python
+                                            </SelectItem>
+                                            <SelectItem value="c">C</SelectItem>
+                                            <SelectItem value="cpp">
+                                                C++
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    {loading ? (
+                                        <Button
+                                            disabled
+                                            className="z-10 self-end"
+                                        >
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Running
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            onClick={submit}
+                                            className="z-10 self-end"
+                                        >
+                                            <Play className="mr-2 h-4 w-4" />
+                                            Run
+                                        </Button>
+                                    )}
+                                </div>
+                                <div className="h-full">
+                                    <Editor
+                                        theme="vs-dark"
+                                        language={language}
+                                        defaultValue={initialCode[language]}
+                                        value={code}
+                                        onChange={(value) => setCode(value)}
+                                    />
+                                </div>
                             </div>
                         </ResizablePanel>
                         <ResizableHandle withHandle />

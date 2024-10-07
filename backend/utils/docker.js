@@ -15,7 +15,7 @@ const getExecutionCommand = (language, code, input) => {
             cmd = [
                 "bash",
                 "-c",
-                `echo "Manan" > /dev/stdin && echo "${code}" > myapp.cpp && g++ -o myapp myapp.cpp && ./myapp`,
+                `echo "${code}" > myapp.cpp && g++ -o myapp myapp.cpp && ./myapp <<< "${input}"`,
             ];
             break;
 
@@ -35,7 +35,7 @@ const getExecutionCommand = (language, code, input) => {
             cmd = [
                 "bash",
                 "-c",
-                `echo "Manan" > /dev/stdin && echo "${code}" > myapp.c && gcc -o myapp myapp.c && ./myapp`,
+                `echo "${code}" > myapp.c && gcc -o myapp myapp.c && ./myapp <<< "${input}"`,
             ];
             break;
 

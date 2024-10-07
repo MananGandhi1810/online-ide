@@ -51,4 +51,18 @@ const onQueueMessage = async (topic, callback) => {
     });
 };
 
-export { sendQueueMessage, subscribeToQueue, onQueueMessage };
+const disconnectFromQueue = async () => {
+    if (consumer != undefined || consumer != null) {
+        await consumer.disconnect();
+    }
+    if (producer != undefined || producer != null) {
+        await producer.disconnect();
+    }
+};
+
+export {
+    sendQueueMessage,
+    subscribeToQueue,
+    onQueueMessage,
+    disconnectFromQueue,
+};
