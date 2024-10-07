@@ -42,10 +42,7 @@ const executeFromQueue = async (message) => {
                 success: false,
             },
         });
-        await Promise.all(
-            containers.map((container) => container.remove({ force: true })),
-        );
-        return;
+        await Promise.all(containers.map((container) => container.stop()));
     }, 2000);
     const execResult = await Promise.all(
         containers.map(async (container) => {
@@ -57,27 +54,22 @@ const executeFromQueue = async (message) => {
         }),
     );
     clearTimeout(tle);
-    const success = execResult.every((result) => result.success);
     const correctResult = execResult.every(
         (result, i) => result.logs == testCases[i].output,
     );
-    const logs = execResult.map((result) => result.logs);
-    console.log({
-        success,
-        message: success ? "Code executed succesfully" : "An error occurred",
-        data: {
-            correctResult,
-            logs: logs.map((log) => log.toString()),
-        },
-    });
-    await prisma.submission.update({
-        where: { id: submissionId },
-        data: {
-            output: logs.map((log) => log.toString()),
-            status: "Executed",
-            success: correctResult,
-        },
-    });
+    try {
+        const logs = execResult.map((result) => result.logs);
+        await prisma.submission.update({
+            where: { id: submissionId },
+            data: {
+                output: logs.map((log) => log.toString()),
+                status: "Executed",
+                success: correctResult,
+            },
+        });
+    } catch (e) {
+        console.log(e);
+    }
     await Promise.all(containers.map((container) => container.remove()));
 };
 

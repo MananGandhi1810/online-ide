@@ -80,8 +80,8 @@ function Code() {
                 });
                 setLoading(false);
             }
-            await new Promise((resolve) => setTimeout(resolve, 100));
-            pollForResult(submissionId, tryNo + 1);
+            await new Promise((resolve) => setTimeout(resolve, 150));
+            await pollForResult(submissionId, tryNo + 1);
         } else {
             setLoading(false);
             toast({
