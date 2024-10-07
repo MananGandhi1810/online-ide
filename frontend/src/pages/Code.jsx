@@ -40,7 +40,7 @@ function Code() {
                 setLoading(false);
             });
         if (res.success) {
-            pollForResult(res.data.submissionId);
+            await pollForResult(res.data.submissionId);
         } else {
             setLoading(false);
             toast({
@@ -79,9 +79,14 @@ function Code() {
                     description: "Your code could not be executed",
                 });
                 setLoading(false);
+                return;
             }
-            await new Promise((resolve) => setTimeout(resolve, 150));
-            await pollForResult(submissionId, tryNo + 1);
+            await new Promise((resolve) =>
+                setTimeout(async () => {
+                    await pollForResult(submissionId, tryNo + 1);
+                    resolve();
+                }, 150),
+            );
         } else {
             setLoading(false);
             toast({
