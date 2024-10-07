@@ -20,6 +20,9 @@ function Code() {
     const { user } = useContext(AuthContext);
 
     const submit = async () => {
+        if (loading) {
+            return;
+        }
         setLoading(true);
         const res = await axios
             .post(
@@ -56,6 +59,7 @@ function Code() {
             })
             .then((res) => res.data);
         if (res.success) {
+            setLoading(false);
             if (res.data.success) {
                 toast({
                     title: "Success",
@@ -67,7 +71,7 @@ function Code() {
                     description: "Could not pass some or all test cases",
                 });
             }
-            setLoading(false);
+            return;
         } else if (res.data.status == "Queued") {
             if (tryNo >= 100) {
                 toast({
