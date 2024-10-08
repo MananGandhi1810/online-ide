@@ -55,11 +55,6 @@ const executeFromQueue = async (message) => {
         }),
     );
     clearTimeout(tle);
-    console.log(
-        execResult.map((result, i) =>
-            String(result.logs).replace("\r\n", "").toLowerCase(),
-        ),
-    );
     const correctResult = execResult.every(
         (result, i) =>
             String(result.logs).replace("\r\n", "").toLowerCase() ==

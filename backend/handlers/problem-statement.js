@@ -104,4 +104,84 @@ const newProblemStatement = async (req, res) => {
     });
 };
 
-export { getProblemStatements, getProblemStatementById, newProblemStatement };
+const editProblemStatement = async (req, res) => {
+    const { id } = req.params;
+    if (!id) {
+        return res.status(400).json({
+            success: false,
+            message: "Problem Statement id is compulsory",
+            data: null,
+        });
+    }
+    const { title, description, difficulty, testCases } = req.body;
+    if (
+        !title ||
+        title.trim() == "" ||
+        !description ||
+        description.trim() == "" ||
+        !difficulty ||
+        !["Easy", "Medium", "Hard"].includes(difficulty.trim()) ||
+        !testCases ||
+        testCases.length == 0
+    ) {
+        return res.status(400).json({
+            success: false,
+            message:
+                "Title, description, difficulty and testcases are compulsory",
+            data: null,
+        });
+    }
+    var problemStatement = await prisma.problemStatement.findUnique({
+        where: { id },
+    });
+    if (!problemStatement) {
+        return res.status(404).json({
+            success: false,
+            message: "This problem statement was not found",
+            data: null,
+        });
+    }
+    try {
+        await prisma.testcase.deleteMany({
+            where: { problemStatementId: id },
+        });
+        problemStatement = await prisma.problemStatement.update({
+            where: { id },
+            data: {
+                title,
+                description,
+                difficulty,
+                testCase: {
+                    create: testCases.map((testCase) => {
+                        return {
+                            input: testCase.input,
+                            output: testCase.output,
+                            hidden: testCase.hidden ?? true,
+                        };
+                    }),
+                },
+            },
+        });
+    } catch (e) {
+        console.log("An error occurred", e);
+        return res.status(500).json({
+            success: false,
+            message: "An error occurred",
+            data: null,
+        });
+    }
+    res.json({
+        success: true,
+        message: "Updated problem statement",
+        data: {
+            problemStatement,
+        },
+    });
+};
+
+export {
+    getProblemStatements,
+    getProblemStatementById,
+    newProblemStatement,
+    editProblemStatement,
+};
