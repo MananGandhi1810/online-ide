@@ -6,7 +6,7 @@ import {
     ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { Button } from "@/components/ui/button";
-import Editor, { useMonaco } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 import { Loader2, Play } from "lucide-react";
 import axios from "axios";
 import AuthContext from "@/context/auth-provider";
@@ -19,6 +19,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useHotkeys } from "react-hotkeys-hook";
+import Markdown from "react-markdown";
 
 function Code() {
     const problemStatement = useLoaderData();
@@ -34,18 +35,6 @@ function Code() {
         cpp: "// Your code here",
         python: "# Your code here",
     };
-    // const monaco = useMonaco();
-
-    // useEffect(() => {
-    //     if (monaco) {
-    //         monaco.editor.addEditorAction({
-    //             id: "run-code",
-    //             label: "Run Code",
-    //             keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
-    //             run: submit,
-    //         });
-    //     }
-    // }, [monaco]);
 
     useEffect(() => {
         console.log(language);
@@ -66,6 +55,7 @@ function Code() {
                     headers: {
                         Authorization: `Bearer ${user.token}`,
                     },
+                    validateStatus: false,
                 },
             )
             .then((res) => res.data)
@@ -151,9 +141,7 @@ function Code() {
                         <span className="font-semibold text-xl">
                             {problemStatement.title}
                         </span>
-                        <span className="font-medium">
-                            {problemStatement.description}
-                        </span>
+                        <Markdown>{problemStatement.description}</Markdown>
                     </div>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
