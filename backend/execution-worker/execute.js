@@ -58,7 +58,7 @@ const executeFromQueue = async (message) => {
     const correctResult = execResult.every(
         (result, i) =>
             String(result.logs).replace("\r\n", "").toLowerCase() ==
-            testCases[i].output.toLowerCase(),
+            testCases[i].output.replace("\r\n", "").toLowerCase(),
     );
     try {
         const logs = execResult.map((result) => result.logs);

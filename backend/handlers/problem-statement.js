@@ -3,12 +3,20 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const getProblemStatements = async (req, res) => {
-    const problemStatements = await prisma.problemStatement.findMany({
-        select: {
-            id: true,
-            title: true,
-            difficulty: true,
+    var problemStatements = await prisma.problemStatement.findMany({
+        include: {
+            submissions: {
+                where: { userId: req.user.id },
+                select: { success: true },
+            },
         },
+    });
+    problemStatements = problemStatements.map((problemStatement) => {
+        problemStatement.solved = problemStatement.submissions.some(
+            (submission) => submission.success,
+        );
+        problemStatement.submissions = undefined;
+        return problemStatement;
     });
     res.json({
         success: true,

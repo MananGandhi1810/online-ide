@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { Check } from "lucide-react";
 
 function Problems() {
     const problemStatements = useLoaderData();
@@ -39,6 +40,7 @@ function Problems() {
                             const d = problemStatement.difficulty;
                             return (
                                 <TableRow
+                                    key={problemStatement.id}
                                     onClick={() =>
                                         navigate(
                                             `/problem/${problemStatement.id}`,
@@ -46,8 +48,13 @@ function Problems() {
                                     }
                                     className="group hover:cursor-pointer"
                                 >
-                                    <TableCell className="group-hover:underline">
+                                    <TableCell className="group-hover:underline overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center">
                                         {problemStatement.title}
+                                        {problemStatement.solved ? (
+                                            <Check />
+                                        ) : (
+                                            <></>
+                                        )}
                                     </TableCell>
                                     <TableCell>
                                         <Badge
