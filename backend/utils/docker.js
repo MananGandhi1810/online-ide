@@ -27,7 +27,6 @@ const getExecutionCommand = (language, code, input) => {
         input_str += cleanStr(line);
         input_str += i != input.length - 1 ? "\n---\n" : "";
     });
-    console.log(input_str);
     cmd = [
         "bash",
         "-c",
