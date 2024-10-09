@@ -201,13 +201,15 @@ function Code() {
                         <ResizablePanel defaultSize={50}>
                             <ScrollArea className="h-full items-center justify-center">
                                 <div className="p-6">
-                                    <p className="text-2xl">Sample Test Cases</p>
+                                    <p className="text-2xl">
+                                        Sample Test Cases
+                                    </p>
                                     {problemStatement.testCase.map(
                                         (testCase, i) => (
                                             <div key={testCase.id}>
                                                 <div className="my-3">
                                                     Input
-                                                    <div className="bg-gray-500 p-2 my-2 rounded">
+                                                    <div className="bg-code p-2 my-2 rounded">
                                                         {testCase.input
                                                             .split("\n")
                                                             .map((line) => (
@@ -219,7 +221,7 @@ function Code() {
                                                             ))}
                                                     </div>
                                                     Output
-                                                    <div className="bg-gray-500 p-2 my-2 rounded">
+                                                    <div className="bg-code p-2 my-2 rounded">
                                                         {testCase.output
                                                             .split("\n")
                                                             .map((line) => (
