@@ -28,15 +28,25 @@ const executeFromQueue = async (message) => {
         return;
     }
     const testCases = problemStatement.testCase;
-    const containers = await Promise.all(
-        testCases.map(async (testCase) => {
-            return await createDockerContainer(language, code, testCase.input);
-        }),
+
+    const container = await createDockerContainer(
+        language,
+        code,
+        testCases.map((testCase) => testCase.input),
     );
+    var expectedResult = "";
+    testCases.forEach((testCase) => {
+        expectedResult += testCase.output
+            .replace(/\r?\n|\r/g, "")
+            .normalize()
+            .toLowerCase();
+    });
     const tle = setTimeout(async () => {
-        await Promise.all(
-            containers.map((container) => container.stop()),
-        ).catch((e) => console.log(e));
+        try {
+            await container.stop();
+        } catch (e) {
+            console.log(e);
+        }
         await prisma.submission.update({
             where: { id: submissionId },
             data: {
@@ -45,30 +55,18 @@ const executeFromQueue = async (message) => {
             },
         });
     }, 3000);
-    const execResult = await Promise.all(
-        containers.map(async (container) => {
-            await container.start();
-            const containerExitStatus = await container.wait();
-            const logs = await container.logs({ stdout: true, stderr: true });
-            const success = containerExitStatus.StatusCode === 0 ? true : false;
-            return { success, logs };
-        }),
-    );
+    await container.start();
+    const containerExitStatus = await container.wait();
+    const logs = String(await container.logs({ stdout: true, stderr: true }))
+        .replace(/\r?\n|\r/g, "")
+        .normalize();
     clearTimeout(tle);
-    const correctResult = execResult.every((result, i) => {
-        return (
-            String(result.logs)
-                .replace(/\r?\n|\r/g, "")
-                .normalize() ==
-            testCases[i].output.replace(/\r?\n|\r/g, "").normalize()
-        );
-    });
+    const correctResult = logs == expectedResult;
     try {
-        const logs = execResult.map((result) => result.logs);
         await prisma.submission.update({
             where: { id: submissionId },
             data: {
-                output: logs.map((log) => log.toString()),
+                output: logs,
                 status: "Executed",
                 success: correctResult,
             },
@@ -76,7 +74,7 @@ const executeFromQueue = async (message) => {
     } catch (e) {
         console.log(e);
     }
-    await Promise.all(containers.map((container) => container.remove()));
+    await container.remove();
 };
 
 export { executeFromQueue };

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Submission" ALTER COLUMN "output" SET NOT NULL,
+ALTER COLUMN "output" SET DATA TYPE TEXT;

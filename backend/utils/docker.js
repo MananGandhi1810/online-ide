@@ -9,40 +9,30 @@ const cleanStr = (str) => {
 const getExecutionCommand = (language, code, input) => {
     let cmd;
     code = cleanStr(code);
-    input = cleanStr(input);
+    var filename = "";
     switch (language) {
-        case "cpp":
-            cmd = [
-                "bash",
-                "-c",
-                `echo "${code}" > myapp.cpp && g++ -o myapp myapp.cpp && ./myapp <<< "${input}"`,
-            ];
-            break;
-
-        case "javascript":
-            cmd = ["node", "-e", code];
-            break;
-
         case "python":
-            cmd = [
-                "bash",
-                "-c",
-                `echo "${code}" > myapp.py && python3 myapp.py <<< "${input}"`,
-            ];
+            filename = "code.py";
             break;
-
+        case "cpp":
+            filename = "code.cpp";
+            break;
         case "c":
-            cmd = [
-                "bash",
-                "-c",
-                `echo "${code}" > myapp.c && gcc -o myapp myapp.c && ./myapp <<< "${input}"`,
-            ];
-            break;
-
-        default:
-            cmd = [];
+            filename = "code.c";
             break;
     }
+    var input_str = filename + "\n---\n";
+    input.forEach((line, i) => {
+        console.log(line);
+        input_str += cleanStr(line);
+        input_str += i != input.length - 1 ? "\n---\n" : "";
+    });
+    console.log(input_str);
+    cmd = [
+        "bash",
+        "-c",
+        `echo "${input_str}" >> input.txt && echo "${code}" >> ${filename} && python3 ./executor.py`,
+    ];
     return cmd;
 };
 

@@ -209,7 +209,7 @@ function Code() {
                                             <div key={testCase.id}>
                                                 <div className="my-3">
                                                     Input
-                                                    <div className="bg-code p-2 my-2 rounded">
+                                                    <div className="bg-code p-2 my-2 rounded font-mono">
                                                         {testCase.input
                                                             .split("\n")
                                                             .map((line) => (
@@ -221,7 +221,7 @@ function Code() {
                                                             ))}
                                                     </div>
                                                     Output
-                                                    <div className="bg-code p-2 my-2 rounded">
+                                                    <div className="bg-code p-2 my-2 rounded font-mono">
                                                         {testCase.output
                                                             .split("\n")
                                                             .map((line) => (
