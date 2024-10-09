@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/select";
 import { useHotkeys } from "react-hotkeys-hook";
 import Markdown from "react-markdown";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 
 function Code() {
     const problemStatement = useLoaderData();
@@ -131,17 +133,17 @@ function Code() {
     }
 
     return (
-        <div className="w-screen h-full-w-nav ">
+        <div className="w-screen h-full-w-nav">
             <ResizablePanelGroup
                 direction="horizontal"
                 className="rounded-lg border h-full w-full"
             >
                 <ResizablePanel defaultSize={50}>
-                    <div className="flex h-full p-6 flex-col gap-5 overflow-y-scroll">
-                        <Markdown className="prose dark:prose-invert">
+                    <ScrollArea className="flex h-full flex-col gap-5">
+                        <Markdown className="prose dark:prose-invert p-6">
                             {problemStatement.description}
                         </Markdown>
-                    </div>
+                    </ScrollArea>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel defaultSize={50}>
@@ -197,9 +199,51 @@ function Code() {
                         </ResizablePanel>
                         <ResizableHandle withHandle />
                         <ResizablePanel defaultSize={50}>
-                            <div className="flex h-full items-center justify-center p-6">
-                                <span className="font-semibold">TestCases</span>
-                            </div>
+                            <ScrollArea className="h-full items-center justify-center">
+                                <div className="p-6">
+                                    Sample Test Cases
+                                    {problemStatement.testCase.map(
+                                        (testCase, i) => (
+                                            <div key={testCase.id}>
+                                                <div className="my-3">
+                                                    Input
+                                                    <div className="bg-gray-500 p-2 my-2 rounded">
+                                                        {testCase.input
+                                                            .split("\n")
+                                                            .map((line) => (
+                                                                <div key={line}>
+                                                                    <p>
+                                                                        {line}
+                                                                    </p>
+                                                                </div>
+                                                            ))}
+                                                    </div>
+                                                    Output
+                                                    <div className="bg-gray-500 p-2 my-2 rounded">
+                                                        {testCase.output
+                                                            .split("\n")
+                                                            .map((line) => (
+                                                                <div key={line}>
+                                                                    <p>
+                                                                        {line}
+                                                                    </p>
+                                                                </div>
+                                                            ))}
+                                                    </div>
+                                                </div>
+                                                {i !=
+                                                problemStatement.testCase
+                                                    .length -
+                                                    1 ? (
+                                                    <Separator className="mt-6" />
+                                                ) : (
+                                                    <div />
+                                                )}
+                                            </div>
+                                        ),
+                                    )}
+                                </div>
+                            </ScrollArea>
                         </ResizablePanel>
                     </ResizablePanelGroup>
                 </ResizablePanel>

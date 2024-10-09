@@ -15,7 +15,7 @@ import { Loader2 } from "lucide-react";
 import AuthContext from "@/context/auth-provider";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import { redirect, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
