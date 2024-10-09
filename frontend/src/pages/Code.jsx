@@ -201,7 +201,7 @@ function Code() {
                         <ResizablePanel defaultSize={50}>
                             <ScrollArea className="h-full items-center justify-center">
                                 <div className="p-6">
-                                    Sample Test Cases
+                                    <p className="text-2xl">Sample Test Cases</p>
                                     {problemStatement.testCase.map(
                                         (testCase, i) => (
                                             <div key={testCase.id}>
