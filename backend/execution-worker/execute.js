@@ -55,11 +55,14 @@ const executeFromQueue = async (message) => {
         }),
     );
     clearTimeout(tle);
-    const correctResult = execResult.every(
-        (result, i) =>
-            String(result.logs).replace("\r\n", "").toLowerCase() ==
-            testCases[i].output.replace("\r\n", "").toLowerCase(),
-    );
+    const correctResult = execResult.every((result, i) => {
+        return (
+            String(result.logs)
+                .replace(/\r?\n|\r/g, "")
+                .normalize() ==
+            testCases[i].output.replace(/\r?\n|\r/g, "").normalize()
+        );
+    });
     try {
         const logs = execResult.map((result) => result.logs);
         await prisma.submission.update({

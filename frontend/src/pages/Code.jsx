@@ -137,11 +137,10 @@ function Code() {
                 className="rounded-lg border h-full w-full"
             >
                 <ResizablePanel defaultSize={50}>
-                    <div className="flex h-full p-6 flex-col gap-5">
-                        <span className="font-semibold text-xl">
-                            {problemStatement.title}
-                        </span>
-                        <Markdown>{problemStatement.description}</Markdown>
+                    <div className="flex h-full p-6 flex-col gap-5 overflow-y-scroll">
+                        <Markdown className="prose dark:prose-invert">
+                            {problemStatement.description}
+                        </Markdown>
                     </div>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
