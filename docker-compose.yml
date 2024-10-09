@@ -6,7 +6,6 @@ services:
         restart: unless-stopped
         ports:
             - 3000:3000/tcp
-            - 5555:5555/tcp
         volumes:
             - ./backend/.env.prod:/usr/src/app/.env
             - /var/run/docker.sock:/var/run/docker.sock

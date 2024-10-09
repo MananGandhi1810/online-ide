@@ -56,10 +56,11 @@ const executeFromQueue = async (message) => {
         });
     }, 3000);
     await container.start();
-    const containerExitStatus = await container.wait();
+    await container.wait();
     const logs = String(await container.logs({ stdout: true, stderr: true }))
         .replace(/\r?\n|\r/g, "")
-        .normalize();
+        .normalize()
+        .toLowerCase();
     clearTimeout(tle);
     const correctResult = logs == expectedResult;
     try {

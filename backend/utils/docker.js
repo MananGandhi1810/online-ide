@@ -23,7 +23,6 @@ const getExecutionCommand = (language, code, input) => {
     }
     var input_str = filename + "\n---\n";
     input.forEach((line, i) => {
-        console.log(line);
         input_str += cleanStr(line);
         input_str += i != input.length - 1 ? "\n---\n" : "";
     });
