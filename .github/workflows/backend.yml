@@ -25,12 +25,6 @@ jobs:
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Install Dependencies
-              id: npm-install
-              run: |
-                  cd backend
-                  npm install
-
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
 
