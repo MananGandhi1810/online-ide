@@ -26,11 +26,13 @@ import { Separator } from "@/components/ui/separator";
 function Code() {
     const problemStatement = useLoaderData();
     const [loading, setLoading] = useState(false);
-    const [code, setCode] = useState();
     const { id } = useParams();
     const { user } = useContext(AuthContext);
     const [language, setLanguage] = useState(
         () => localStorage.getItem("preferredLanguage") || "python",
+    );
+    const [code, setCode] = useState(
+        () => localStorage.getItem(`code-${language}`) || "",
     );
     const initialCode = {
         c: "// Your code here",
@@ -41,8 +43,16 @@ function Code() {
     useEffect(() => {
         console.log(language);
         localStorage.setItem("preferredLanguage", language);
-        setCode(initialCode[language]);
+        setCode(
+            () =>
+                localStorage.getItem(`code-${language}`) ||
+                initialCode[language],
+        );
     }, [language]);
+
+    useEffect(() => {
+        localStorage.setItem(`code-${language}`, code);
+    }, [code]);
 
     const submit = async () => {
         if (loading) {
