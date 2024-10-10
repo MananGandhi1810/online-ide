@@ -1,68 +1,39 @@
-import { Kafka } from "kafkajs";
+import redis from "redis";
 
 var isConnected = false;
 
-var producer = undefined;
-var consumer = undefined;
+var publisher = undefined;
+var subscriber = undefined;
 
 try {
-    const kafka = new Kafka({
-        clientId: "backend",
-        brokers: [process.env.KAFKA_BROKER ?? "kafka:9093"],
+    publisher = redis.createClient({
+        url: process.env.REDIS_URL,
     });
-
-    producer = kafka.producer();
-    consumer = kafka.consumer({ groupId: "executor-group" });
-    await Promise.all([producer.connect(), consumer.connect()]);
+    subscriber = publisher.duplicate();
+    await Promise.all([publisher.connect(), subscriber.connect()]);
 
     isConnected = true;
-    console.log("Connected to Kafka Broker");
+    console.log("Connected to Redis Pub/Sub");
 } catch (e) {
-    console.log("Couldn't connect to Kafka Broker");
+    console.log("Couldn't connect to Redis Pub/Sub");
     console.log(e);
 }
 
 const sendQueueMessage = async (topic, message) => {
     if (!isConnected) {
-        console.log("Couldn't send message to Kafka Broker");
+        console.log("Couldn't send message to Redis Pub/Sub");
         return;
     }
     try {
-        await producer.send({
-            topic,
-            messages: [{ value: message }],
-        });
+        publisher.publish(topic, message);
     } catch (e) {
-        console.log("Couldn't send message to Kafka Broker");
+        console.log("Couldn't send message to Redis Pub/Sub");
         console.log(e);
     }
 };
 
-const subscribeToQueue = async (topic) => {
-    await consumer.subscribe({ topic: topic, fromBeginning: true });
-    console.log(`Subscribed to channel ${topic}`);
-};
-
 const onQueueMessage = async (topic, callback) => {
-    consumer.run({
-        eachMessage: async ({ message }) => {
-            callback(message.value.toString());
-        },
-    });
+    subscriber.subscribe(topic, callback);
 };
 
-const disconnectFromQueue = async () => {
-    if (consumer != undefined || consumer != null) {
-        await consumer.disconnect();
-    }
-    if (producer != undefined || producer != null) {
-        await producer.disconnect();
-    }
-};
-
-export {
-    sendQueueMessage,
-    subscribeToQueue,
-    onQueueMessage,
-    disconnectFromQueue,
-};
+export { sendQueueMessage, onQueueMessage };

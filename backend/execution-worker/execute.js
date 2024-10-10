@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const executeFromQueue = async (message) => {
+const executeFromQueue = async (message, channel) => {
     const { code, language, submissionId, problemStatementId } =
         JSON.parse(message);
     if (

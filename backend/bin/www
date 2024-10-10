@@ -11,8 +11,6 @@ import https from "https";
 import fs from "fs";
 import {
     onQueueMessage,
-    subscribeToQueue,
-    disconnectFromQueue,
 } from "../utils/queue-manager.js";
 import { executeFromQueue } from "../execution-worker/execute.js";
 
@@ -41,10 +39,9 @@ if (
 }
 
 try {
-    await subscribeToQueue("execute");
     await onQueueMessage("execute", executeFromQueue);
 } catch (e) {
-    console.log("Could not subscribe to kafka queue");
+    console.log("Could not subscribe to Redis Pub/Sub");
 }
 /**
  * Listen on provided port, on all network interfaces.
@@ -89,11 +86,9 @@ function onError(error) {
     switch (error.code) {
         case "EACCES":
             console.error(bind + " requires elevated privileges");
-            disconnectFromQueue();
             process.exit(1);
         case "EADDRINUSE":
             console.error(bind + " is already in use");
-            disconnectFromQueue();
             process.exit(1);
         default:
             throw error;
