@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
-import { Loader2, Terminal } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import AuthContext from "@/context/auth-provider";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";

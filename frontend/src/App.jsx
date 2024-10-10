@@ -1,17 +1,17 @@
-import "./App.css";
-import { ThemeProvider } from "./components/theme-provider";
+import "src/App.css";
+import { ThemeProvider } from "@/components/theme-provider";
 import {
     createBrowserRouter,
     redirect,
     RouterProvider,
 } from "react-router-dom";
-import Home from "./pages/Home";
-import Layout from "./pages/Layout";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Code from "./pages/Code";
-import Problems from "./pages/Problems";
-import AuthContext from "./context/auth-provider";
+import Home from "@/pages/Home";
+import Layout from "@/pages/Layout";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
+import Code from "@/pages/Code";
+import Problems from "@/pages/Problems";
+import AuthContext from "@/context/auth-provider";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
