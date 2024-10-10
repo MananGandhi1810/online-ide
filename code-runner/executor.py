@@ -6,9 +6,9 @@ def get_exec_command(filename):
     if filename.endswith(".py"):
         return f"python3 {filename}"
     if filename.endswith(".cpp"):
-        return f"g++ {filename} -o output && output"
+        return f"g++ {filename} -o output && ./output"
     if filename.endswith(".c"):
-        return f"gcc {filename} -o output && output"
+        return f"gcc {filename} -o output && ./output"
 
 
 with open("input.txt", "r") as f:
