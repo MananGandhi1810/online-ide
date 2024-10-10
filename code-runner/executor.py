@@ -9,7 +9,6 @@ def get_exec_command(filename):
         return f"g++ {filename} -o output && output"
     if filename.endswith(".c"):
         return f"gcc {filename} -o output && output"
-    return []
 
 
 with open("input.txt", "r") as f:

@@ -29,7 +29,7 @@ const getExecutionCommand = (language, code, input) => {
     cmd = [
         "bash",
         "-c",
-        `echo "${input_str}" >> input.txt && echo "${code}" >> ${filename} && python3 executor.py`,
+        `echo "${input_str}" > input.txt && echo "${code}" > ${filename} && python3 executor.py`,
     ];
     return cmd;
 };
