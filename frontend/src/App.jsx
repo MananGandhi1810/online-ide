@@ -15,8 +15,6 @@ import AuthContext from "./context/auth-provider";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-var isAuthenticated = false;
-
 function App() {
     const initialState = {
         name: null,
