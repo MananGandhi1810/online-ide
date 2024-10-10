@@ -43,9 +43,13 @@ services:
             - ALLOW_EMPTY_PASSWORD=yes
         labels:
             - "com.centurylinklabs.watchtower.enable=false"
-
+    
+    frontend:
+        image: ghcr.io/manangandhi1810/online-ide-frontend
+        
+            
     code-runner:
         image: ghcr.io/manangandhi1810/code-runner
-        
+
 volumes:
     pg-data:

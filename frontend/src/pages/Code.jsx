@@ -126,7 +126,7 @@ function Code() {
                 setTimeout(async () => {
                     await pollForResult(submissionId, tryNo + 1);
                     resolve();
-                }, 250),
+                }, 400),
             );
         } else {
             setLoading(false);
