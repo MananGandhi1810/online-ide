@@ -1,7 +1,7 @@
-import NavBar from "@/components/custom/NavBar";
+import NavBar from "@/components/custom/navbar.jsx";
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/toaster.jsx";
 
 function Layout() {
     return (

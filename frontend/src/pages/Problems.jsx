@@ -6,9 +6,9 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui/table.jsx";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge.jsx";
 import { Check } from "lucide-react";
 
 function Problems() {

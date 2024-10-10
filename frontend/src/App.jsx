@@ -1,17 +1,17 @@
 import "@/App.css";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/theme-provider.jsx";
 import {
     createBrowserRouter,
     redirect,
     RouterProvider,
 } from "react-router-dom";
-import Home from "@/pages/Home";
-import Layout from "@/pages/Layout";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
-import Code from "@/pages/Code";
-import Problems from "@/pages/Problems";
-import AuthContext from "@/context/auth-provider";
+import Home from "@/pages/Home.jsx";
+import Layout from "@/pages/Layout.jsx";
+import Login from "@/pages/Login.jsx";
+import Register from "@/pages/Register.jsx";
+import Code from "@/pages/Code.jsx";
+import Problems from "@/pages/Problems.jsx";
+import AuthContext from "@/context/auth-provider.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 

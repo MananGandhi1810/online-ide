@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.jsx";
 import {
     Card,
     CardContent,
@@ -7,14 +7,14 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { PasswordInput } from "@/components/ui/password-input";
+} from "@/components/ui/card.jsx";
+import { Input } from "@/components/ui/input.jsx";
+import { Label } from "@/components/ui/label.jsx";
+import { PasswordInput } from "@/components/ui/password-input.jsx";
 import { Loader2 } from "lucide-react";
-import AuthContext from "@/context/auth-provider";
+import AuthContext from "@/context/auth-provider.jsx";
 import axios from "axios";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast.js";
 import { useNavigate } from "react-router-dom";
 
 function Login() {

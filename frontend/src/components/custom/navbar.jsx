@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import AuthContext from "@/context/auth-provider";
+import { Button } from "@/components/ui/button.jsx";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet.jsx";
+import AuthContext from "@/context/auth-provider.jsx";
 import { Terminal, ArrowRight } from "lucide-react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";

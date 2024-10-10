@@ -4,24 +4,24 @@ import {
     ResizableHandle,
     ResizablePanel,
     ResizablePanelGroup,
-} from "@/components/ui/resizable";
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/resizable.jsx";
+import { Button } from "@/components/ui/button.jsx";
 import Editor from "@monaco-editor/react";
 import { Loader2, Play } from "lucide-react";
 import axios from "axios";
-import AuthContext from "@/context/auth-provider";
-import { toast } from "@/hooks/use-toast";
+import AuthContext from "@/context/auth-provider.jsx";
+import { toast } from "@/hooks/use-toast.js";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui/select.jsx";
 import { useHotkeys } from "react-hotkeys-hook";
 import Markdown from "react-markdown";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area.jsx";
+import { Separator } from "@/components/ui/separator.jsx";
 
 function Code() {
     const problemStatement = useLoaderData();
