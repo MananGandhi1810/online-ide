@@ -1,4 +1,4 @@
-import "src/App.css";
+import "@/App.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import {
     createBrowserRouter,
