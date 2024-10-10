@@ -32,7 +32,9 @@ function Code() {
         () => localStorage.getItem("preferredLanguage") || "python",
     );
     const [code, setCode] = useState(
-        () => localStorage.getItem(`code-${language}`) || "",
+        () =>
+            localStorage.getItem(`code-${language}-${problemStatement.id}`) ||
+            "",
     );
     const initialCode = {
         c: "// Your code here",
@@ -45,13 +47,14 @@ function Code() {
         localStorage.setItem("preferredLanguage", language);
         setCode(
             () =>
-                localStorage.getItem(`code-${language}`) ||
-                initialCode[language],
+                localStorage.getItem(
+                    `code-${language}-${problemStatement.id}`,
+                ) || initialCode[language],
         );
     }, [language]);
 
     useEffect(() => {
-        localStorage.setItem(`code-${language}`, code);
+        localStorage.setItem(`code-${language}-${problemStatement.id}`, code);
     }, [code]);
 
     const submit = async () => {
