@@ -26,7 +26,7 @@ function App() {
     };
     const [user, setUser] = useState(
         () =>
-            JSON.parse(localStorage.getItem("user") ?? initialState) ||
+            JSON.parse(localStorage.getItem("user") ?? JSON.stringify(initialState)) ||
             initialState,
     );
 
