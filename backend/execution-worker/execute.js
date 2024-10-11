@@ -43,9 +43,6 @@ const executeFromQueue = async (message, channel) => {
     await container.start();
     const start = process.hrtime();
     const tle = setTimeout(async () => {
-        const end = process.hrtime();
-        const ms = (end[0] - start[0]) * 1e3 + (end[1] - start[1]) * 1e-6;
-        console.log(`TLE for ${submissionId} in ${ms}ms`);
         try {
             await container.stop();
         } catch (e) {
@@ -56,7 +53,6 @@ const executeFromQueue = async (message, channel) => {
             data: {
                 status: "TimeLimitExceeded",
                 success: false,
-                execTime: ms,
             },
         });
     }, process.env.TLE);
