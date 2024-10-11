@@ -8,6 +8,9 @@ const exists = (key) => {
 };
 
 const set = (key, value, ttl = -1) => {
+    if (ttl == -1) {
+        return redis.set(key, value);
+    }
     return redis.set(key, value, { EX: ttl });
 };
 

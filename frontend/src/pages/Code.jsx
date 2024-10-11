@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/resizable.jsx";
 import { Button } from "@/components/ui/button.jsx";
 import Editor from "@monaco-editor/react";
-import { Loader2, Play } from "lucide-react";
+import { Loader2, Play, Upload } from "lucide-react";
 import axios from "axios";
 import AuthContext from "@/context/auth-provider.jsx";
 import { toast } from "@/hooks/use-toast.js";
@@ -25,12 +25,14 @@ import { Separator } from "@/components/ui/separator.jsx";
 
 function Code() {
     const problemStatement = useLoaderData();
-    const [loading, setLoading] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+    const [running, setRunning] = useState(false);
     const { id } = useParams();
     const { user } = useContext(AuthContext);
     const [language, setLanguage] = useState(
         () => localStorage.getItem("preferredLanguage") || "python",
     );
+    const [output, setOutput] = useState(null);
     const [code, setCode] = useState(
         () =>
             localStorage.getItem(`code-${language}-${problemStatement.id}`) ||
@@ -43,7 +45,6 @@ function Code() {
     };
 
     useEffect(() => {
-        console.log(language);
         localStorage.setItem("preferredLanguage", language);
         setCode(
             () =>
@@ -57,14 +58,20 @@ function Code() {
         localStorage.setItem(`code-${language}-${problemStatement.id}`, code);
     }, [code]);
 
-    const submit = async () => {
-        if (loading) {
+    const run = async (isTempRun = false) => {
+        if (submitting || running) {
             return;
         }
-        setLoading(true);
+        if (isTempRun) {
+            setRunning(true);
+        } else {
+            setSubmitting(true);
+        }
         const res = await axios
             .post(
-                `${process.env.SERVER_URL}/code/submit/${id}/${language}`,
+                `${process.env.SERVER_URL}/code/${
+                    isTempRun ? "run" : "submit"
+                }/${id}/${language}`,
                 { code },
                 {
                     headers: {
@@ -76,12 +83,20 @@ function Code() {
             .then((res) => res.data)
             .catch((e) => {
                 console.log(e);
-                setLoading(false);
+                if (isTempRun) {
+                    setRunning(false);
+                } else {
+                    setSubmitting(false);
+                }
             });
         if (res.success) {
-            await pollForResult(res.data.submissionId);
+            await pollForResult(res.data.submissionId, isTempRun);
         } else {
-            setLoading(false);
+            if (isTempRun) {
+                setRunning(false);
+            } else {
+                setSubmitting(false);
+            }
             toast({
                 title: "Error",
                 description: res.message,
@@ -89,28 +104,51 @@ function Code() {
         }
     };
 
-    useHotkeys("ctrl+enter", submit);
+    useHotkeys("ctrl+'", () => run(true));
+    useHotkeys("ctrl+enter", () => run(false));
 
-    const pollForResult = async (submissionId, tryNo = 0) => {
+    const pollForResult = async (
+        submissionId,
+        isTempRun = false,
+        tryNo = 0,
+    ) => {
         const res = await axios
-            .get(`${process.env.SERVER_URL}/code/check/${submissionId}`, {
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
+            .get(
+                `${process.env.SERVER_URL}/code/${
+                    isTempRun ? "checkTemp" : "check"
+                }/${submissionId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                    validateStatus: false,
                 },
-            })
+            )
             .then((res) => res.data);
         if (res.success) {
-            setLoading(false);
-            if (res.data.success) {
-                toast({
-                    title: "Success",
-                    description: "All testcases passed",
-                });
+            if (isTempRun) {
+                setRunning(false);
             } else {
-                toast({
-                    title: "Error",
-                    description: "Could not pass some or all test cases",
-                });
+                setSubmitting(false);
+            }
+            if (res.data.success) {
+                if (!isTempRun) {
+                    toast({
+                        title: "Success",
+                        description: "All testcases passed",
+                    });
+                } else {
+                    setOutput(res.data.logs);
+                }
+            } else {
+                if (!isTempRun) {
+                    toast({
+                        title: "Error",
+                        description: "Could not pass some or all test cases",
+                    });
+                } else {
+                    setOutput(res.data.logs);
+                }
             }
             return;
         } else if (res.data.status == "Queued") {
@@ -119,17 +157,25 @@ function Code() {
                     title: "Error",
                     description: "Your code could not be executed",
                 });
-                setLoading(false);
+                if (isTempRun) {
+                    setRunning(false);
+                } else {
+                    setSubmitting(false);
+                }
                 return;
             }
             await new Promise((resolve) =>
                 setTimeout(async () => {
-                    await pollForResult(submissionId, tryNo + 1);
+                    await pollForResult(submissionId, isTempRun, tryNo + 1);
                     resolve();
                 }, 400),
             );
         } else {
-            setLoading(false);
+            if (isTempRun) {
+                setRunning(false);
+            } else {
+                setSubmitting(false);
+            }
             toast({
                 title: "Error",
                 description: res.message,
@@ -152,11 +198,40 @@ function Code() {
                 className="rounded-lg border h-full w-full"
             >
                 <ResizablePanel defaultSize={50}>
-                    <ScrollArea className="flex h-full flex-col gap-5">
-                        <Markdown className="prose dark:prose-invert p-6">
-                            {problemStatement.description}
-                        </Markdown>
-                    </ScrollArea>
+                    <ResizablePanelGroup
+                        direction="vertical"
+                        className="rounded-lg border h-full w-full"
+                    >
+                        <ResizablePanel defaultSize={100}>
+                            <ScrollArea className="flex h-full flex-col gap-5">
+                                <Markdown className="prose dark:prose-invert p-6">
+                                    {problemStatement.description}
+                                </Markdown>
+                            </ScrollArea>
+                        </ResizablePanel>
+                        <ResizableHandle
+                            withHandle
+                            className={output == null ? "hidden" : ""}
+                        />
+                        {output != null ? (
+                            <ResizablePanel defaultSize={50} className="p-6">
+                                <ScrollArea className="flex h-full flex-col gap-5">
+                                    <p className="text-2xl">Output</p>
+                                    {output.map((o) => (
+                                        <div className="bg-code p-2 my-3 rounded font-mono">
+                                            {o.split("\n").map((line) => (
+                                                <div key={line}>
+                                                    <p>{line}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </ScrollArea>
+                            </ResizablePanel>
+                        ) : (
+                            <div />
+                        )}
+                    </ResizablePanelGroup>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel defaultSize={50}>
@@ -181,7 +256,7 @@ function Code() {
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
-                                    {loading ? (
+                                    {running ? (
                                         <Button
                                             disabled
                                             className="z-10 self-end"
@@ -191,11 +266,28 @@ function Code() {
                                         </Button>
                                     ) : (
                                         <Button
-                                            onClick={submit}
+                                            onClick={() => run(true)}
                                             className="z-10 self-end"
                                         >
                                             <Play className="mr-2 h-4 w-4" />
                                             Run
+                                        </Button>
+                                    )}
+                                    {submitting ? (
+                                        <Button
+                                            disabled
+                                            className="z-10 self-end"
+                                        >
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Submitting
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            onClick={run}
+                                            className="z-10 self-end"
+                                        >
+                                            <Upload className="mr-2 h-4 w-4" />
+                                            Submit
                                         </Button>
                                     )}
                                 </div>

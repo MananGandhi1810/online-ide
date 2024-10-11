@@ -26,3 +26,4 @@ for data in input_data:
         print(process.stderr.decode(), file=sys.stderr)
     else:
         print(process.stdout.decode())
+    print("---")
