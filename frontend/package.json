@@ -4,11 +4,12 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "nodemon ./bin/www",
-        "start": "node ./bin/www",
-        "format": "prettier --write .",
-        "docker:build": "docker build -t ghcr.io/manangandhi1810/cloud-ide:latest .",
-        "test": "vitest"
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d dist",
+        "dev": "vite",
+        "build": "vite build",
+        "lint": "eslint .",
+        "preview": "vite preview"
     },
     "dependencies": {
         "@monaco-editor/react": "^4.6.0",
