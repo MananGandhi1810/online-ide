@@ -4,15 +4,13 @@ import { hash, compare } from "../utils/hashing.js";
 import sendEmail from "../utils/email.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { createClient } from "redis";
+import { exists, set, get, del } from "../utils/keyvalue-db.js";
 import { generateOtp } from "../utils/generate_otp.js";
 
 dotenv.config();
 const jwtSecret = process.env.SECRET_KEY;
 
 const prisma = new PrismaClient();
-const redis = createClient({ url: process.env.REDIS_URL });
-redis.connect();
 
 const registerHandler = async (req, res) => {
     const { name, email, password } = req.body;
@@ -149,8 +147,7 @@ const loginHandler = async (req, res) => {
     const otpRedisId = `password-otp:${email}`;
     const passwordChangeRedisId = `allow-password-change:${email}`;
     const resetReqExists =
-        (await redis.exists(otpRedisId)) ||
-        (await redis.exists(passwordChangeRedisId));
+        (await exists(otpRedisId)) || (await exists(passwordChangeRedisId));
     if (resetReqExists) {
         return res.status(403).json({
             success: false,
@@ -252,7 +249,7 @@ const forgotPasswordHandler = async (req, res) => {
 Your OTP for resetting the password is ${otp}. Do not share this with anyone.
 OTP expires in 5 minutes.`,
     );
-    await redis.set(`password-otp:${email}`, otp, { EX: 60 * 5 });
+    await set(`password-otp:${email}`, otp, 60 * 5);
     res.status(200).json({
         success: true,
         message: "OTP sent succesfully",
@@ -289,7 +286,7 @@ const verifyOtpHandler = async (req, res) => {
         });
     }
     const otpRedisId = `password-otp:${email}`;
-    const actualOtp = await redis.get(otpRedisId);
+    const actualOtp = await get(otpRedisId);
     if (otp != actualOtp) {
         return res.status(400).json({
             success: false,
@@ -297,8 +294,8 @@ const verifyOtpHandler = async (req, res) => {
             data: null,
         });
     }
-    await redis.set(`allow-password-change:${email}`, 1, { EX: 10 * 60 });
-    await redis.del(otpRedisId);
+    await set(`allow-password-change:${email}`, 1, 10 * 60);
+    await del(otpRedisId);
     const token = jwt.sign(
         {
             scope: "password-reset",
@@ -393,9 +390,7 @@ const resetPasswordHandler = async (req, res) => {
         });
     }
     const redisId = `allow-password-change:${email}`;
-    const passwordChangePerm = await redis.get(
-        `allow-password-change:${email}`,
-    );
+    const passwordChangePerm = await get(`allow-password-change:${email}`);
     if (passwordChangePerm != 1) {
         return res.status(403).json({
             success: false,
@@ -411,7 +406,7 @@ const resetPasswordHandler = async (req, res) => {
             data: null,
         });
     }
-    await redis.del(redisId);
+    await del(redisId);
     const hashedPassword = await hash(password);
     var newUser;
     try {

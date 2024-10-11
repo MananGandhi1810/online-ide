@@ -1,14 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { createClient } from "redis";
+import { exists } from "../utils/keyvalue-db.js";
 
 dotenv.config();
 const jwtSecret = process.env.SECRET_KEY;
 
 const prisma = new PrismaClient();
-const redis = createClient({ url: process.env.REDIS_URL });
-redis.connect();
 
 const checkAuth = async (req, res, next, admin = false) => {
     const { authorization } = req.headers;
@@ -74,8 +72,7 @@ const checkAuth = async (req, res, next, admin = false) => {
     const otpRedisId = `password-otp:${user.email}`;
     const passwordChangeRedisId = `allow-password-change:${user.email}`;
     const resetReqExists =
-        (await redis.exists(otpRedisId)) ||
-        (await redis.exists(passwordChangeRedisId));
+        (await exists(otpRedisId)) || (await exists(passwordChangeRedisId));
     if (resetReqExists) {
         return res.status(403).json({
             success: false,

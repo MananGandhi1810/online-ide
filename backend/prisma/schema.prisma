@@ -35,7 +35,7 @@ model User {
 
 model Submission {
     id                 String           @id @default(cuid())
-    User               User             @relation(fields: [userId], references: [id])
+    User               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId             String
     time               DateTime         @default(now())
     success            Boolean?
@@ -43,7 +43,7 @@ model Submission {
     language           String
     output             String?
     status             SubmissionStatus @default(Queued)
-    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id])
+    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     problemStatementId String
     execTime           Int?
 }
@@ -62,6 +62,6 @@ model Testcase {
     input              String
     output             String
     hidden             Boolean          @default(true)
-    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id])
+    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
     problemStatementId String
 }
