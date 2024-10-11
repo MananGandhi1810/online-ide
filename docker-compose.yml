@@ -2,7 +2,7 @@ name: online-ide
 
 services:
     online-ide:
-        image: ghcr.io/manangandhi1810/online-ide
+        image: ghcr.io/manangandhi1810/online-ide:latest
         restart: unless-stopped
         ports:
             - 3000:3000/tcp
@@ -43,13 +43,16 @@ services:
             - ALLOW_EMPTY_PASSWORD=yes
         labels:
             - "com.centurylinklabs.watchtower.enable=false"
-    
+
     frontend:
-        image: ghcr.io/manangandhi1810/online-ide-frontend
-        
-            
+        image: ghcr.io/manangandhi1810/online-ide-frontend:latest
+        volumes:
+            - ./frontend/.env.prod:/usr/src/app/.env
+        ports:
+            - 8000:3000/tcp
+
     code-runner:
-        image: ghcr.io/manangandhi1810/code-runner
+        image: ghcr.io/manangandhi1810/code-runner:latest
 
 volumes:
     pg-data:
