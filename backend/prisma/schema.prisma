@@ -45,6 +45,7 @@ model Submission {
     status             SubmissionStatus @default(Queued)
     problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id])
     problemStatementId String
+    execTime           Int?
 }
 
 model ProblemStatement {

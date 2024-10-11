@@ -28,7 +28,6 @@ const executeFromQueue = async (message, channel) => {
         return;
     }
     const testCases = problemStatement.testCase;
-
     const container = await createDockerContainer(
         language,
         code,
@@ -42,7 +41,11 @@ const executeFromQueue = async (message, channel) => {
             .toLowerCase();
     });
     await container.start();
+    const start = process.hrtime();
     const tle = setTimeout(async () => {
+        const end = process.hrtime();
+        const ms = (end[0] - start[0]) * 1e3 + (end[1] - start[1]) * 1e-6;
+        console.log(`TLE for ${submissionId} in ${ms}ms`);
         try {
             await container.stop();
         } catch (e) {
@@ -53,15 +56,19 @@ const executeFromQueue = async (message, channel) => {
             data: {
                 status: "TimeLimitExceeded",
                 success: false,
+                execTime: ms,
             },
         });
-    }, 3000);
+    }, 5000);
     await container.wait();
+    clearTimeout(tle);
+    const end = process.hrtime();
+    const ms = (end[0] - start[0]) * 1e3 + (end[1] - start[1]) * 1e-6;
+    console.log(`Executed ${submissionId} in ${ms}ms`);
     const logs = String(await container.logs({ stdout: true, stderr: true }))
         .replace(/\r?\n|\r/g, "")
         .normalize()
         .toLowerCase();
-    clearTimeout(tle);
     const correctResult = logs == expectedResult;
     try {
         await prisma.submission.update({
@@ -70,6 +77,7 @@ const executeFromQueue = async (message, channel) => {
                 output: logs,
                 status: "Executed",
                 success: correctResult,
+                execTime: ms,
             },
         });
     } catch (e) {
