@@ -4,10 +4,11 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "lint": "eslint .",
-        "preview": "vite preview"
+        "dev": "nodemon ./bin/www",
+        "start": "node ./bin/www",
+        "format": "prettier --write .",
+        "docker:build": "docker build -t ghcr.io/manangandhi1810/cloud-ide:latest .",
+        "test": "vitest"
     },
     "dependencies": {
         "@monaco-editor/react": "^4.6.0",
