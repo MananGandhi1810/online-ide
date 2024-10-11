@@ -59,7 +59,7 @@ const executeFromQueue = async (message, channel) => {
                 execTime: ms,
             },
         });
-    }, 5000);
+    }, process.env.TLE);
     await container.wait();
     clearTimeout(tle);
     const end = process.hrtime();
