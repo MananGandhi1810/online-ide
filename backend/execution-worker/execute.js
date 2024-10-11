@@ -41,6 +41,7 @@ const executeFromQueue = async (message, channel) => {
             .normalize()
             .toLowerCase();
     });
+    await container.start();
     const tle = setTimeout(async () => {
         try {
             await container.stop();
@@ -55,7 +56,6 @@ const executeFromQueue = async (message, channel) => {
             },
         });
     }, 3000);
-    await container.start();
     await container.wait();
     const logs = String(await container.logs({ stdout: true, stderr: true }))
         .replace(/\r?\n|\r/g, "")
