@@ -56,7 +56,11 @@ const executeFromQueue = async (message, channel) => {
     var didRun = false;
     const tle = new Promise((resolve, reject) => {
         setTimeout(async () => {
+            if (didRun) {
+                return;
+            }
             resolve();
+            console.log("TLE");
             didTLE = true;
             const result = {
                 status: "TimeLimitExceeded",
@@ -86,7 +90,7 @@ const executeFromQueue = async (message, channel) => {
     });
     const wait = new Promise(async (resolve, reject) => {
         await container.wait();
-        clearTimeout(tle);
+        didRun = true;
         resolve();
     });
     await Promise.race([tle, wait]);
