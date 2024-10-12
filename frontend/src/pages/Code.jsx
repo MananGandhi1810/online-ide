@@ -250,25 +250,36 @@ function Code() {
                         {output != null ? (
                             <ResizablePanel defaultSize={50}>
                                 <ScrollArea className="flex h-full flex-col gap-5">
-                                    <div className="p-6">
-                                        <p className="text-2xl">Code Output</p>
-                                        {output.map((o, i) => (
-                                            <div>
-                                                <p className="mt-3 text-lg">
-                                                    Test Case {i + 1}
-                                                </p>
-                                                <div className="bg-code p-2 my-3 rounded font-mono">
-                                                    {o
-                                                        .split("\n")
-                                                        .map((line) => (
-                                                            <div key={line}>
-                                                                <p>{line}</p>
-                                                            </div>
-                                                        ))}
+                                    {running ? (
+                                        <div className="flex justify-center w-full min-h-full items-center">
+                                            <Loader2 className="mr-2 min-h-full w-4 animate-spin" />
+                                            Running
+                                        </div>
+                                    ) : (
+                                        <div className="p-6">
+                                            <p className="text-2xl">
+                                                Code Output
+                                            </p>
+                                            {output.map((o, i) => (
+                                                <div>
+                                                    <p className="mt-3 text-lg">
+                                                        Test Case {i + 1}
+                                                    </p>
+                                                    <div className="bg-code p-2 my-3 rounded font-mono">
+                                                        {o
+                                                            .split("\n")
+                                                            .map((line) => (
+                                                                <div key={line}>
+                                                                    <p>
+                                                                        {line}
+                                                                    </p>
+                                                                </div>
+                                                            ))}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </ScrollArea>
                             </ResizablePanel>
                         ) : (
