@@ -18,8 +18,6 @@ import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOtp from "./pages/VerifyOtp";
 import ResetPassword from "./pages/ResetPassword";
 
-var isAuthenticated = false;
-
 function App() {
     const initialState = {
         name: null,
@@ -161,7 +159,6 @@ function App() {
 
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(user));
-        isAuthenticated = true;
     }, [user]);
 
     return (
