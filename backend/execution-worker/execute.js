@@ -81,9 +81,7 @@ const executeFromQueue = async (message, channel) => {
             try {
                 await container.kill();
                 await container.remove();
-            } catch (e) {
-                console.log(e);
-            }
+            } catch (e) {}
         }, process.env.TLE);
     });
     const wait = new Promise(async (resolve, reject) => {
@@ -135,9 +133,7 @@ const executeFromQueue = async (message, channel) => {
     }
     try {
         await container.remove();
-    } catch (e) {
-        console.log(e);
-    }
+    } catch (e) {}
 };
 
 export { executeFromQueue };
