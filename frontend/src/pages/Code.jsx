@@ -203,8 +203,8 @@ function Code() {
                         className="rounded-lg border h-full w-full"
                     >
                         <ResizablePanel defaultSize={100}>
-                            <ScrollArea className="flex h-full flex-col gap-5">
-                                <Markdown className="prose dark:prose-invert p-6">
+                            <ScrollArea className="flex h-full w-full flex-col gap-5">
+                                <Markdown className="prose dark:prose-invert min-w-full p-6">
                                     {problemStatement.description}
                                 </Markdown>
                             </ScrollArea>

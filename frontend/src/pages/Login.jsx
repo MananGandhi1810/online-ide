@@ -100,16 +100,7 @@ function Login() {
                             </div>
                         </div>
                     </CardContent>
-                    <CardFooter className="flex justify-end flex-col items-end">
-                        <Button
-                            variant="link"
-                            className="m-0 p-0 mb-2"
-                            onClick={() => {
-                                navigate("/forgot-password");
-                            }}
-                        >
-                            Forgot Password?
-                        </Button>
+                    <CardFooter className="flex justify-end flex-col items-end mt-2 pb-0">
                         {loading ? (
                             <Button disabled>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -120,6 +111,15 @@ function Login() {
                                 Log In
                             </Button>
                         )}
+                        <Button
+                            variant="link"
+                            className="m-0 p-0 mt-2"
+                            onClick={() => {
+                                navigate("/forgot-password");
+                            }}
+                        >
+                            Forgot Password?
+                        </Button>
                     </CardFooter>
                 </form>
             </Card>
