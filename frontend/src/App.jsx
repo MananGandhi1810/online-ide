@@ -14,6 +14,9 @@ import Problems from "@/pages/Problems.jsx";
 import AuthContext from "@/context/auth-provider.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import ForgotPassword from "./pages/ForgotPassword";
+import VerifyOtp from "./pages/VerifyOtp";
+import ResetPassword from "./pages/ResetPassword";
 
 var isAuthenticated = false;
 
@@ -26,8 +29,9 @@ function App() {
     };
     const [user, setUser] = useState(
         () =>
-            JSON.parse(localStorage.getItem("user") ?? JSON.stringify(initialState)) ||
-            initialState,
+            JSON.parse(
+                localStorage.getItem("user") ?? JSON.stringify(initialState),
+            ) || initialState,
     );
 
     const router = createBrowserRouter([
@@ -59,6 +63,39 @@ function App() {
                         return null;
                     },
                     element: <Register />,
+                },
+                {
+                    path: "/forgot-password",
+                    loader: ({ request }) => {
+                        const searchParams = new URL(request.url).searchParams;
+                        if (user.isAuthenticated) {
+                            return redirect(searchParams.get("next") || "/");
+                        }
+                        return null;
+                    },
+                    element: <ForgotPassword />,
+                },
+                {
+                    path: "/verify-otp",
+                    loader: ({ request }) => {
+                        const searchParams = new URL(request.url).searchParams;
+                        if (user.isAuthenticated) {
+                            return redirect(searchParams.get("next") || "/");
+                        }
+                        return null;
+                    },
+                    element: <VerifyOtp />,
+                },
+                {
+                    path: "/reset-password",
+                    loader: ({ request }) => {
+                        const searchParams = new URL(request.url).searchParams;
+                        if (user.isAuthenticated) {
+                            return redirect(searchParams.get("next") || "/");
+                        }
+                        return null;
+                    },
+                    element: <ResetPassword />,
                 },
                 {
                     path: "/problems",

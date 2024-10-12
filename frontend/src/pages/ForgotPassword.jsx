@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button.jsx";
 import {
     Card,
@@ -10,30 +10,24 @@ import {
 } from "@/components/ui/card.jsx";
 import { Input } from "@/components/ui/input.jsx";
 import { Label } from "@/components/ui/label.jsx";
-import { PasswordInput } from "@/components/ui/password-input.jsx";
 import { Loader2 } from "lucide-react";
-import AuthContext from "@/context/auth-provider.jsx";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast.js";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+function ForgotPassword() {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const { setUser } = useContext(AuthContext);
     const { toast } = useToast();
     const navigate = useNavigate();
-    let [searchParams, setSearchParams] = useSearchParams();
 
-    const login = async (email, password) => {
+    const submit = async (email) => {
         setLoading(true);
         const res = await axios
             .post(
-                `${process.env.SERVER_URL}/auth/login`,
+                `${process.env.SERVER_URL}/auth/forgot-password`,
                 {
                     email,
-                    password,
                 },
                 {
                     validateStatus: false,
@@ -41,20 +35,14 @@ function Login() {
             )
             .then((res) => res.data);
         if (res.success) {
-            setUser({
-                name: res.data.user.name,
-                email: res.data.user.email,
-                token: res.data.token,
-                isAuthenticated: true,
-            });
             toast({
                 title: "Success",
                 description: res.message,
             });
-            navigate(searchParams.get("next") || "/");
+            navigate("/verify-otp", { state: { email } });
         } else {
             toast({
-                title: "Couldn't log in",
+                title: "An error occurred",
                 description: res.message,
             });
         }
@@ -67,13 +55,13 @@ function Login() {
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        login(email, password);
+                        submit(email);
                     }}
                 >
                     <CardHeader>
-                        <CardTitle>Login</CardTitle>
+                        <CardTitle>Forgot Password</CardTitle>
                         <CardDescription>
-                            Log in to your account
+                            Request a Password Reset
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -87,37 +75,17 @@ function Login() {
                                     placeholder="Your email"
                                 />
                             </div>
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="name">Password</Label>
-                                <PasswordInput
-                                    id="password"
-                                    value={password}
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
-                                    }
-                                    placeholder="Your password"
-                                />
-                            </div>
                         </div>
                     </CardContent>
-                    <CardFooter className="flex justify-end flex-col items-end">
-                        <Button
-                            variant="link"
-                            className="m-0 p-0 mb-2"
-                            onClick={() => {
-                                navigate("/forgot-password");
-                            }}
-                        >
-                            Forgot Password?
-                        </Button>
+                    <CardFooter className="flex justify-end">
                         {loading ? (
                             <Button disabled>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Logging in
+                                Submitting
                             </Button>
                         ) : (
-                            <Button onClick={() => login(email, password)}>
-                                Log In
+                            <Button onClick={() => submit(email)}>
+                                Submit
                             </Button>
                         )}
                     </CardFooter>
@@ -127,4 +95,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default ForgotPassword;
