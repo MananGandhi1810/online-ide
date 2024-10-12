@@ -63,7 +63,12 @@ const executeFromQueue = async (message, channel) => {
             success: false,
         };
         if (temp) {
-            await set(`temp-${submissionId}`, JSON.stringify(result), 60 * 5);
+            const prevData = JSON.parse(await get(`temp-${submissionId}`));
+            await set(
+                `temp-${submissionId}`,
+                JSON.stringify({ ...prevData, ...result }),
+                60 * 5,
+            );
         } else {
             await prisma.submission.update({
                 where: { id: submissionId },
