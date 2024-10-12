@@ -8,6 +8,7 @@ env:
 
 jobs:
     build_and_publish:
+        if: "contains(github.event.head_commit.message, '[frontend]') || contains(github.event.head_commit.message, '[all]')"
         runs-on: ubuntu-latest
         steps:
             - name: Setup QEMU
