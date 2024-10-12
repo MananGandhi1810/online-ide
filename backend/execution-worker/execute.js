@@ -52,38 +52,49 @@ const executeFromQueue = async (message, channel) => {
     });
     await container.start();
     const start = process.hrtime();
-    const tle = setTimeout(async () => {
-        try {
-            await container.stop();
-        } catch (e) {
-            console.log(e);
-        }
-        const result = {
-            status: "TimeLimitExceeded",
-            success: false,
-        };
-        if (temp) {
-            const prevData = JSON.parse(await get(`temp-${submissionId}`));
-            await set(
-                `temp-${submissionId}`,
-                JSON.stringify({ ...prevData, ...result }),
-                60 * 5,
-            );
-        } else {
-            await prisma.submission.update({
-                where: { id: submissionId },
-                data: {
-                    status: "TimeLimitExceeded",
-                    success: false,
-                },
-            });
-        }
-    }, process.env.TLE);
-    await container.wait();
-    clearTimeout(tle);
-    const end = process.hrtime();
-    const ms = (end[0] - start[0]) * 1e3 + (end[1] - start[1]) * 1e-6;
-    console.log(`Executed ${submissionId} in ${ms}ms`);
+    var didTLE = false;
+    var didRun = false;
+    const tle = new Promise((resolve, reject) => {
+        setTimeout(async () => {
+            resolve();
+            didTLE = true;
+            const result = {
+                status: "TimeLimitExceeded",
+                success: false,
+            };
+            if (temp) {
+                const prevData = JSON.parse(await get(`temp-${submissionId}`));
+                await set(
+                    `temp-${submissionId}`,
+                    JSON.stringify({ ...prevData, ...result }),
+                    60 * 5,
+                );
+            } else {
+                await prisma.submission.update({
+                    where: { id: submissionId },
+                    data: {
+                        status: "TimeLimitExceeded",
+                        success: false,
+                    },
+                });
+            }
+            try {
+                await container.kill();
+                await container.remove();
+            } catch (e) {
+                console.log(e);
+            }
+        }, process.env.TLE);
+    });
+    const wait = new Promise(async (resolve, reject) => {
+        await container.wait();
+        clearTimeout(tle);
+        resolve();
+    });
+    await Promise.race([tle, wait]);
+    if (didTLE) {
+        return;
+    }
     const rawLogs = String(
         await container.logs({ stdout: true, stderr: true }),
     );
@@ -91,6 +102,9 @@ const executeFromQueue = async (message, channel) => {
         .replace(/\r?\n|\r/g, "")
         .normalize()
         .toLowerCase();
+    const end = process.hrtime();
+    const ms = (end[0] - start[0]) * 1e3 + (end[1] - start[1]) * 1e-6;
+    console.log(`Executed ${submissionId} in ${ms}ms`);
     const correctResult = logs == expectedResult;
     try {
         const result = {
@@ -119,7 +133,11 @@ const executeFromQueue = async (message, channel) => {
     } catch (e) {
         console.log(e);
     }
-    await container.remove();
+    try {
+        await container.remove();
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 export { executeFromQueue };
