@@ -165,7 +165,7 @@ function App() {
     }, [user]);
 
     return (
-        <div className="font-inter">
+        <div className="font-inter overflow-x-hidden">
             <AuthContext.Provider
                 value={{
                     user,

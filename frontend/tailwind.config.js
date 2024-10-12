@@ -5,7 +5,7 @@ export default {
     theme: {
         extend: {
             spacing: {
-                "full-w-nav": "calc(100vh - 64px)",
+                "full-w-nav": "calc(100vh - 65px)",
             },
             fontFamily: {
                 inter: ["inter"],
