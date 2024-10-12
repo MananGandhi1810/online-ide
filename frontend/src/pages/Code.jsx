@@ -214,18 +214,27 @@ function Code() {
                             className={output == null ? "hidden" : ""}
                         />
                         {output != null ? (
-                            <ResizablePanel defaultSize={50} className="p-6">
+                            <ResizablePanel defaultSize={50}>
                                 <ScrollArea className="flex h-full flex-col gap-5">
-                                    <p className="text-2xl">Output</p>
-                                    {output.map((o) => (
-                                        <div className="bg-code p-2 my-3 rounded font-mono">
-                                            {o.split("\n").map((line) => (
-                                                <div key={line}>
-                                                    <p>{line}</p>
+                                    <div className="p-6">
+                                        <p className="text-2xl">Code Output</p>
+                                        {output.map((o, i) => (
+                                            <div>
+                                                <p className="mt-3 text-lg">
+                                                    Test Case {i + 1}
+                                                </p>
+                                                <div className="bg-code p-2 my-3 rounded font-mono">
+                                                    {o
+                                                        .split("\n")
+                                                        .map((line) => (
+                                                            <div key={line}>
+                                                                <p>{line}</p>
+                                                            </div>
+                                                        ))}
                                                 </div>
-                                            ))}
-                                        </div>
-                                    ))}
+                                            </div>
+                                        ))}
+                                    </div>
                                 </ScrollArea>
                             </ResizablePanel>
                         ) : (
@@ -312,7 +321,10 @@ function Code() {
                                     {problemStatement.testCase.map(
                                         (testCase, i) => (
                                             <div key={testCase.id}>
-                                                <div className="my-3">
+                                                <p className="mt-3 text-lg">
+                                                    Test Case {i + 1}
+                                                </p>
+                                                <div className="my-1">
                                                     Input
                                                     <div className="bg-code p-2 my-2 rounded font-mono">
                                                         {testCase.input
