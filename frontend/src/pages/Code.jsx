@@ -10,7 +10,6 @@ import Editor from "@monaco-editor/react";
 import { Loader2, Play, Upload } from "lucide-react";
 import axios from "axios";
 import AuthContext from "@/context/auth-provider.jsx";
-import { toast } from "@/hooks/use-toast.js";
 import {
     Select,
     SelectContent,
@@ -22,6 +21,16 @@ import { useHotkeys } from "react-hotkeys-hook";
 import Markdown from "react-markdown";
 import { ScrollArea } from "@/components/ui/scroll-area.jsx";
 import { Separator } from "@/components/ui/separator.jsx";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 function Code() {
     const problemStatement = useLoaderData();
@@ -32,6 +41,11 @@ function Code() {
     const [language, setLanguage] = useState(
         () => localStorage.getItem("preferredLanguage") || "python",
     );
+    const [submissionResult, setSubmissionResult] = useState({
+        title: "",
+        description: "",
+    });
+    const [showDialog, setShowDialog] = useState(false);
     const [output, setOutput] = useState(null);
     const [code, setCode] = useState(
         () =>
@@ -97,10 +111,11 @@ function Code() {
             } else {
                 setSubmitting(false);
             }
-            toast({
+            setSubmissionResult({
                 title: "Error",
                 description: res.message,
             });
+            setShowDialog(true);
         }
     };
 
@@ -133,19 +148,21 @@ function Code() {
             }
             if (res.data.success) {
                 if (!isTempRun) {
-                    toast({
+                    setSubmissionResult({
                         title: "Success",
                         description: "All testcases passed",
                     });
+                    setShowDialog(true);
                 } else {
                     setOutput(res.data.logs);
                 }
             } else {
                 if (!isTempRun) {
-                    toast({
+                    setSubmissionResult({
                         title: "Error",
                         description: "Could not pass some or all test cases",
                     });
+                    setShowDialog(true);
                 } else {
                     setOutput(res.data.logs);
                 }
@@ -153,10 +170,11 @@ function Code() {
             return;
         } else if (res.data.status == "Queued") {
             if (tryNo >= 100) {
-                toast({
+                setSubmissionResult({
                     title: "Error",
                     description: "Your code could not be executed",
                 });
+                setShowDialog(true);
                 if (isTempRun) {
                     setRunning(false);
                 } else {
@@ -176,7 +194,8 @@ function Code() {
             } else {
                 setSubmitting(false);
             }
-            toast({
+            setShowDialog(true);
+            setSubmissionResult({
                 title: "Error",
                 description: res.message,
             });
@@ -193,6 +212,21 @@ function Code() {
 
     return (
         <div className="w-screen h-full-w-nav">
+            <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>
+                            {submissionResult.title}
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                            {submissionResult.description}
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogAction>OK</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
             <ResizablePanelGroup
                 direction="horizontal"
                 className="rounded-lg border h-full w-full"
@@ -292,7 +326,7 @@ function Code() {
                                         </Button>
                                     ) : (
                                         <Button
-                                            onClick={run}
+                                            onClick={() => run(false)}
                                             className="z-10 self-end"
                                         >
                                             <Upload className="mr-2 h-4 w-4" />
