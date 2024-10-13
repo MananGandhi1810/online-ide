@@ -12,6 +12,8 @@ Online IDE, built using Express.js and React.js
 -   Code Editor
     -   Syntax Highlighting
     -   3 Language Support (Python, C, C++)
+    -   Problem Statements rendered as Markdown, with support for code blocks
+    -   Sample Test Cases for each problem with expected output
 -   Sandboxed Code Execution
     -   Docker container for each code execution
     -   Limit time used by code
