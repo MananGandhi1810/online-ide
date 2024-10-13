@@ -5,6 +5,7 @@ import {
     getProblemStatementById,
     newProblemStatement,
     editProblemStatement,
+    deleteProblemStatement,
 } from "../handlers/problem-statement.js";
 
 var router = Router();
@@ -17,9 +18,14 @@ router.post(
     newProblemStatement,
 );
 router.put(
-    "/edit/:id",
+    "/edit/:problemStatementId",
     (req, res, next) => checkAuth(req, res, next, true),
     editProblemStatement,
+);
+router.delete(
+    "/delete/:problemStatementId",
+    (req, res, next) => checkAuth(req, res, next, true),
+    deleteProblemStatement,
 );
 
 export default router;

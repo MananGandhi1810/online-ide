@@ -113,11 +113,11 @@ const newProblemStatement = async (req, res) => {
 };
 
 const editProblemStatement = async (req, res) => {
-    const { id } = req.params;
-    if (!id) {
+    const { problemStatementId } = req.params;
+    if (!problemStatementId) {
         return res.status(400).json({
             success: false,
-            message: "Problem Statement id is compulsory",
+            message: "Problem Statement Id is compulsory",
             data: null,
         });
     }
@@ -140,7 +140,7 @@ const editProblemStatement = async (req, res) => {
         });
     }
     var problemStatement = await prisma.problemStatement.findUnique({
-        where: { id },
+        where: { id: problemStatementId },
     });
     if (!problemStatement) {
         return res.status(404).json({
@@ -151,10 +151,10 @@ const editProblemStatement = async (req, res) => {
     }
     try {
         await prisma.testcase.deleteMany({
-            where: { problemStatementId: id },
+            where: { problemStatementId: problemStatementId },
         });
         problemStatement = await prisma.problemStatement.update({
-            where: { id },
+            where: { id: problemStatementId },
             data: {
                 title,
                 description,
@@ -187,9 +187,50 @@ const editProblemStatement = async (req, res) => {
     });
 };
 
+const deleteProblemStatement = async (req, res) => {
+    const { problemStatementId } = req.params;
+    if (!problemStatementId) {
+        return res.status(400).json({
+            success: false,
+            message: "Problem Statement Id is compulsory",
+            data: null,
+        });
+    }
+    const problemStatement = await prisma.problemStatement.findUnique({
+        where: {
+            id: problemStatementId,
+        },
+    });
+    if (!problemStatement) {
+        return res.status(404).json({
+            success: false,
+            message: "Problem Statement not found",
+            data: null,
+        });
+    }
+    try {
+        await prisma.problemStatement.delete({
+            where: { id: problemStatementId },
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "An error occurred",
+            data: null,
+        });
+    }
+    res.json({
+        success: true,
+        message: "Problem Statement deleted successfully",
+        data: {},
+    });
+};
+
 export {
     getProblemStatements,
     getProblemStatementById,
     newProblemStatement,
     editProblemStatement,
+    deleteProblemStatement,
 };
