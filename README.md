@@ -29,3 +29,47 @@ Online IDE, built using Express.js and React.js
 -   Dockerode (for managing docker containers)
 -   Resend (for sending emails)
 -   Shadcn/UI (for frontend components)
+
+## Setup
+
+You can either use the docker-compose file to run the project or run the backend and frontend separately.
+
+### Using Docker Compose
+
+-   Clone the repository
+-   Copy the `.env.example` file to `.env` and fill in the required values in both `frontend` and `backend` directories.
+-   Run `docker compose up` in the root directory
+-   The project will be running on `localhost:8000`
+
+### Running Backend and Frontend Separately
+
+---
+
+**Note**:
+You will still need to have Docker installed on your system.
+
+---
+
+-   Clone the repository
+-   Copy the `.env.example` file to `.env` and fill in the required values in both `frontend` and `backend` directories.
+-   Run the backend server
+    -   Navigate to the `backend` directory
+    -   Run `npm install`
+    -   Run `npm run dev`
+-   The backend server will be running on `localhost:3000`
+-   Run the frontend server
+    -   Navigate to the `frontend` directory
+    -   Run `npm install`
+    -   Run `npm start`
+-   The project will be running on `localhost:5173`
+
+## Screenshots
+
+![Home](assets/screenshots/home.png)
+![Login](assets/screenshots/login.png)
+![Problem Statements](assets/screenshots/problemstatments.png)
+![Problem Submission](assets/screenshots/problemsubmission.png)
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
