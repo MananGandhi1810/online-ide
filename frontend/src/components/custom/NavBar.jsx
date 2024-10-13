@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button.jsx";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet.jsx";
 import AuthContext from "@/context/auth-provider.jsx";
 import { Terminal, ArrowRight } from "lucide-react";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useRef } from "react";
+import { Link, useNavigation } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import {
     AlertDialog,
@@ -16,9 +16,20 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import LoadingBar from "react-top-loading-bar";
 
 export default function NavBar() {
     const { user, setUser } = useContext(AuthContext);
+    const { state: navState } = useNavigation();
+    const loaderRef = useRef(null);
+
+    useEffect(() => {
+        if (navState == "loading") {
+            loaderRef.current.continuousStart();
+        } else {
+            loaderRef.current.complete();
+        }
+    }, [navState]);
 
     const logout = () => {
         setUser({
@@ -31,6 +42,7 @@ export default function NavBar() {
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background dark:bg-background">
+            <LoadingBar color="#ffffff" ref={loaderRef} />
             <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-6">
                 <Link
                     to="/"
