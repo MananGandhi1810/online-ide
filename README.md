@@ -45,12 +45,8 @@ You can either use the docker-compose file to run the project or run the backend
 
 ### Running Backend and Frontend Separately
 
----
-
-**Note**:
-You will still need to have Docker installed on your system.
-
----
+> [!NOTE]
+> You will still need to have Docker installed on your system.
 
 -   Clone the repository
 -   Copy the `.env.example` file to `.env` and fill in the required values in both `frontend` and `backend` directories.
