@@ -44,12 +44,14 @@ export default function NavBar() {
         <header className="sticky top-0 z-50 w-full border-b bg-background dark:bg-background">
             <LoadingBar color="#ffffff" ref={loaderRef} />
             <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-6">
-                <Link
-                    to="/"
-                    className="flex items-center gap-2 flex-1 justify-start"
-                >
-                    <Terminal /> <span className="font-medium">Code</span>
-                </Link>
+                <div className="flex-1">
+                    <Link
+                        to="/"
+                        className="flex items-center gap-2 justify-start w-min"
+                    >
+                        <Terminal /> <span className="font-medium">Code</span>
+                    </Link>
+                </div>
                 <nav className="hidden items-center justify-center gap-6 text-sm font-medium md:flex flex-1">
                     <Link
                         to="/"
