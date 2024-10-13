@@ -3,6 +3,7 @@ import cors from "cors";
 import authRouter from "./router/auth.js";
 import codeRouter from "./router/code.js";
 import problemStatementRouter from "./router/problem-statement.js";
+import leaderboard  from "./router/leaderboard.js";
 import logger from "morgan";
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(
 app.use("/auth", authRouter);
 app.use("/code", codeRouter);
 app.use("/problem-statement", problemStatementRouter);
+app.use("/leaderboard", leaderboard);
 
 app.use(function (req, res, next) {
     res.status(404).json({

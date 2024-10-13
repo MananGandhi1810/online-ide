@@ -3,7 +3,7 @@ import { sendQueueMessage } from "../utils/queue-manager.js";
 import { randomNum } from "../utils/generate_otp.js";
 import { get, set } from "../utils/keyvalue-db.js";
 
-const languages = ["python", "javascript", "c", "cpp"];
+const languages = ["python", "c", "cpp"];
 
 const prisma = new PrismaClient();
 
