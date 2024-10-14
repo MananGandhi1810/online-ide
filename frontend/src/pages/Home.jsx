@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button.jsx";
+import TypingAnimation from "@/components/ui/typing-animation";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -8,9 +9,11 @@ function Home() {
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center space-y-4 text-center">
                     <div className="space-y-2">
-                        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                            Master Coding Challenges
-                        </h1>
+                        <TypingAnimation
+                            className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none"
+                            text="Master Coding Challenges"
+                            duration={175}
+                        />
                         <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
                             Sharpen your coding skills with our vast collection
                             of programming challenges. Practice, learn, and
