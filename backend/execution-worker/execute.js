@@ -55,38 +55,43 @@ const executeFromQueue = async (message, channel) => {
     var didTLE = false;
     var didRun = false;
     const tle = new Promise((resolve, reject) => {
-        setTimeout(async () => {
-            if (didRun) {
-                return;
-            }
-            resolve();
-            console.log("TLE");
-            didTLE = true;
-            const result = {
-                status: "TimeLimitExceeded",
-                success: false,
-            };
-            if (temp) {
-                const prevData = JSON.parse(await get(`temp-${submissionId}`));
-                await set(
-                    `temp-${submissionId}`,
-                    JSON.stringify({ ...prevData, ...result }),
-                    60 * 5,
-                );
-            } else {
-                await prisma.submission.update({
-                    where: { id: submissionId },
-                    data: {
-                        status: "TimeLimitExceeded",
-                        success: false,
-                    },
-                });
-            }
-            try {
-                await container.kill();
-                await container.remove();
-            } catch (e) {}
-        }, process.env.TLE);
+        setTimeout(
+            async () => {
+                if (didRun) {
+                    return;
+                }
+                resolve();
+                console.log("TLE");
+                didTLE = true;
+                const result = {
+                    status: "TimeLimitExceeded",
+                    success: false,
+                };
+                if (temp) {
+                    const prevData = JSON.parse(
+                        await get(`temp-${submissionId}`),
+                    );
+                    await set(
+                        `temp-${submissionId}`,
+                        JSON.stringify({ ...prevData, ...result }),
+                        60 * 5,
+                    );
+                } else {
+                    await prisma.submission.update({
+                        where: { id: submissionId },
+                        data: {
+                            status: "TimeLimitExceeded",
+                            success: false,
+                        },
+                    });
+                }
+                try {
+                    await container.kill();
+                    await container.remove();
+                } catch (e) {}
+            },
+            process.env.TLE + (language == "java" ? 2000 : 0),
+        );
     });
     const wait = new Promise(async (resolve, reject) => {
         await container.wait();

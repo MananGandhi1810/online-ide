@@ -9,6 +9,8 @@ def get_exec_command(filename):
         return f"g++ {filename} -o output && ./output"
     if filename.endswith(".c"):
         return f"gcc {filename} -o output && ./output"
+    if filename.endswith(".java"):
+        return f'javac {filename} && java $(ls | grep ".class$" | head -1 | sed -e "s/.class$//")'
 
 
 with open("input.txt", "r") as f:

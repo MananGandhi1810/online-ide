@@ -20,6 +20,9 @@ const getExecutionCommand = (language, code, input) => {
         case "c":
             filename = "code.c";
             break;
+        case "java":
+            filename = "code.java";
+            break;
     }
     var input_str = filename + "\n---\n";
     input.forEach((line, i) => {

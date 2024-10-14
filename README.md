@@ -11,7 +11,7 @@ Online IDE, built using Express.js and React.js
     -   Forgot password with OTP
 -   Code Editor
     -   Syntax Highlighting
-    -   3 Languages Supported (Python, C, C++)
+    -   4 Languages Supported (Python, C, C++, Java)
     -   Problem Statements rendered as Markdown, with support for code blocks
     -   Sample Test Cases for each problem with expected output
 -   Sandboxed Code Execution

@@ -55,6 +55,7 @@ function Code() {
         c: "// Your code here",
         cpp: "// Your code here",
         python: "# Your code here",
+        java: "// Your code here",
     };
 
     useEffect(() => {
@@ -306,6 +307,9 @@ function Code() {
                                             <SelectItem value="c">C</SelectItem>
                                             <SelectItem value="cpp">
                                                 C++
+                                            </SelectItem>
+                                            <SelectItem value="java">
+                                                Java
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
