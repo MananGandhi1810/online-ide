@@ -90,7 +90,7 @@ const executeFromQueue = async (message, channel) => {
                     await container.remove();
                 } catch (e) {}
             },
-            process.env.TLE + (language == "java" ? 2000 : 0),
+            language == "java" ? process.env.TLE + 2000 : process.env.TLE,
         );
     });
     const wait = new Promise(async (resolve, reject) => {
