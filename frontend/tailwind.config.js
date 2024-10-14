@@ -72,5 +72,15 @@ export default {
     plugins: [
         require("tailwindcss-animate"),
         require("@tailwindcss/typography"),
+        require("tailwind-typewriter")({
+            wordsets: {
+                "home-heading": {
+                    words: ["Master Coding Problems"],
+                    delay: 0.5,
+                    writeSpeed: 0.25,
+                    repeat: -1,
+                },
+            },
+        }),
     ],
 };
