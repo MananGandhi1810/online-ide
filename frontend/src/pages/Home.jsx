@@ -1,10 +1,17 @@
 import { Button } from "@/components/ui/button.jsx";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { DotPattern } from "@/components/ui/dot-pattern";
+import { cn } from "@/lib/utils";
 
 function Home() {
     return (
         <div className="h-full-w-nav w-screen flex justify-center items-center">
+            <DotPattern
+                className={cn(
+                    "[mask-image:radial-gradient(900px_circle_at_center,white,transparent)]",
+                )}
+            />
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center space-y-4 text-center">
                     <div className="space-y-2">
