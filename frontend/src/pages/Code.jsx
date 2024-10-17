@@ -214,8 +214,8 @@ function Code() {
         }
     };
 
-    const setupCangjie = (monaco) => {
-        monaco.languages.register({ id: "cangjie" });
+    const setupMonacoTheme = (monaco) => {
+        monaco.languages.register({ id: "theme" });
 
         (async function () {
             const highlighter = await createHighlighter({
@@ -375,12 +375,12 @@ function Code() {
                                 </div>
                                 <div className="h-full">
                                     <Editor
-                                        theme="vs-dark"
+                                        theme="vitesse-dark"
                                         language={language}
                                         defaultValue={initialCode[language]}
                                         value={code}
                                         onChange={(value) => setCode(value)}
-                                        beforeMount={setupCangjie}
+                                        beforeMount={setupMonacoTheme}
                                     />
                                 </div>
                             </div>
