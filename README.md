@@ -63,13 +63,6 @@ You can either use the docker-compose file to run the project or run the backend
     -   Run `npm start`
 -   The project will be running on `localhost:5173`
 
-## Screenshots
-
-![Home](assets/screenshots/home.png)
-![Login](assets/screenshots/login.png)
-![Problem Statements](assets/screenshots/problemstatments.png)
-![Problem Submission](assets/screenshots/problemsubmission.png)
-
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
