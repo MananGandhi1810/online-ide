@@ -40,6 +40,12 @@ function Code() {
     const [language, setLanguage] = useState(
         () => localStorage.getItem("preferredLanguage") || "python",
     );
+    const supportedLanguages = {
+        Python: "python",
+        C: "c",
+        "C++": "cpp",
+        Java: "java",
+    };
     const [submissionResult, setSubmissionResult] = useState({
         title: "",
         description: "",
@@ -59,6 +65,10 @@ function Code() {
     };
 
     useEffect(() => {
+        if (!Object.values(supportedLanguages).includes(language)) {
+            setLanguage("python");
+            return;
+        }
         localStorage.setItem("preferredLanguage", language);
         setCode(
             () =>
