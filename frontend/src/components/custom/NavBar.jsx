@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button.jsx";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet.jsx";
 import AuthContext from "@/context/auth-provider.jsx";
-import { Terminal, ArrowRight } from "lucide-react";
+import { Terminal, ArrowRight, Zap } from "lucide-react";
 import { useContext, useEffect, useRef } from "react";
 import { Link, useNavigation } from "react-router-dom";
 import { LogOut } from "lucide-react";
@@ -80,7 +80,11 @@ export default function NavBar() {
                             </Button>
                         </div>
                     ) : (
-                        <div>
+                        <div className="flex flex-row items-center gap-4">
+                            <div className="flex flex-row gap-1 items-center">
+                                <Zap height={20} />
+                                {user.points ?? 0}
+                            </div>
                             <AlertDialog>
                                 <AlertDialogTrigger>
                                     <Button

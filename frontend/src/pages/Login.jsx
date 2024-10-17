@@ -45,6 +45,7 @@ function Login() {
                 name: res.data.user.name,
                 email: res.data.user.email,
                 token: res.data.token,
+                points: res.data.user.points,
                 isAuthenticated: true,
             });
             toast({

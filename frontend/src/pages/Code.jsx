@@ -32,13 +32,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { shikiToMonaco } from "@shikijs/monaco";
 import { createHighlighter } from "shiki";
+import getUserPoints from "@/utils/getUserPoints";
 
 function Code() {
     const problemStatement = useLoaderData();
     const [submitting, setSubmitting] = useState(false);
     const [running, setRunning] = useState(false);
     const { id } = useParams();
-    const { user } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
     const [language, setLanguage] = useState(
         () => localStorage.getItem("preferredLanguage") || "python",
     );
@@ -165,6 +166,10 @@ function Code() {
                         description: "All testcases passed",
                     });
                     setShowDialog(true);
+                    const points = await getUserPoints(user.token);
+                    if (updatedPoints.success) {
+                        setUser({ ...user, points: updatedPoints.data.points });
+                    }
                 } else {
                     setOutput(res.data.logs);
                 }

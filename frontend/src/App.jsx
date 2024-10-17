@@ -17,12 +17,14 @@ import axios from "axios";
 import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOtp from "./pages/VerifyOtp";
 import ResetPassword from "./pages/ResetPassword";
+import getUserPoints from "./utils/getUserPoints";
 
 function App() {
     const initialState = {
         name: null,
         email: null,
         token: null,
+        points: 0,
         isAuthenticated: false,
     };
     const [user, setUser] = useState(
@@ -160,6 +162,12 @@ function App() {
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(user));
     }, [user]);
+
+    useEffect(() => {
+        getUserPoints(user.token).then((res) =>
+            setUser({ ...user, points: res.success ? res.data.points : 0 }),
+        );
+    }, [user.points]);
 
     return (
         <div className="font-inter overflow-x-hidden">

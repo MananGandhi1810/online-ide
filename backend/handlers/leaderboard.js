@@ -4,30 +4,21 @@ const prisma = new PrismaClient();
 
 const getCurrentStandings = async (req, res) => {
     const topTenUsers = await prisma.user.findMany({
-        include: {
-            _count: {
-                select: {
-                    submissions: {
-                        where: {
-                            success: true,
-                        },
-                    },
-                },
-            },
-        },
         where: {
-            submissions: {
-                some: {
-                    success: true,
+            NOT: {
+                points: {
+                    equals: 0,
                 },
             },
         },
         orderBy: {
-            submissions: {
-                _count: "desc",
-            },
+            points: "desc",
         },
-        take: 10,
+        select: {
+            id: true,
+            name: true,
+            points: true,
+        },
     });
     res.json({
         success: true,
@@ -38,4 +29,14 @@ const getCurrentStandings = async (req, res) => {
     });
 };
 
-export { getCurrentStandings };
+const getUserPoints = async (req, res) => {
+    res.json({
+        success: true,
+        message: "Fetched points succesfully",
+        data: {
+            points: req.user.points,
+        },
+    });
+};
+
+export { getCurrentStandings, getUserPoints };
