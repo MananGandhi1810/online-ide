@@ -32,6 +32,7 @@ Online IDE, built using Express.js and React.js
 -   Dockerode (for managing docker containers)
 -   Resend (for sending emails)
 -   Shadcn/UI (for frontend components)
+-   Shiki.js with Monaco Editor (for syntax highlighting)
 
 ## Setup
 
