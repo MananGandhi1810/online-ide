@@ -9,7 +9,7 @@ function Home() {
         <div className="h-full-w-nav w-screen flex justify-center items-center">
             <DotPattern
                 className={cn(
-                    "[mask-image:radial-gradient(900px_circle_at_center,white,transparent)]",
+                    "lg:[mask-image:radial-gradient(800px_circle_at_center,white,transparent)] md:[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
                 )}
             />
             <div className="container px-4 md:px-6">
