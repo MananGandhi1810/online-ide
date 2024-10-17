@@ -26,10 +26,11 @@ model User {
     name              String?
     password          String
     isVerified        Boolean      @default(false)
+    points            Int          @default(0)
+    submissions       Submission[]
     createdAt         DateTime     @default(now())
     updatedAt         DateTime     @updatedAt
     passwordUpdatedAt DateTime     @default(now())
-    submissions       Submission[]
     admin             Boolean      @default(false)
 }
 

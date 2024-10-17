@@ -32,6 +32,9 @@ const executeFromQueue = async (message, channel) => {
     }
     const submission = await prisma.submission.findUnique({
         where: { id: submissionId },
+        include: {
+            User: true,
+        },
     });
     if (!submission && !temp) {
         return;
@@ -143,6 +146,38 @@ const executeFromQueue = async (message, channel) => {
     try {
         await container.remove();
     } catch (e) {}
+    if (correctResult && !temp) {
+        const isSolvedByUser = await prisma.submission.count({
+            where: {
+                problemStatementId,
+                userId: submission.User.id,
+                success: true,
+            },
+        });
+        if (isSolvedByUser == 1) {
+            const failedAttempts = await prisma.submission.count({
+                where: {
+                    problemStatementId,
+                    userId: submission.User.id,
+                    success: false,
+                },
+            });
+            const updated = await prisma.user.update({
+                where: {
+                    id: submission.User.id,
+                },
+                data: {
+                    points: {
+                        increment: failedAttempts == 0 ? 10 : 5,
+                    },
+                },
+                select: {
+                    points: true,
+                },
+            });
+            console.log(updated.points);
+        }
+    }
 };
 
 export { executeFromQueue };

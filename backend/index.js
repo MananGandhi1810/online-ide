@@ -3,7 +3,7 @@ import cors from "cors";
 import authRouter from "./router/auth.js";
 import codeRouter from "./router/code.js";
 import problemStatementRouter from "./router/problem-statement.js";
-import leaderboard  from "./router/leaderboard.js";
+import leaderboard from "./router/leaderboard.js";
 import logger from "morgan";
 
 const app = express();
@@ -33,6 +33,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = req.app.get("env") === "development" ? err : {};
+    console.log(err);
 
     res.status(err.status || 500).json({
         success: false,
