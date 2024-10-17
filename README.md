@@ -17,6 +17,7 @@ Online IDE, built using Express.js and React.js
 -   Sandboxed Code Execution
     -   Docker container for each code execution
     -   Limit time used by code
+-   Test code against sample test cases before submission
 -   Verify output against hidden test cases
 -   Save code to local storage
 
