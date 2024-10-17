@@ -30,6 +30,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { shikiToMonaco } from "@shikijs/monaco";
+import { createHighlighter } from "shiki";
 
 function Code() {
     const problemStatement = useLoaderData();
@@ -212,6 +214,19 @@ function Code() {
         }
     };
 
+    const setupCangjie = (monaco) => {
+        monaco.languages.register({ id: "cangjie" });
+
+        (async function () {
+            const highlighter = await createHighlighter({
+                themes: ["vitesse-dark"],
+                langs: Object.values(supportedLanguages),
+            });
+
+            shikiToMonaco(highlighter, monaco);
+        })();
+    };
+
     if (problemStatement == null) {
         return (
             <div className="w-screen h-full-w-nav flex justify-center align-middle">
@@ -365,6 +380,7 @@ function Code() {
                                         defaultValue={initialCode[language]}
                                         value={code}
                                         onChange={(value) => setCode(value)}
+                                        beforeMount={setupCangjie}
                                     />
                                 </div>
                             </div>
