@@ -10,7 +10,7 @@ Online IDE, built using Express.js and React.js
     -   Email token verification
     -   Forgot password with OTP
 -   Code Editor
-    -   Syntax Highlighting
+    -   Syntax Highlighting (with Shiki.js)
     -   4 Languages Supported (Python, C, C++, Java)
     -   Problem Statements rendered as Markdown, with support for code blocks
     -   Sample Test Cases for each problem with expected output
