@@ -175,10 +175,15 @@ function Code() {
                         description: "All testcases passed",
                     });
                     setShowDialog(true);
-                    const updatedPoints = await getUserPoints(user.token);
-                    if (updatedPoints.success) {
-                        setUser({ ...user, points: updatedPoints.data.points });
-                    }
+                    setTimeout(async () => {
+                        const updatedPoints = await getUserPoints(user.token);
+                        if (updatedPoints.success) {
+                            setUser({
+                                ...user,
+                                points: updatedPoints.data.points,
+                            });
+                        }
+                    }, 250);
                 } else {
                     setOutput(res.data.logs);
                 }

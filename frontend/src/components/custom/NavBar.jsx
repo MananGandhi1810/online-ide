@@ -17,6 +17,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import LoadingBar from "react-top-loading-bar";
+import NumberTicker from "../ui/number-ticker";
 
 export default function NavBar() {
     const { user, setUser } = useContext(AuthContext);
@@ -89,7 +90,7 @@ export default function NavBar() {
                         <div className="flex flex-row items-center gap-4">
                             <div className="flex flex-row gap-1 items-center">
                                 <Zap height={20} />
-                                {user.points ?? 0}
+                                <NumberTicker value={user.points} />
                             </div>
                             <AlertDialog>
                                 <AlertDialogTrigger>
