@@ -34,10 +34,12 @@ export default function NavBar() {
 
     const logout = () => {
         setUser({
+            id: null,
             email: null,
             name: null,
             token: null,
             isAuthenticated: false,
+            point: 0,
         });
     };
 

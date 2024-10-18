@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     Table,
     TableBody,
@@ -9,9 +9,13 @@ import {
 } from "@/components/ui/table.jsx";
 import { useLoaderData } from "react-router-dom";
 import { Zap } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import AuthContext from "@/context/auth-provider";
 
 function Leaderboard() {
     const leaderboard = useLoaderData();
+    const { user: currentUser } = useContext(AuthContext);
+    console.log(currentUser)
 
     if (leaderboard == null) {
         return (
@@ -46,6 +50,11 @@ function Leaderboard() {
                                 <TableRow key={user.id}>
                                     <TableCell className="overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center">
                                         {user.name}
+                                        {user.id == currentUser.id ? (
+                                            <Badge variant="primary">You</Badge>
+                                        ) : (
+                                            <div />
+                                        )}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-row gap-1 items-center">

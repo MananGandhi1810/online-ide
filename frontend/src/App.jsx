@@ -22,6 +22,7 @@ import Leaderboard from "./pages/Leaderboard";
 
 function App() {
     const initialState = {
+        id: null,
         name: null,
         email: null,
         token: null,
