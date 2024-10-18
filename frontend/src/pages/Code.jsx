@@ -234,7 +234,7 @@ function Code() {
 
     if (problemStatement == null) {
         return (
-            <div className="w-screen h-full-w-nav flex justify-center align-middle">
+            <div className="w-screen h-full-w-nav flex justify-center align-middle items-center">
                 An error occurred while fetching problem statement
             </div>
         );

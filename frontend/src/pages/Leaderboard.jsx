@@ -15,7 +15,7 @@ function Leaderboard() {
 
     if (leaderboard == null) {
         return (
-            <div className="w-screen h-full-w-nav flex justify-center align-middle">
+            <div className="w-screen h-full-w-nav flex justify-center align-middle items-center">
                 An error occurred while fetching leaderboard
             </div>
         );
@@ -23,7 +23,7 @@ function Leaderboard() {
 
     if (leaderboard.length == 0) {
         return (
-            <div className="w-screen h-full-w-nav flex justify-center align-middle">
+            <div className="w-screen h-full-w-nav flex justify-center align-middle items-center">
                 No users found
             </div>
         );
