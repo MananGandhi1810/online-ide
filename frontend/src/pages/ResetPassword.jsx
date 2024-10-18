@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button.jsx";
 import {
     Card,
@@ -11,7 +11,6 @@ import {
 import { Label } from "@/components/ui/label.jsx";
 import { PasswordInput } from "@/components/ui/password-input.jsx";
 import { Loader2 } from "lucide-react";
-import AuthContext from "@/context/auth-provider.jsx";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast.js";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -21,7 +20,6 @@ function ResetPassword() {
     const { email, token } = location.state;
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const { setUser } = useContext(AuthContext);
     const { toast } = useToast();
     const navigate = useNavigate();
 
