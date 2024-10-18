@@ -12,12 +12,19 @@ import { Zap } from "lucide-react";
 
 function Leaderboard() {
     const leaderboard = useLoaderData();
-    console.log(leaderboard);
 
     if (leaderboard == null) {
         return (
             <div className="w-screen h-full-w-nav flex justify-center align-middle">
                 An error occurred while fetching leaderboard
+            </div>
+        );
+    }
+
+    if (leaderboard.length == 0) {
+        return (
+            <div className="w-screen h-full-w-nav flex justify-center align-middle">
+                No users found
             </div>
         );
     }
@@ -35,7 +42,6 @@ function Leaderboard() {
                     </TableHeader>
                     <TableBody>
                         {leaderboard.map((user) => {
-                            console.log(user);
                             return (
                                 <TableRow key={user.id}>
                                     <TableCell className="overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center">
