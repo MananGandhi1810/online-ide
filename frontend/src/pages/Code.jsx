@@ -166,7 +166,7 @@ function Code() {
                         description: "All testcases passed",
                     });
                     setShowDialog(true);
-                    const points = await getUserPoints(user.token);
+                    const updatedPoints = await getUserPoints(user.token);
                     if (updatedPoints.success) {
                         setUser({ ...user, points: updatedPoints.data.points });
                     }
