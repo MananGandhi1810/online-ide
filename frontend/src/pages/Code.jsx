@@ -36,6 +36,15 @@ import getUserPoints from "@/utils/getUserPoints";
 
 function Code() {
     const problemStatement = useLoaderData();
+
+    if (problemStatement == null) {
+        return (
+            <div className="w-screen h-full-w-nav flex justify-center align-middle items-center">
+                Could not find this problem statement
+            </div>
+        );
+    }
+
     const [submitting, setSubmitting] = useState(false);
     const [running, setRunning] = useState(false);
     const { id } = useParams();
@@ -231,14 +240,6 @@ function Code() {
             shikiToMonaco(highlighter, monaco);
         })();
     };
-
-    if (problemStatement == null) {
-        return (
-            <div className="w-screen h-full-w-nav flex justify-center align-middle items-center">
-                An error occurred while fetching problem statement
-            </div>
-        );
-    }
 
     return (
         <div className="w-screen h-full-w-nav">
