@@ -5,10 +5,8 @@ const prisma = new PrismaClient();
 const getCurrentStandings = async (req, res) => {
     const topTenUsers = await prisma.user.findMany({
         where: {
-            NOT: {
-                points: {
-                    equals: 0,
-                },
+            points: {
+                gt: 0,
             },
         },
         orderBy: {
