@@ -18,6 +18,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOtp from "./pages/VerifyOtp";
 import ResetPassword from "./pages/ResetPassword";
 import getUserPoints from "./utils/getUserPoints";
+import Leaderboard from "./pages/Leaderboard";
 
 function App() {
     const initialState = {
@@ -125,6 +126,26 @@ function App() {
                         return res.data.problemStatements;
                     },
                     element: <Problems />,
+                },
+                {
+                    path: "/leaderboard",
+                    loader: async () => {
+                        var res;
+                        try {
+                            res = await axios
+                                .get(`${process.env.SERVER_URL}/leaderboard`, {
+                                    validateStatus: false,
+                                })
+                                .then((res) => res.data);
+                        } catch (e) {
+                            return null;
+                        }
+                        if (!res.success) {
+                            return null;
+                        }
+                        return res.data.leaderboard;
+                    },
+                    element: <Leaderboard />,
                 },
                 {
                     path: "/problem/:id",

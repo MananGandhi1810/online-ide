@@ -65,6 +65,12 @@ export default function NavBar() {
                     >
                         Problems
                     </Link>
+                    <Link
+                        to="/leaderboard"
+                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all after:duration-300"
+                    >
+                        Leaderboard
+                    </Link>
                 </nav>
                 <div className="flex items-center justify-end flex-1 gap-4">
                     {!user.isAuthenticated ? (
@@ -142,6 +148,12 @@ export default function NavBar() {
                                     className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
                                 >
                                     Problems
+                                </Link>
+                                <Link
+                                    to="/leaderboard"
+                                    className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                                >
+                                    Leaderboard
                                 </Link>
                             </div>
                         </SheetContent>
