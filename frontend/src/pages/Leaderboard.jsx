@@ -15,7 +15,7 @@ import AuthContext from "@/context/auth-provider";
 function Leaderboard() {
     const leaderboard = useLoaderData();
     const { user: currentUser } = useContext(AuthContext);
-    console.log(currentUser)
+    console.log(currentUser);
 
     if (leaderboard == null) {
         return (
@@ -51,7 +51,7 @@ function Leaderboard() {
                                     <TableCell className="overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center">
                                         {user.name}
                                         {user.id == currentUser.id ? (
-                                            <Badge variant="primary">You</Badge>
+                                            <Badge>You</Badge>
                                         ) : (
                                             <div />
                                         )}
