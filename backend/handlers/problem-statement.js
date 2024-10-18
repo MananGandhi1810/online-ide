@@ -5,17 +5,21 @@ const prisma = new PrismaClient();
 const getProblemStatements = async (req, res) => {
     var problemStatements = await prisma.problemStatement.findMany({
         include: {
-            submissions: {
-                where: { userId: req.user.id },
-                select: { success: true },
+            _count: {
+                select: {
+                    submissions: {
+                        where: {
+                            userId: req.user.id,
+                            success: true,
+                        },
+                    },
+                },
             },
         },
     });
     problemStatements = problemStatements.map((problemStatement) => {
-        problemStatement.solved = problemStatement.submissions.some(
-            (submission) => submission.success,
-        );
-        problemStatement.submissions = undefined;
+        problemStatement.solved = problemStatement._count.submissions > 0;
+        problemStatement._count = undefined;
         return problemStatement;
     });
     res.json({
