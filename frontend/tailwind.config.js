@@ -75,7 +75,7 @@ export default {
         require("tailwind-typewriter")({
             wordsets: {
                 "home-heading": {
-                    words: ["Master Coding Problems"],
+                    words: ["Master Coding Challenges"],
                     delay: 0.5,
                     writeSpeed: 0.25,
                     repeat: -1,
