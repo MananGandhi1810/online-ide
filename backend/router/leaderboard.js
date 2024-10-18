@@ -4,7 +4,7 @@ import { getCurrentStandings, getUserPoints } from "../handlers/leaderboard.js";
 
 var router = Router();
 
-router.get("/", checkAuth, getCurrentStandings);
+router.get("/", getCurrentStandings);
 router.get("/getUserPoints", checkAuth, getUserPoints);
 
 export default router;

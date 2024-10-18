@@ -22,7 +22,7 @@ const getCurrentStandings = async (req, res) => {
         success: true,
         message: "Leaderboard loaded succesfully",
         data: {
-            topTenUsers,
+            leaderboard: topTenUsers,
         },
     });
 };
