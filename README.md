@@ -20,6 +20,11 @@ Online IDE, built using Express.js and React.js
 -   Test code against sample test cases before submission
 -   Verify output against hidden test cases
 -   Save code to local storage
+-   Points
+    -   +10 if the user solves a problem statement in the first submission
+    -   +5 if the user solves a problem statement in more than one submission
+    -   no points awarded if user solves a problem statement correctly more than once
+-   Leaderboard ranking based on points
 
 ## Tech Stack
 
