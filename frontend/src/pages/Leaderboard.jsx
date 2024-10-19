@@ -40,14 +40,16 @@ function Leaderboard() {
                 <Table>
                     <TableHeader>
                         <TableRow>
+                            <TableHead className="w-10">Rank</TableHead>
                             <TableHead>User</TableHead>
                             <TableHead className="w-28">Points</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {leaderboard.map((user) => {
+                        {leaderboard.map((user, rank) => {
                             return (
                                 <TableRow key={user.id}>
+                                    <TableCell>#{rank + 1}</TableCell>
                                     <TableCell className="overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center">
                                         {user.name}
                                         {user.id == currentUser.id ? (
