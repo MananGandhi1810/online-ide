@@ -33,6 +33,12 @@ import {
 import { shikiToMonaco } from "@shikijs/monaco";
 import { createHighlighter } from "shiki";
 import getUserPoints from "@/utils/getUserPoints";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function Code() {
     const problemStatement = useLoaderData();
@@ -358,13 +364,24 @@ function Code() {
                                             Running
                                         </Button>
                                     ) : (
-                                        <Button
-                                            onClick={() => run(true)}
-                                            className="z-10 self-end"
-                                        >
-                                            <Play className="mr-2 h-4 w-4" />
-                                            Run
-                                        </Button>
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger>
+                                                    <Button
+                                                        onClick={() =>
+                                                            run(true)
+                                                        }
+                                                        className="z-10 self-end"
+                                                    >
+                                                        <Play className="mr-2 h-4 w-4" />
+                                                        Run
+                                                    </Button>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>Ctrl + '</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
                                     )}
                                     {submitting ? (
                                         <Button
@@ -375,13 +392,24 @@ function Code() {
                                             Submitting
                                         </Button>
                                     ) : (
-                                        <Button
-                                            onClick={() => run(false)}
-                                            className="z-10 self-end"
-                                        >
-                                            <Upload className="mr-2 h-4 w-4" />
-                                            Submit
-                                        </Button>
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger>
+                                                    <Button
+                                                        onClick={() =>
+                                                            run(false)
+                                                        }
+                                                        className="z-10 self-end"
+                                                    >
+                                                        <Upload className="mr-2 h-4 w-4" />
+                                                        Submit
+                                                    </Button>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>Ctrl + Enter</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
                                     )}
                                 </div>
                                 <div className="h-full">
