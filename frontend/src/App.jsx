@@ -52,7 +52,13 @@ function App() {
             setUser(initialState);
             return;
         }
-        setUser(res.data);
+        setUser({
+            ...user,
+            id: res.data.id,
+            name: res.data.name,
+            email: res.data.email,
+            points: res.data.points,
+        });
     };
 
     useEffect(() => {
