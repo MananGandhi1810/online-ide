@@ -36,6 +36,29 @@ function App() {
             ) || initialState,
     );
 
+    const fetchUserData = async () => {
+        if (!user.isAuthenticated) {
+            return;
+        }
+        const res = await axios
+            .get(`${process.env.SERVER_URL}/auth/user`, {
+                headers: {
+                    authorization: `Bearer ${user.token}`,
+                },
+                validateStatus: false,
+            })
+            .then((res) => res.data);
+        if (!res.success) {
+            setUser(initialState);
+            return;
+        }
+        setUser(res.data);
+    };
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
     const router = createBrowserRouter([
         {
             element: <Layout />,
