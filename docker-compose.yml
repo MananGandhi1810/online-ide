@@ -1,7 +1,7 @@
 name: online-ide
 
 services:
-    online-ide:
+    backend:
         image: ghcr.io/manangandhi1810/online-ide:latest
         restart: unless-stopped
         ports:
