@@ -19,6 +19,7 @@ import VerifyOtp from "./pages/VerifyOtp";
 import ResetPassword from "./pages/ResetPassword";
 import getUserPoints from "./utils/getUserPoints";
 import Leaderboard from "./pages/Leaderboard";
+import NoPageFound from "./pages/NoPageFound";
 
 function App() {
     const initialState = {
@@ -205,6 +206,10 @@ function App() {
                         return res.data.problemStatement;
                     },
                     element: <Code />,
+                },
+                {
+                    path: "*",
+                    element: <NoPageFound />,
                 },
             ],
         },
