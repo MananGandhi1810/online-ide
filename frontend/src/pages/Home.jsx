@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button.jsx";
 import {
     ArrowRight,
-    Github,
-    GithubIcon,
     SquareArrowOutUpRight,
 } from "lucide-react";
 import { Link } from "react-router-dom";
