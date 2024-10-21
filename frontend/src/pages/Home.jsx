@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button.jsx";
-import { ArrowRight } from "lucide-react";
+import {
+    ArrowRight,
+    Github,
+    GithubIcon,
+    SquareArrowOutUpRight,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { cn } from "@/lib/utils";
@@ -27,6 +32,14 @@ function Home() {
                             <Link to="/problems">
                                 Start Coding
                                 <ArrowRight className="ml-2 z-10 group-hover:ml-3 duration-200" />
+                            </Link>
+                        </Button>
+                    </div>
+                    <div className="space-4">
+                        <Button className="group" asChild>
+                            <Link to="https://github.com/MananGandhi1810/online-ide">
+                                View Source Code
+                                <SquareArrowOutUpRight className="ml-2 size-[20px] z-10 group-hover:ml-3 duration-200" />
                             </Link>
                         </Button>
                     </div>
