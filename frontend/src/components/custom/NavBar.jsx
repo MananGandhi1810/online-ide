@@ -90,8 +90,11 @@ export default function NavBar() {
                         </div>
                     ) : (
                         <div className="flex flex-row items-center gap-4">
-                            <div className="flex flex-row gap-1 items-center">
-                                <Zap height={20} />
+                            <div className="flex flex-row gap-1 items-center group">
+                                <Zap
+                                    className="group-hover:fill-white duration-1000"
+                                    height={20}
+                                />
                                 <NumberTicker value={user.points} />
                             </div>
                             <AlertDialog>
