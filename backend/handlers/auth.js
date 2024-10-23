@@ -433,14 +433,6 @@ const resetPasswordHandler = async (req, res) => {
     });
 };
 
-const userDataHandler = (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "User found",
-        data: req.user,
-    });
-};
-
 export {
     registerHandler,
     verifyHandler,
@@ -449,5 +441,4 @@ export {
     forgotPasswordHandler,
     verifyOtpHandler,
     resetPasswordHandler,
-    userDataHandler,
 };

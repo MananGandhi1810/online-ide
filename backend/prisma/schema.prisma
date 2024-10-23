@@ -27,6 +27,7 @@ model User {
     password          String
     isVerified        Boolean      @default(false)
     points            Int          @default(0)
+    imageUrl          String?
     submissions       Submission[]
     createdAt         DateTime     @default(now())
     updatedAt         DateTime     @updatedAt

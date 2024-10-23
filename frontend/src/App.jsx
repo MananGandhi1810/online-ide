@@ -42,7 +42,7 @@ function App() {
             return;
         }
         const res = await axios
-            .get(`${process.env.SERVER_URL}/auth/user`, {
+            .get(`${process.env.SERVER_URL}/user`, {
                 headers: {
                     authorization: `Bearer ${user.token}`,
                 },
