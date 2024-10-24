@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { Code2, FileText, Trophy, Send } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 function UserData() {
     const userProfile = useLoaderData();
@@ -73,10 +72,10 @@ function UserData() {
                             <p className="text-sm text-muted-foreground">
                                 Most Used Language
                             </p>
-                            <Badge variant="secondary">
+                            <p className="text-xl font-semibold">
                                 {mostUsedLanguage.charAt(0).toUpperCase() +
                                     mostUsedLanguage.slice(1)}
-                            </Badge>
+                            </p>
                         </div>
                     </div>
                 </div>
