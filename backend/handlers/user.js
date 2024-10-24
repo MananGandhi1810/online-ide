@@ -27,6 +27,9 @@ const getUserByIdHandler = async (req, res) => {
             name: true,
             points: true,
             submissions: {
+                orderBy: {
+                    time: "desc",
+                },
                 select: {
                     id: true,
                     language: true,
