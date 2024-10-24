@@ -7,7 +7,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table.jsx";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { Zap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import AuthContext from "@/context/auth-provider";
@@ -15,7 +15,7 @@ import AuthContext from "@/context/auth-provider";
 function Leaderboard() {
     const leaderboard = useLoaderData();
     const { user: currentUser } = useContext(AuthContext);
-    console.log(currentUser);
+    const navigate = useNavigate();
 
     if (leaderboard == null) {
         return (
@@ -48,9 +48,13 @@ function Leaderboard() {
                     <TableBody>
                         {leaderboard.map((user, rank) => {
                             return (
-                                <TableRow key={user.id}>
+                                <TableRow
+                                    key={user.id}
+                                    className="group hover:cursor-pointer"
+                                    onClick={() => navigate(`/user/${user.id}`)}
+                                >
                                     <TableCell>#{rank + 1}</TableCell>
-                                    <TableCell className="overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center">
+                                    <TableCell className="overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center group-hover:underline">
                                         {user.name}
                                         {user.id == currentUser.id ? (
                                             <Badge>You</Badge>

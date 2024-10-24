@@ -20,6 +20,7 @@ import ResetPassword from "./pages/ResetPassword";
 import getUserPoints from "./utils/getUserPoints";
 import Leaderboard from "./pages/Leaderboard";
 import NoPageFound from "./pages/NoPageFound";
+import UserData from "./pages/UserData";
 
 function App() {
     const initialState = {
@@ -206,6 +207,32 @@ function App() {
                         return res.data.problemStatement;
                     },
                     element: <Code />,
+                },
+                {
+                    path: "/user/:id",
+                    loader: async ({ params: { id } }) => {
+                        if (!user.isAuthenticated) {
+                            return redirect(`/login?next=/user/${id}`);
+                        }
+                        var res;
+                        try {
+                            res = await axios
+                                .get(`${process.env.SERVER_URL}/user/${id}`, {
+                                    validateStatus: false,
+                                    headers: {
+                                        authorization: `Bearer ${user.token}`,
+                                    },
+                                })
+                                .then((res) => res.data);
+                        } catch (e) {
+                            return null;
+                        }
+                        if (!res.success) {
+                            return null;
+                        }
+                        return res.data.user;
+                    },
+                    element: <UserData />,
                 },
                 {
                     path: "*",
