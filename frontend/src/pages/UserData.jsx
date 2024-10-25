@@ -30,7 +30,7 @@ function UserData() {
     }, []);
 
     return (
-        <div className="flex">
+        <div className="flex w-full h-full-w-nav items-center justify-center">
             <div className="max-w-2xl mx-auto p-6 space-y-8">
                 <header className="text-center">
                     <h1 className="text-3xl font-bold">{userProfile.name}</h1>
