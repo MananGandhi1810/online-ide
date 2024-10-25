@@ -17,7 +17,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import LoadingBar from "react-top-loading-bar";
-import NumberTicker from "../ui/number-ticker";
+import NumberTicker from "@/components/ui/number-ticker";
 
 export default function NavBar() {
     const { user, setUser } = useContext(AuthContext);

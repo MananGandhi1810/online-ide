@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { Code2, FileText, Zap, Send } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import NumberTicker from "@/components/ui/number-ticker";
 
 function UserData() {
     const userProfile = useLoaderData();
@@ -46,9 +47,10 @@ function UserData() {
                             <p className="text-sm text-muted-foreground">
                                 Questions Solved
                             </p>
-                            <p className="text-xl font-semibold">
-                                {totalProblems}
-                            </p>
+                            <NumberTicker
+                                className="text-xl font-semibold"
+                                value={totalProblems}
+                            />
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -57,9 +59,10 @@ function UserData() {
                             <p className="text-sm text-muted-foreground">
                                 Total Submissions
                             </p>
-                            <p className="text-xl font-semibold">
-                                {totalSubmissions}
-                            </p>
+                            <NumberTicker
+                                className="text-xl font-semibold"
+                                value={totalSubmissions}
+                            />
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -68,9 +71,10 @@ function UserData() {
                             <p className="text-sm text-muted-foreground">
                                 Points
                             </p>
-                            <p className="text-xl font-semibold">
-                                {userProfile.points.toLocaleString()}
-                            </p>
+                            <NumberTicker
+                                className="text-xl font-semibold"
+                                value={userProfile.points.toLocaleString()}
+                            />
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
