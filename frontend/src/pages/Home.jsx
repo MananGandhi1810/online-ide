@@ -1,8 +1,5 @@
 import { Button } from "@/components/ui/button.jsx";
-import {
-    ArrowRight,
-    SquareArrowOutUpRight,
-} from "lucide-react";
+import { ArrowRight, SquareArrowOutUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { cn } from "@/lib/utils";

@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { Code2, FileText, Trophy, Send } from "lucide-react";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 
 function UserData() {
     const userProfile = useLoaderData();
@@ -31,12 +37,12 @@ function UserData() {
 
     return (
         <div className="flex w-full h-full-w-nav items-center justify-center">
-            <div className="max-w-2xl mx-auto p-6 space-y-8">
-                <header className="text-center">
-                    <h1 className="text-3xl font-bold">{userProfile.name}</h1>
-                </header>
+            <Card className="max-w-2xl mx-auto px-12 py-8 space-y-3">
+                <CardHeader className="text-center">
+                    <CardTitle className="text-4xl font-bold">{userProfile.name}</CardTitle>
+                </CardHeader>
 
-                <div className="grid grid-cols-2 gap-4">
+                <CardContent className="grid grid-cols-2 gap-4">
                     <div className="flex items-center gap-2">
                         <FileText className="w-5 h-5 text-primary" />
                         <div>
@@ -82,8 +88,8 @@ function UserData() {
                             </p>
                         </div>
                     </div>
-                </div>
-            </div>
+                </CardContent>
+            </Card>
         </div>
     );
 }
