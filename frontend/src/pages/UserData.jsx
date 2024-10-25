@@ -5,24 +5,28 @@ import { Code2, FileText, Trophy, Send } from "lucide-react";
 function UserData() {
     const userProfile = useLoaderData();
     const totalSubmissions = userProfile.submissions.length;
-    var [mostUsedLanguage, setMostUsedLanguage] = useState("");
+    const [mostUsedLanguage, setMostUsedLanguage] = useState("");
+    const [totalProblems, setTotalProblems] = useState(0);
 
     useEffect(() => {
         const freqMap = {};
-
         for (const submission of userProfile.submissions) {
             freqMap[submission.language] =
                 (freqMap[submission.language] || 0) + 1;
         }
-
         let maxFreq = 0;
-
         for (const language in freqMap) {
             if (freqMap[language] > maxFreq) {
                 maxFreq = freqMap[language];
                 setMostUsedLanguage(language);
             }
         }
+
+        var problems = new Set();
+        for (var i = 0; i < userProfile.submissions.length; i++) {
+            problems.add(userProfile.submissions[i].problemStatementId);
+        }
+        setTotalProblems(problems.size);
     }, []);
 
     return (
@@ -40,7 +44,7 @@ function UserData() {
                                 Questions Solved
                             </p>
                             <p className="text-xl font-semibold">
-                                {userProfile.questionsSolved}
+                                {totalProblems}
                             </p>
                         </div>
                     </div>
