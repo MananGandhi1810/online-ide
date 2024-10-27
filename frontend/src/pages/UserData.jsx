@@ -10,6 +10,14 @@ function UserData() {
     const [mostUsedLanguage, setMostUsedLanguage] = useState("");
     const [totalProblems, setTotalProblems] = useState(0);
 
+    if (!userProfile) {
+        return (
+            <div className="w-screen h-full-w-nav flex justify-center align-middle items-center">
+                An error occurred while fetching user details
+            </div>
+        );
+    }
+
     useEffect(() => {
         const freqMap = {};
         for (const submission of userProfile.submissions) {
