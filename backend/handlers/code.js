@@ -7,7 +7,7 @@ const languages = ["python", "c", "cpp", "java"];
 
 const prisma = new PrismaClient();
 
-const queueCode = async (req, res, isTempRun = false) => {
+const queueCodeHandler = async (req, res, isTempRun = false) => {
     const { problemStatementId, language } = req.params;
     if (!language || !languages.includes(language)) {
         return res.status(404).json({
@@ -85,7 +85,7 @@ const queueCode = async (req, res, isTempRun = false) => {
     }
 };
 
-const checkExecution = async (req, res, isTempRun = false) => {
+const checkExecutionHandler = async (req, res, isTempRun = false) => {
     const { submissionId } = req.params;
     if (!submissionId || submissionId.trim() == "") {
         return res.status(400).json({
@@ -140,4 +140,4 @@ const checkExecution = async (req, res, isTempRun = false) => {
     });
 };
 
-export { queueCode, checkExecution };
+export { queueCodeHandler, checkExecutionHandler };

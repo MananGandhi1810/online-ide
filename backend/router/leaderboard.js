@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { checkAuth } from "../middlewares/auth.js";
-import { getCurrentStandings, getUserPoints } from "../handlers/leaderboard.js";
+import { getLeaderboardHandler, getUserPointsHandler } from "../handlers/leaderboard.js";
 
 var router = Router();
 
-router.get("/", getCurrentStandings);
-router.get("/getUserPoints", checkAuth, getUserPoints);
+router.get("/", getLeaderboardHandler);
+router.get("/getUserPoints", checkAuth, getUserPointsHandler);
 
 export default router;

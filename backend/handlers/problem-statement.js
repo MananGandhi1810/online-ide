@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const getProblemStatements = async (req, res) => {
+const getProblemStatementsHandler = async (req, res) => {
     var problemStatements = await prisma.problemStatement.findMany({
         include: {
             _count: {
@@ -31,7 +31,7 @@ const getProblemStatements = async (req, res) => {
     });
 };
 
-const getProblemStatementById = async (req, res) => {
+const getProblemStatementByIdHandler = async (req, res) => {
     const { problemStatementId } = req.params;
     if (!problemStatementId) {
         return res.status(400).json({
@@ -62,7 +62,7 @@ const getProblemStatementById = async (req, res) => {
     });
 };
 
-const newProblemStatement = async (req, res) => {
+const newProblemStatementHandler = async (req, res) => {
     const { title, description, difficulty, testCases } = req.body;
     if (
         !title ||
@@ -116,7 +116,7 @@ const newProblemStatement = async (req, res) => {
     });
 };
 
-const editProblemStatement = async (req, res) => {
+const editProblemStatementHandler = async (req, res) => {
     const { problemStatementId } = req.params;
     if (!problemStatementId) {
         return res.status(400).json({
@@ -191,7 +191,7 @@ const editProblemStatement = async (req, res) => {
     });
 };
 
-const deleteProblemStatement = async (req, res) => {
+const deleteProblemStatementHandler = async (req, res) => {
     const { problemStatementId } = req.params;
     if (!problemStatementId) {
         return res.status(400).json({
@@ -232,9 +232,9 @@ const deleteProblemStatement = async (req, res) => {
 };
 
 export {
-    getProblemStatements,
-    getProblemStatementById,
-    newProblemStatement,
-    editProblemStatement,
-    deleteProblemStatement,
+    getProblemStatementsHandler,
+    getProblemStatementByIdHandler,
+    newProblemStatementHandler,
+    editProblemStatementHandler,
+    deleteProblemStatementHandler,
 };

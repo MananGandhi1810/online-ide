@@ -1,31 +1,31 @@
 import { Router } from "express";
 import { checkAuth } from "../middlewares/auth.js";
 import {
-    getProblemStatements,
-    getProblemStatementById,
-    newProblemStatement,
-    editProblemStatement,
-    deleteProblemStatement,
+    getProblemStatementsHandler,
+    getProblemStatementByIdHandler,
+    newProblemStatementHandler,
+    editProblemStatementHandler,
+    deleteProblemStatementHandler,
 } from "../handlers/problem-statement.js";
 
 var router = Router();
 
-router.get("/all", checkAuth, getProblemStatements);
-router.get("/:problemStatementId", checkAuth, getProblemStatementById);
+router.get("/all", checkAuth, getProblemStatementsHandler);
+router.get("/:problemStatementId", checkAuth, getProblemStatementByIdHandler);
 router.post(
     "/new",
     (req, res, next) => checkAuth(req, res, next, true),
-    newProblemStatement,
+    newProblemStatementHandler,
 );
 router.put(
     "/edit/:problemStatementId",
     (req, res, next) => checkAuth(req, res, next, true),
-    editProblemStatement,
+    editProblemStatementHandler,
 );
 router.delete(
     "/delete/:problemStatementId",
     (req, res, next) => checkAuth(req, res, next, true),
-    deleteProblemStatement,
+    deleteProblemStatementHandler,
 );
 
 export default router;

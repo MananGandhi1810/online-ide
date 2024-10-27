@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const getCurrentStandings = async (req, res) => {
+const getLeaderboardHandler = async (req, res) => {
     const topTenUsers = await prisma.user.findMany({
         where: {
             points: {
@@ -27,7 +27,7 @@ const getCurrentStandings = async (req, res) => {
     });
 };
 
-const getUserPoints = async (req, res) => {
+const getUserPointsHandler = async (req, res) => {
     res.json({
         success: true,
         message: "Fetched points succesfully",
@@ -37,4 +37,4 @@ const getUserPoints = async (req, res) => {
     });
 };
 
-export { getCurrentStandings, getUserPoints };
+export { getLeaderboardHandler, getUserPointsHandler };
