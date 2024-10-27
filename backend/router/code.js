@@ -16,6 +16,6 @@ router.get("/check/:submissionId", checkAuth, (req, res) =>
 router.get("/checkTemp/:submissionId", checkAuth, (req, res) =>
     checkExecutionHandler(req, res, true),
 );
-router.post("/ai/:language/:problemStatementId", checkAuth, aiHelperHandler);
+router.post("/ai/:problemStatementId/:language", checkAuth, aiHelperHandler);
 
 export default router;
