@@ -2,9 +2,9 @@ import { PrismaClient } from "@prisma/client";
 import { sendQueueMessage } from "../utils/queue-manager.js";
 import { randomNum } from "../utils/generate_otp.js";
 import { get, set } from "../utils/keyvalue-db.js";
+import { chat, getSystemPrompt, getUserPrompt } from "../utils/ai-model.js";
 
 const languages = ["python", "c", "cpp", "java"];
-
 const prisma = new PrismaClient();
 
 const queueCodeHandler = async (req, res, isTempRun = false) => {
@@ -140,4 +140,69 @@ const checkExecutionHandler = async (req, res, isTempRun = false) => {
     });
 };
 
-export { queueCodeHandler, checkExecutionHandler };
+const aiHelperHandler = async (req, res) => {
+    const { problemStatementId, language } = req.params;
+    if (!problemStatementId) {
+        return res.status(400).json({
+            success: false,
+            message: "Problem Statement Id is required",
+            data: null,
+        });
+    }
+    if (!language || !languages.includes(language)) {
+        return res.status(404).json({
+            success: false,
+            message: "Invalid Language",
+            data: null,
+        });
+    }
+    const problemStatement = await prisma.problemStatement.findUnique({
+        where: {
+            id: problemStatementId,
+        },
+        select: {
+            description: true,
+            title: true,
+        },
+    });
+    if (!problemStatement) {
+        return res.status(404).json({
+            success: false,
+            message: "Problem Statement not found",
+            data: null,
+        });
+    }
+    if (!req.body) {
+        return res.status(400).json({
+            success: false,
+            message: "Request body is compulsory",
+            data: null,
+        });
+    }
+    let { code, history, prompt } = req.body;
+    if (!code) {
+        code = "";
+    }
+    if (!history) {
+        history = "";
+    }
+    if (!prompt) {
+        prompt = "";
+    }
+    const systemPrompt = getSystemPrompt(
+        problemStatement.title,
+        problemStatement.description,
+        language,
+    );
+    const generatedPrompt = getUserPrompt(code, prompt);
+    const responseStream = await chat(systemPrompt, history, generatedPrompt);
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.setHeader("Transfer-Encoding", "chunked");
+    for await (const chunk of responseStream) {
+        var result = chunk.choices[0]?.delta?.content;
+        res.write(result);
+    }
+    res.end();
+};
+
+export { queueCodeHandler, checkExecutionHandler, aiHelperHandler };
