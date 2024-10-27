@@ -6,10 +6,7 @@ import NumberTicker from "@/components/ui/number-ticker";
 
 function UserData() {
     const userProfile = useLoaderData();
-    const totalSubmissions = userProfile.submissions.length;
-    const [mostUsedLanguage, setMostUsedLanguage] = useState("");
-    const [totalProblems, setTotalProblems] = useState(0);
-
+    
     if (!userProfile) {
         return (
             <div className="w-screen h-full-w-nav flex justify-center align-middle items-center">
@@ -17,6 +14,10 @@ function UserData() {
             </div>
         );
     }
+
+    const totalSubmissions = userProfile.submissions.length;
+    const [mostUsedLanguage, setMostUsedLanguage] = useState("");
+    const [totalProblems, setTotalProblems] = useState(0);
 
     useEffect(() => {
         const freqMap = {};
