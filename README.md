@@ -41,7 +41,7 @@ Online IDE, built using Express.js and React.js
 -   Resend (for sending emails)
 -   Shadcn/UI (for frontend components)
 -   Shiki.js with Monaco Editor (for code editing with syntax highlighting)
--   Meta LLaMA 3.1B (CloudFlare Workers AI)
+-   Meta LLaMA 3.1 8B (CloudFlare Workers AI)
 
 ## Setup
 
