@@ -536,33 +536,33 @@ function Code() {
                         </ResizablePanel>
                         <ResizableHandle withHandle />
                         <ResizablePanel defaultSize={50}>
-                            <ScrollArea className="h-full items-center justify-center">
-                                <Tabs defaultValue="testcases" value={tabValue}>
-                                    <TabsList>
+                            <Tabs defaultValue="testcases" value={tabValue}>
+                                <TabsList>
+                                    <TabsTrigger
+                                        className="m-0.5"
+                                        value="testcases"
+                                        onClick={() => {
+                                            setTabValue("testcases");
+                                        }}
+                                    >
+                                        Sample Testcases
+                                    </TabsTrigger>
+                                    {output != null ? (
                                         <TabsTrigger
                                             className="m-0.5"
-                                            value="testcases"
+                                            value="output"
                                             onClick={() => {
-                                                setTabValue("testcases");
+                                                setTabValue("output");
                                             }}
                                         >
-                                            Sample Testcases
+                                            Run Output
                                         </TabsTrigger>
-                                        {output != null ? (
-                                            <TabsTrigger
-                                                className="m-0.5"
-                                                value="output"
-                                                onClick={() => {
-                                                    setTabValue("output");
-                                                }}
-                                            >
-                                                Run Output
-                                            </TabsTrigger>
-                                        ) : (
-                                            <div />
-                                        )}
-                                    </TabsList>
-                                    <TabsContent value="testcases">
+                                    ) : (
+                                        <div />
+                                    )}
+                                </TabsList>
+                                <TabsContent value="testcases">
+                                    <ScrollArea className="h-full items-center justify-center">
                                         <div className="p-6">
                                             <p className="text-2xl">
                                                 Sample Test Cases
@@ -631,60 +631,58 @@ function Code() {
                                                 ),
                                             )}
                                         </div>
-                                    </TabsContent>
-                                    {output != null ? (
-                                        <TabsContent value="output">
-                                            <ScrollArea className="flex h-full flex-col gap-5">
-                                                {running ? (
-                                                    <div className="flex justify-center w-full min-h-full items-center">
-                                                        <Loader2 className="mr-2 min-h-full w-4 animate-spin" />
-                                                        Running
-                                                    </div>
-                                                ) : (
-                                                    <div className="p-6">
-                                                        <p className="text-2xl">
-                                                            Code Output
-                                                        </p>
-                                                        {output.map((o, i) => (
-                                                            <div>
-                                                                <p className="mt-3 text-lg">
-                                                                    Test Case{" "}
-                                                                    {i + 1}
-                                                                </p>
-                                                                <div className="bg-code p-2 my-3 rounded font-mono">
-                                                                    {o
-                                                                        .split(
-                                                                            "\n",
-                                                                        )
-                                                                        .map(
-                                                                            (
-                                                                                line,
-                                                                            ) => (
-                                                                                <div
-                                                                                    key={
+                                    </ScrollArea>
+                                </TabsContent>
+                                {output != null ? (
+                                    <TabsContent value="output">
+                                        <ScrollArea className="flex h-full flex-col gap-5">
+                                            {running ? (
+                                                <div className="flex justify-center w-full min-h-full items-center">
+                                                    <Loader2 className="mr-2 min-h-full w-4 animate-spin" />
+                                                    Running
+                                                </div>
+                                            ) : (
+                                                <div className="p-6">
+                                                    <p className="text-2xl">
+                                                        Code Output
+                                                    </p>
+                                                    {output.map((o, i) => (
+                                                        <div>
+                                                            <p className="mt-3 text-lg">
+                                                                Test Case{" "}
+                                                                {i + 1}
+                                                            </p>
+                                                            <div className="bg-code p-2 my-3 rounded font-mono">
+                                                                {o
+                                                                    .split("\n")
+                                                                    .map(
+                                                                        (
+                                                                            line,
+                                                                        ) => (
+                                                                            <div
+                                                                                key={
+                                                                                    line
+                                                                                }
+                                                                            >
+                                                                                <p>
+                                                                                    {
                                                                                         line
                                                                                     }
-                                                                                >
-                                                                                    <p>
-                                                                                        {
-                                                                                            line
-                                                                                        }
-                                                                                    </p>
-                                                                                </div>
-                                                                            ),
-                                                                        )}
-                                                                </div>
+                                                                                </p>
+                                                                            </div>
+                                                                        ),
+                                                                    )}
                                                             </div>
-                                                        ))}
-                                                    </div>
-                                                )}
-                                            </ScrollArea>
-                                        </TabsContent>
-                                    ) : (
-                                        <div />
-                                    )}
-                                </Tabs>
-                            </ScrollArea>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </ScrollArea>
+                                    </TabsContent>
+                                ) : (
+                                    <div />
+                                )}
+                            </Tabs>
                         </ResizablePanel>
                     </ResizablePanelGroup>
                 </ResizablePanel>
