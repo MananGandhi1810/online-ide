@@ -416,7 +416,7 @@ function Code() {
                                                     setAiInput(e.target.value)
                                                 }
                                                 placeholder="Type your message here..."
-                                                className="flex-1"
+                                                className="flex-1 resize-none"
                                                 onKeyDown={(e) => {
                                                     if (
                                                         e.key === "Enter" &&
