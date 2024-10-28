@@ -43,7 +43,7 @@ Prompt: ${prompt}
 
 const chat = async (system, history, prompt) => {
     const stream = await model.chat.completions.create({
-        model: "@hf/thebloke/deepseek-coder-6.7b-instruct-awq",
+        model: "@cf/meta/llama-3.1-8b-instruct-fast",
         messages: [
             { role: "system", content: system },
             ...history,
