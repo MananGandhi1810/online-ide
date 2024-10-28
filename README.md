@@ -20,6 +20,9 @@ Online IDE, built using Express.js and React.js
 -   Test code against sample test cases before submission
 -   Verify output against hidden test cases
 -   Save code to local storage
+-   AI Assistant
+    -   LLaMA will provide hints for the problem statement, with access to the code written by the user as context
+    -   Streaming response from the AI Assistant, for a more interactive experience
 -   Points
     -   +10 if the user solves a problem statement in the first submission
     -   +5 if the user solves a problem statement in more than one submission
@@ -38,6 +41,7 @@ Online IDE, built using Express.js and React.js
 -   Resend (for sending emails)
 -   Shadcn/UI (for frontend components)
 -   Shiki.js with Monaco Editor (for code editing with syntax highlighting)
+-   Meta LLaMA 3.1B (as AI Assistant)
 
 ## Setup
 
