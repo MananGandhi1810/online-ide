@@ -563,7 +563,7 @@ function Code() {
                                 </TabsList>
                                 <TabsContent value="testcases">
                                     <ScrollArea className="h-full items-center justify-center">
-                                        <div className="p-6">
+                                        <div className="p-6 pb-14">
                                             <p className="text-2xl">
                                                 Sample Test Cases
                                             </p>
@@ -642,7 +642,7 @@ function Code() {
                                                     Running
                                                 </div>
                                             ) : (
-                                                <div className="p-6">
+                                                <div className="p-6 pb-14">
                                                     <p className="text-2xl">
                                                         Code Output
                                                     </p>
