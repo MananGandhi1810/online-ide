@@ -6,6 +6,7 @@ export default {
         extend: {
             spacing: {
                 "full-w-nav": "calc(100vh - 65px)",
+                "full-w-nav-w-tab": "calc(100vh - 113px)",
             },
             fontFamily: {
                 inter: ["inter"],

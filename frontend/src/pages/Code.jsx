@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import {
     ResizableHandle,
@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/resizable.jsx";
 import { Button } from "@/components/ui/button.jsx";
 import Editor from "@monaco-editor/react";
-import { Loader2, Play, Upload } from "lucide-react";
+import { Loader2, Play, Send, Upload } from "lucide-react";
 import axios from "axios";
 import AuthContext from "@/context/auth-provider.jsx";
 import {
@@ -39,6 +39,8 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 
 function Code() {
     const problemStatement = useLoaderData();
@@ -81,6 +83,9 @@ function Code() {
         python: "# Your code here",
         java: "// Your code here",
     };
+    const [chatHistory, setChatHistory] = useState([]);
+    const [aiInput, setAiInput] = useState("");
+    const [currentResponse, setCurrentResponse] = useState("");
 
     useEffect(() => {
         if (!Object.values(supportedLanguages).includes(language)) {
@@ -252,6 +257,65 @@ function Code() {
         })();
     };
 
+    const handleSendMessage = async (e) => {
+        e.preventDefault();
+        if (!aiInput.trim()) {
+            return;
+        }
+        const newMessage = {
+            content: aiInput.trim(),
+            role: "user",
+        };
+        setChatHistory([...chatHistory, newMessage]);
+        setAiInput("");
+        try {
+            fetch(`${process.env.SERVER_URL}/code/ai/${id}/${language}`, {
+                method: "POST",
+                body: JSON.stringify({
+                    code,
+                    prompt: aiInput,
+                    history: chatHistory,
+                }),
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((response) => {
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    var res = "";
+
+                    function read() {
+                        reader.read().then(({ done, value }) => {
+                            if (done) {
+                                setChatHistory((currentHistory) => [
+                                    ...currentHistory,
+                                    {
+                                        role: "assistant",
+                                        content: res,
+                                    },
+                                ]);
+                                setCurrentResponse("");
+                                return;
+                            }
+
+                            const chunk = decoder.decode(value);
+                            setCurrentResponse((response) => response + chunk);
+                            res += chunk;
+
+                            read();
+                        });
+                    }
+
+                    read(); // Start reading
+                })
+                .catch((error) => {
+                    console.error("Error fetching or reading stream:", error);
+                });
+        } catch (e) {}
+    };
+
     return (
         <div className="w-screen h-full-w-nav">
             <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
@@ -271,19 +335,108 @@ function Code() {
             </AlertDialog>
             <ResizablePanelGroup
                 direction="horizontal"
-                className="rounded-lg border h-full w-full"
+                className="border h-full w-full"
             >
                 <ResizablePanel defaultSize={50}>
                     <ResizablePanelGroup
                         direction="vertical"
-                        className="rounded-lg border h-full w-full"
+                        className="border h-full w-full"
                     >
                         <ResizablePanel defaultSize={100}>
-                            <ScrollArea className="flex h-full w-full flex-col gap-5">
-                                <Markdown className="prose dark:prose-invert min-w-full p-6">
-                                    {problemStatement.description}
-                                </Markdown>
-                            </ScrollArea>
+                            <Tabs defaultValue="problem-statement">
+                                <TabsList>
+                                    <TabsTrigger
+                                        value="problem-statement"
+                                        className="m-0.5"
+                                    >
+                                        Problem Statement
+                                    </TabsTrigger>
+                                    <TabsTrigger value="ai" className="m-0.5">
+                                        Ask AI
+                                    </TabsTrigger>
+                                </TabsList>
+                                <TabsContent value="problem-statement">
+                                    <ScrollArea className="flex h-full w-full flex-col gap-5 pb-14">
+                                        <Markdown className="prose dark:prose-invert min-w-full p-6">
+                                            {problemStatement.description}
+                                        </Markdown>
+                                    </ScrollArea>
+                                </TabsContent>
+                                <TabsContent value="ai">
+                                    <div className="flex h-full-w-nav-w-tab w-full flex-col">
+                                        <ScrollArea className="h-full-w-nav-w-tab flex flex-col p-6 py-0 overflow-auto">
+                                            {chatHistory.map(
+                                                (message, index, row) => (
+                                                    <div
+                                                        key={() =>
+                                                            new Date().toISOString()
+                                                        }
+                                                        className={`mb-4 p-3 rounded-lg ${
+                                                            message.role ===
+                                                            "user"
+                                                                ? "bg-primary text-primary-foreground ml-auto"
+                                                                : "bg-muted mr-auto"
+                                                        } max-w-[80%] w-fit text-wrap break-all`}
+                                                    >
+                                                        {message.role ==
+                                                        "assistant" ? (
+                                                            <Markdown className="prose dark:prose-invert min-w-full max-w-full w-full">
+                                                                {
+                                                                    message.content
+                                                                }
+                                                            </Markdown>
+                                                        ) : (
+                                                            <p>
+                                                                {
+                                                                    message.content
+                                                                }
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                ),
+                                            )}
+                                            {currentResponse.trim() != "" && (
+                                                <div
+                                                    key={() => Date()}
+                                                    className="mb-4 p-3 rounded-lg bg-muted mr-auto max-w-[80%] w-fit text-wrap break-all"
+                                                >
+                                                    <Markdown className="prose dark:prose-invert min-w-full max-w-full w-full">
+                                                        {currentResponse}
+                                                    </Markdown>
+                                                </div>
+                                            )}
+                                        </ScrollArea>
+                                        <form
+                                            onSubmit={handleSendMessage}
+                                            className="flex w-full items-end space-x-2 p-6 pt-0"
+                                        >
+                                            <Textarea
+                                                value={aiInput}
+                                                onChange={(e) =>
+                                                    setAiInput(e.target.value)
+                                                }
+                                                placeholder="Type your message here..."
+                                                className="flex-1"
+                                                onKeyDown={(e) => {
+                                                    if (
+                                                        e.key === "Enter" &&
+                                                        !e.shiftKey
+                                                    ) {
+                                                        e.preventDefault();
+                                                        handleSendMessage(e);
+                                                    }
+                                                }}
+                                            />
+                                            <Button type="submit" size="icon">
+                                                <Send className="h-4 w-4" />
+                                                <span className="sr-only">
+                                                    Send message
+                                                </span>
+                                            </Button>
+                                        </form>
+                                    </div>
+                                </TabsContent>
+                            </Tabs>
                         </ResizablePanel>
                         <ResizableHandle
                             withHandle
