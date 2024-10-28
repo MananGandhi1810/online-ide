@@ -25,7 +25,7 @@ function Problems() {
 
     return (
         <div className="w-screen flex justify-center">
-            <div className="text-2xl w-[1152] max-w-6xl flex items-center justify-center pt-5 flex-col gap-5">
+            <div className="text-2xl w-[1152px] max-w-6xl flex items-center justify-center py-5 flex-col gap-5">
                 <p>Problem Statements</p>
                 <Table>
                     <TableHeader>
@@ -61,8 +61,8 @@ function Problems() {
                                                 d == "Easy"
                                                     ? "bg-green-500"
                                                     : d == "Medium"
-                                                      ? "bg-yellow-500"
-                                                      : "bg-red-500"
+                                                    ? "bg-yellow-500"
+                                                    : "bg-red-500"
                                             }
                                         >
                                             {problemStatement.difficulty}
