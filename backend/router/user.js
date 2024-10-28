@@ -6,6 +6,6 @@ import { checkAuth } from "../middlewares/auth.js";
 var router = Router();
 
 router.get("/", checkAuth, userDataHandler);
-router.get("/:id", checkAuth, getUserByIdHandler)
+router.get("/:id", getUserByIdHandler);
 
 export default router;

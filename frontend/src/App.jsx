@@ -211,17 +211,11 @@ function App() {
                 {
                     path: "/user/:id",
                     loader: async ({ params: { id } }) => {
-                        if (!user.isAuthenticated) {
-                            return redirect(`/login?next=/user/${id}`);
-                        }
                         var res;
                         try {
                             res = await axios
                                 .get(`${process.env.SERVER_URL}/user/${id}`, {
                                     validateStatus: false,
-                                    headers: {
-                                        authorization: `Bearer ${user.token}`,
-                                    },
                                 })
                                 .then((res) => res.data);
                         } catch (e) {
