@@ -376,7 +376,7 @@ function Code() {
                                                             "user"
                                                                 ? "bg-primary text-primary-foreground ml-auto"
                                                                 : "bg-muted mr-auto"
-                                                        } max-w-[80%] w-fit text-wrap break-all`}
+                                                        } max-w-[80%] w-fit text-wrap break-keep`}
                                                     >
                                                         {message.role ==
                                                         "assistant" ? (
@@ -398,7 +398,7 @@ function Code() {
                                             {currentResponse.trim() != "" && (
                                                 <div
                                                     key={() => Date()}
-                                                    className="mb-4 p-3 rounded-lg bg-muted mr-auto max-w-[80%] w-fit text-wrap break-all"
+                                                    className="mb-4 p-3 rounded-lg bg-muted mr-auto max-w-[80%] w-fit text-wrap break-keep"
                                                 >
                                                     <Markdown className="prose dark:prose-invert min-w-full max-w-full w-full">
                                                         {currentResponse}
