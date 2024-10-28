@@ -86,6 +86,7 @@ function Code() {
     const [chatHistory, setChatHistory] = useState([]);
     const [aiInput, setAiInput] = useState("");
     const [currentResponse, setCurrentResponse] = useState("");
+    const [tabValue, setTabValue] = useState("testcases");
 
     useEffect(() => {
         if (!Object.values(supportedLanguages).includes(language)) {
@@ -257,6 +258,13 @@ function Code() {
         })();
     };
 
+    useEffect(() => {
+        if (output == "" || output == null) {
+            return;
+        }
+        setTabValue("output");
+    }, [output]);
+
     const handleSendMessage = async (e) => {
         e.preventDefault();
         if (!aiInput.trim()) {
@@ -365,36 +373,27 @@ function Code() {
                                 <TabsContent value="ai">
                                     <div className="flex h-full-w-nav-w-tab w-full flex-col">
                                         <ScrollArea className="h-full-w-nav-w-tab flex flex-col p-6 py-0 overflow-auto">
-                                            {chatHistory.map(
-                                                (message, index, row) => (
-                                                    <div
-                                                        key={() =>
-                                                            new Date().toISOString()
-                                                        }
-                                                        className={`mb-4 p-3 rounded-lg ${
-                                                            message.role ===
-                                                            "user"
-                                                                ? "bg-primary text-primary-foreground ml-auto"
-                                                                : "bg-muted mr-auto"
-                                                        } max-w-[80%] w-fit text-wrap break-keep`}
-                                                    >
-                                                        {message.role ==
-                                                        "assistant" ? (
-                                                            <Markdown className="prose dark:prose-invert min-w-full max-w-full w-full">
-                                                                {
-                                                                    message.content
-                                                                }
-                                                            </Markdown>
-                                                        ) : (
-                                                            <p>
-                                                                {
-                                                                    message.content
-                                                                }
-                                                            </p>
-                                                        )}
-                                                    </div>
-                                                ),
-                                            )}
+                                            {chatHistory.map((message) => (
+                                                <div
+                                                    key={() =>
+                                                        new Date().toISOString()
+                                                    }
+                                                    className={`mb-4 p-3 rounded-lg ${
+                                                        message.role === "user"
+                                                            ? "bg-primary text-primary-foreground ml-auto"
+                                                            : "bg-muted mr-auto"
+                                                    } max-w-[80%] w-fit text-wrap break-keep`}
+                                                >
+                                                    {message.role ==
+                                                    "assistant" ? (
+                                                        <Markdown className="prose dark:prose-invert min-w-full max-w-full w-full">
+                                                            {message.content}
+                                                        </Markdown>
+                                                    ) : (
+                                                        <p>{message.content}</p>
+                                                    )}
+                                                </div>
+                                            ))}
                                             {currentResponse.trim() != "" && (
                                                 <div
                                                     key={() => Date()}
@@ -438,48 +437,6 @@ function Code() {
                                 </TabsContent>
                             </Tabs>
                         </ResizablePanel>
-                        <ResizableHandle
-                            withHandle
-                            className={output == null ? "hidden" : ""}
-                        />
-                        {output != null ? (
-                            <ResizablePanel defaultSize={50}>
-                                <ScrollArea className="flex h-full flex-col gap-5">
-                                    {running ? (
-                                        <div className="flex justify-center w-full min-h-full items-center">
-                                            <Loader2 className="mr-2 min-h-full w-4 animate-spin" />
-                                            Running
-                                        </div>
-                                    ) : (
-                                        <div className="p-6">
-                                            <p className="text-2xl">
-                                                Code Output
-                                            </p>
-                                            {output.map((o, i) => (
-                                                <div>
-                                                    <p className="mt-3 text-lg">
-                                                        Test Case {i + 1}
-                                                    </p>
-                                                    <div className="bg-code p-2 my-3 rounded font-mono">
-                                                        {o
-                                                            .split("\n")
-                                                            .map((line) => (
-                                                                <div key={line}>
-                                                                    <p>
-                                                                        {line}
-                                                                    </p>
-                                                                </div>
-                                                            ))}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </ScrollArea>
-                            </ResizablePanel>
-                        ) : (
-                            <div />
-                        )}
                     </ResizablePanelGroup>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
@@ -580,54 +537,153 @@ function Code() {
                         <ResizableHandle withHandle />
                         <ResizablePanel defaultSize={50}>
                             <ScrollArea className="h-full items-center justify-center">
-                                <div className="p-6">
-                                    <p className="text-2xl">
-                                        Sample Test Cases
-                                    </p>
-                                    {problemStatement.testCase.map(
-                                        (testCase, i) => (
-                                            <div key={testCase.id}>
-                                                <p className="mt-3 text-lg">
-                                                    Test Case {i + 1}
-                                                </p>
-                                                <div className="my-1">
-                                                    Input
-                                                    <div className="bg-code p-2 my-2 rounded font-mono">
-                                                        {testCase.input
-                                                            .split("\n")
-                                                            .map((line) => (
-                                                                <div key={line}>
-                                                                    <p>
-                                                                        {line}
-                                                                    </p>
-                                                                </div>
-                                                            ))}
+                                <Tabs defaultValue="testcases" value={tabValue}>
+                                    <TabsList>
+                                        <TabsTrigger
+                                            className="m-0.5"
+                                            value="testcases"
+                                            onClick={() => {
+                                                setTabValue("testcases");
+                                            }}
+                                        >
+                                            Sample Testcases
+                                        </TabsTrigger>
+                                        {output != null ? (
+                                            <TabsTrigger
+                                                className="m-0.5"
+                                                value="output"
+                                                onClick={() => {
+                                                    setTabValue("output");
+                                                }}
+                                            >
+                                                Run Output
+                                            </TabsTrigger>
+                                        ) : (
+                                            <div />
+                                        )}
+                                    </TabsList>
+                                    <TabsContent value="testcases">
+                                        <div className="p-6">
+                                            <p className="text-2xl">
+                                                Sample Test Cases
+                                            </p>
+                                            {problemStatement.testCase.map(
+                                                (testCase, i) => (
+                                                    <div key={testCase.id}>
+                                                        <p className="mt-3 text-lg">
+                                                            Test Case {i + 1}
+                                                        </p>
+                                                        <div className="my-1">
+                                                            Input
+                                                            <div className="bg-code p-2 my-2 rounded font-mono">
+                                                                {testCase.input
+                                                                    .split("\n")
+                                                                    .map(
+                                                                        (
+                                                                            line,
+                                                                        ) => (
+                                                                            <div
+                                                                                key={
+                                                                                    line
+                                                                                }
+                                                                            >
+                                                                                <p>
+                                                                                    {
+                                                                                        line
+                                                                                    }
+                                                                                </p>
+                                                                            </div>
+                                                                        ),
+                                                                    )}
+                                                            </div>
+                                                            Output
+                                                            <div className="bg-code p-2 my-2 rounded font-mono">
+                                                                {testCase.output
+                                                                    .split("\n")
+                                                                    .map(
+                                                                        (
+                                                                            line,
+                                                                        ) => (
+                                                                            <div
+                                                                                key={
+                                                                                    line
+                                                                                }
+                                                                            >
+                                                                                <p>
+                                                                                    {
+                                                                                        line
+                                                                                    }
+                                                                                </p>
+                                                                            </div>
+                                                                        ),
+                                                                    )}
+                                                            </div>
+                                                        </div>
+                                                        {i !=
+                                                        problemStatement
+                                                            .testCase.length -
+                                                            1 ? (
+                                                            <Separator className="mt-6" />
+                                                        ) : (
+                                                            <div />
+                                                        )}
                                                     </div>
-                                                    Output
-                                                    <div className="bg-code p-2 my-2 rounded font-mono">
-                                                        {testCase.output
-                                                            .split("\n")
-                                                            .map((line) => (
-                                                                <div key={line}>
-                                                                    <p>
-                                                                        {line}
-                                                                    </p>
-                                                                </div>
-                                                            ))}
+                                                ),
+                                            )}
+                                        </div>
+                                    </TabsContent>
+                                    {output != null ? (
+                                        <TabsContent value="output">
+                                            <ScrollArea className="flex h-full flex-col gap-5">
+                                                {running ? (
+                                                    <div className="flex justify-center w-full min-h-full items-center">
+                                                        <Loader2 className="mr-2 min-h-full w-4 animate-spin" />
+                                                        Running
                                                     </div>
-                                                </div>
-                                                {i !=
-                                                problemStatement.testCase
-                                                    .length -
-                                                    1 ? (
-                                                    <Separator className="mt-6" />
                                                 ) : (
-                                                    <div />
+                                                    <div className="p-6">
+                                                        <p className="text-2xl">
+                                                            Code Output
+                                                        </p>
+                                                        {output.map((o, i) => (
+                                                            <div>
+                                                                <p className="mt-3 text-lg">
+                                                                    Test Case{" "}
+                                                                    {i + 1}
+                                                                </p>
+                                                                <div className="bg-code p-2 my-3 rounded font-mono">
+                                                                    {o
+                                                                        .split(
+                                                                            "\n",
+                                                                        )
+                                                                        .map(
+                                                                            (
+                                                                                line,
+                                                                            ) => (
+                                                                                <div
+                                                                                    key={
+                                                                                        line
+                                                                                    }
+                                                                                >
+                                                                                    <p>
+                                                                                        {
+                                                                                            line
+                                                                                        }
+                                                                                    </p>
+                                                                                </div>
+                                                                            ),
+                                                                        )}
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
                                                 )}
-                                            </div>
-                                        ),
+                                            </ScrollArea>
+                                        </TabsContent>
+                                    ) : (
+                                        <div />
                                     )}
-                                </div>
+                                </Tabs>
                             </ScrollArea>
                         </ResizablePanel>
                     </ResizablePanelGroup>
