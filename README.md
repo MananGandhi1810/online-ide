@@ -19,7 +19,7 @@ Online IDE, built using Express.js and React.js
     -   Limit time used by code
 -   Test code against sample test cases before submission
 -   Verify output against hidden test cases
--   Save code to local storage
+-   Persist code to local storage
 -   AI Assistant
     -   LLaMA will provide hints for the problem statement, with access to the code written by the user as context
     -   Streaming response from the AI Assistant, for a more interactive experience
