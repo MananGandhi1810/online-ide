@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { Code2, FileText, Zap, Send } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import NumberTicker from "@/components/ui/number-ticker";
+import ReactCalendarHeatmap from "react-calendar-heatmap";
+import "react-calendar-heatmap/dist/styles.css";
 
 function UserData() {
     const userProfile = useLoaderData();
-    
+
     if (!userProfile) {
         return (
             <div className="w-screen h-full-w-nav flex justify-center align-middle items-center">
@@ -18,6 +26,8 @@ function UserData() {
     const totalSubmissions = userProfile.submissions.length;
     const [mostUsedLanguage, setMostUsedLanguage] = useState("");
     const [totalProblems, setTotalProblems] = useState(0);
+    const [contributionData, setContributionData] = useState([]);
+    const [maxSubmissions, setMaxSubmissions] = useState(0);
 
     useEffect(() => {
         const freqMap = {};
@@ -38,20 +48,41 @@ function UserData() {
             problems.add(userProfile.submissions[i].problemStatementId);
         }
         setTotalProblems(problems.size);
+
+        const dateFreqMap = {};
+        for (const submission of userProfile.submissions) {
+            const sub = submission.time.split("T")[0];
+            dateFreqMap[sub] = (dateFreqMap[sub] || 0) + 1;
+        }
+        setContributionData([]);
+        var max = 0;
+        Object.entries(dateFreqMap).forEach(([date, n]) => {
+            if (n > max) {
+                max = n;
+            }
+            setContributionData((data) => [
+                ...data,
+                {
+                    date,
+                    count: n,
+                },
+            ]);
+        });
+        setMaxSubmissions(max);
     }, []);
 
     return (
         <div className="flex w-full h-full-w-nav items-center justify-center">
-            <Card className="max-w-2xl mx-auto px-12 py-8 space-y-3">
+            <Card className="w-5/12 min-w-[300px] sm:min-w-[400px] md:min-w-[600px] mx-auto px-2 py-8 sm:space-y-3 md:px-8">
                 <CardHeader className="text-center">
                     <CardTitle className="text-4xl font-bold">
                         {userProfile.name}
                     </CardTitle>
                 </CardHeader>
 
-                <CardContent className="grid grid-cols-2 gap-4">
+                <CardContent className="grid md:grid-cols-2 grid-cols-1 gap-4">
                     <div className="flex items-center gap-2">
-                        <FileText className="w-5 h-5 text-primary" />
+                        <FileText className="w-5 h-5 text-primary invisible md:visible" />
                         <div>
                             <p className="text-sm text-muted-foreground">
                                 Questions Solved
@@ -63,7 +94,7 @@ function UserData() {
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Send className="w-5 h-5 text-primary" />
+                        <Send className="w-5 h-5 text-primary invisible md:visible" />
                         <div>
                             <p className="text-sm text-muted-foreground">
                                 Total Submissions
@@ -75,7 +106,7 @@ function UserData() {
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Zap className="w-5 h-5 text-primary" />
+                        <Zap className="w-5 h-5 text-primary invisible md:visible" />
                         <div>
                             <p className="text-sm text-muted-foreground">
                                 Points
@@ -87,7 +118,7 @@ function UserData() {
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Code2 className="w-5 h-5 text-primary" />
+                        <Code2 className="w-5 h-5 text-primary invisible md:visible" />
                         <div>
                             <p className="text-sm text-muted-foreground">
                                 Most Used Language
@@ -99,6 +130,34 @@ function UserData() {
                         </div>
                     </div>
                 </CardContent>
+                <CardFooter className="invisible h-0 md:h-24 sm:visible">
+                    <ReactCalendarHeatmap
+                        titleForValue={(value) =>
+                            value != null
+                                ? `${value?.date ?? ""}: ${
+                                      value?.count ?? "0"
+                                  } Submission${value?.count > 1 ? "s" : ""}`
+                                : null
+                        }
+                        startDate={
+                            new Date(
+                                new Date().setFullYear(
+                                    new Date().getFullYear() - 1,
+                                ),
+                            )
+                        }
+                        endDate={new Date()}
+                        values={contributionData}
+                        classForValue={(value) => {
+                            if (!value) {
+                                return "color-empty";
+                            }
+                            return `color-scale-${Math.ceil(
+                                (4 * value.count) / maxSubmissions,
+                            )}`;
+                        }}
+                    />
+                </CardFooter>
             </Card>
         </div>
     );
