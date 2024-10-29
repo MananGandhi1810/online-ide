@@ -28,6 +28,11 @@ Online IDE, built using Express.js and React.js
     -   +5 if the user solves a problem statement in more than one submission
     -   no points awarded if user solves a problem statement correctly more than once
 -   Leaderboard ranking based on points
+-   User Profile
+    -   GitHub-like submission graph
+    -   Total submissions
+    -   Points earned
+    -   Problems solved
 
 ## Tech Stack
 
