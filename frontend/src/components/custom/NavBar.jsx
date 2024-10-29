@@ -3,7 +3,7 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet.jsx";
 import AuthContext from "@/context/auth-provider.jsx";
 import { Terminal, ArrowRight, Zap } from "lucide-react";
 import { useContext, useEffect, useRef } from "react";
-import { Link, useNavigation } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import {
     AlertDialog,
@@ -23,6 +23,7 @@ export default function NavBar() {
     const { user, setUser } = useContext(AuthContext);
     const { state: navState } = useNavigation();
     const loaderRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (navState == "loading") {
@@ -90,7 +91,10 @@ export default function NavBar() {
                         </div>
                     ) : (
                         <div className="flex flex-row items-center gap-4">
-                            <div className="flex flex-row gap-1 items-center group">
+                            <div
+                                className="flex flex-row gap-1 items-center group cursor-pointer"
+                                onClick={() => navigate("/leaderboard")}
+                            >
                                 <Zap
                                     className="group-hover:fill-white duration-1000"
                                     height={20}
