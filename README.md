@@ -2,6 +2,15 @@
 
 Online IDE, built using Express.js and React.js
 
+## Table of Contents
+
+-   [Features](#features)
+-   [Tech Stack](#tech-stack)
+-   [Setup](#setup)
+    -   [Using Docker Compose](#using-docker-compose)
+    -   [Running Backend and Frontend Separately](#running-backend-and-frontend-separately)
+-   [Contributing](#contributing)
+
 ## Features
 
 -   JWT Based User Authentication
