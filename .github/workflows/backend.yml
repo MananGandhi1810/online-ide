@@ -1,6 +1,9 @@
 name: Docker Image CI for Backend Image
 
-on: [push]
+on:
+    push:
+        branches:
+            - main
 
 env:
     REGISTRY: ghcr.io
