@@ -15,7 +15,7 @@ const getUserByIdHandler = async (req, res) => {
     if (!id) {
         return res.status(400).json({
             success: false,
-            message: "User Id is compulsory",
+            message: "User Id is required",
             data: null,
         });
     }

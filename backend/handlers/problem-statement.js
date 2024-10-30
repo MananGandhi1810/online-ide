@@ -36,7 +36,7 @@ const getProblemStatementByIdHandler = async (req, res) => {
     if (!problemStatementId) {
         return res.status(400).json({
             success: false,
-            message: "Problem Statement Id is compulsory",
+            message: "Problem Statement Id is required",
             data: null,
         });
     }
@@ -81,7 +81,7 @@ const newProblemStatementHandler = async (req, res) => {
         return res.status(400).json({
             success: false,
             message:
-                "Title, description, difficulty and testcases are compulsory",
+                "Title, description, difficulty and testcases are required",
             data: null,
         });
     }
@@ -125,7 +125,7 @@ const editProblemStatementHandler = async (req, res) => {
     if (!problemStatementId) {
         return res.status(400).json({
             success: false,
-            message: "Problem Statement Id is compulsory",
+            message: "Problem Statement Id is required",
             data: null,
         });
     }
@@ -143,7 +143,7 @@ const editProblemStatementHandler = async (req, res) => {
         return res.status(400).json({
             success: false,
             message:
-                "Title, description, difficulty and testcases are compulsory",
+                "Title, description, difficulty and testcases are required",
             data: null,
         });
     }
@@ -200,7 +200,7 @@ const deleteProblemStatementHandler = async (req, res) => {
     if (!problemStatementId) {
         return res.status(400).json({
             success: false,
-            message: "Problem Statement Id is compulsory",
+            message: "Problem Statement Id is required",
             data: null,
         });
     }
