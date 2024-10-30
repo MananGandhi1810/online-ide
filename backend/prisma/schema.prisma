@@ -45,7 +45,7 @@ model Submission {
     language           String
     output             String?
     status             SubmissionStatus @default(Queued)
-    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
     problemStatementId String
     execTime           Int?
 }
