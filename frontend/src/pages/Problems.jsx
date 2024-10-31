@@ -61,8 +61,8 @@ function Problems() {
                                                 d == "Easy"
                                                     ? "bg-green-500"
                                                     : d == "Medium"
-                                                    ? "bg-yellow-500"
-                                                    : "bg-red-500"
+                                                      ? "bg-yellow-500"
+                                                      : "bg-red-500"
                                             }
                                         >
                                             {problemStatement.difficulty}
