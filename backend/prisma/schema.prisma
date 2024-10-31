@@ -33,7 +33,7 @@ model User {
     updatedAt         DateTime     @updatedAt
     passwordUpdatedAt DateTime     @default(now())
     admin             Boolean      @default(false)
-    editorials         Editorial[]
+    editorials        Editorial[]
 }
 
 model Submission {
@@ -58,7 +58,7 @@ model ProblemStatement {
     difficulty  Difficulty
     submissions Submission[]
     testCase    Testcase[]
-    editorials   Editorial[]
+    editorials  Editorial[]
 }
 
 model Testcase {
@@ -78,6 +78,7 @@ model Editorial {
     problemStatementId String
     user               User             @relation(fields: [userId], references: [id])
     userId             String
+    hidden             Boolean          @default(false)
     createdAt          DateTime         @default(now())
     updatedAt          DateTime         @updatedAt
 }

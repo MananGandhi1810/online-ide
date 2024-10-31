@@ -1,6 +1,10 @@
 import { Router } from "express";
 import { checkAuth } from "../middlewares/auth.js";
-import { queueCodeHandler, checkExecutionHandler, aiHelperHandler } from "../handlers/code.js";
+import {
+    queueCodeHandler,
+    checkExecutionHandler,
+    aiHelperHandler,
+} from "../handlers/code.js";
 
 var router = Router();
 

@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { checkAuth } from "../middlewares/auth.js";
-import { getLeaderboardHandler, getUserPointsHandler } from "../handlers/leaderboard.js";
+import {
+    getLeaderboardHandler,
+    getUserPointsHandler,
+} from "../handlers/leaderboard.js";
 
 var router = Router();
 
