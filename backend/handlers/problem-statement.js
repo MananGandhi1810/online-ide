@@ -70,12 +70,12 @@ const newProblemStatementHandler = async (req, res) => {
     const { title, description, difficulty, testCases } = req.body;
     if (
         !title ||
-        title.trim() == "" ||
         !description ||
-        description.trim() == "" ||
         !difficulty ||
-        !["Easy", "Medium", "Hard"].includes(difficulty.trim()) ||
         !testCases ||
+        title.trim() == "" ||
+        description.trim() == "" ||
+        !["Easy", "Medium", "Hard"].includes(difficulty.trim()) ||
         testCases.length == 0
     ) {
         return res.status(400).json({
@@ -132,12 +132,12 @@ const editProblemStatementHandler = async (req, res) => {
     const { title, description, difficulty, testCases } = req.body;
     if (
         !title ||
-        title.trim() == "" ||
         !description ||
-        description.trim() == "" ||
         !difficulty ||
-        !["Easy", "Medium", "Hard"].includes(difficulty.trim()) ||
         !testCases ||
+        title.trim() == "" ||
+        description.trim() == "" ||
+        !["Easy", "Medium", "Hard"].includes(difficulty.trim()) ||
         testCases.length == 0
     ) {
         return res.status(400).json({

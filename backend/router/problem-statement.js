@@ -8,7 +8,7 @@ import {
     deleteProblemStatementHandler,
 } from "../handlers/problem-statement.js";
 
-var router = Router();
+const router = Router();
 
 router.get("/all", checkAuth, getProblemStatementsHandler);
 router.get("/:problemStatementId", checkAuth, getProblemStatementByIdHandler);

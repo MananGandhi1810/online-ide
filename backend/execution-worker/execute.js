@@ -8,6 +8,10 @@ const executeFromQueue = async (message, channel) => {
     const { code, language, submissionId, problemStatementId, temp } =
         JSON.parse(message);
     if (
+        code == "" ||
+        language == "" ||
+        submissionId == "" ||
+        problemStatementId == "" ||
         code.trim() == "" ||
         language.trim() == "" ||
         (submissionId.trim() == "" && !temp) ||

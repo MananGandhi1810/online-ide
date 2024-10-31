@@ -3,7 +3,7 @@ import { userDataHandler, getUserByIdHandler } from "../handlers/user.js";
 
 import { checkAuth } from "../middlewares/auth.js";
 
-var router = Router();
+const router = Router();
 
 router.get("/", checkAuth, userDataHandler);
 router.get("/:id", getUserByIdHandler);

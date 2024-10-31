@@ -9,9 +9,7 @@ import {
     verifyOtpHandler,
 } from "../handlers/auth.js";
 
-import { checkAuth } from "../middlewares/auth.js";
-
-var router = Router();
+const router = Router();
 
 router.post("/register", registerHandler);
 router.get("/verify", verifyHandler);

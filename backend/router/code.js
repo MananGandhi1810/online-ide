@@ -6,7 +6,7 @@ import {
     aiHelperHandler,
 } from "../handlers/code.js";
 
-var router = Router();
+const router = Router();
 
 router.post("/submit/:problemStatementId/:language", checkAuth, (req, res) =>
     queueCodeHandler(req, res),

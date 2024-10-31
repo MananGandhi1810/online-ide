@@ -5,7 +5,7 @@ import {
     getUserPointsHandler,
 } from "../handlers/leaderboard.js";
 
-var router = Router();
+const router = Router();
 
 router.get("/", getLeaderboardHandler);
 router.get("/getUserPoints", checkAuth, getUserPointsHandler);
