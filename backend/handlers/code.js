@@ -90,7 +90,7 @@ const checkExecutionHandler = async (req, res, isTempRun = false) => {
     if (!submissionId || submissionId.trim() == "") {
         return res.status(400).json({
             success: false,
-            message: "Submission ID is compulsory",
+            message: "Submission ID is required",
             data: null,
         });
     }
@@ -175,7 +175,7 @@ const aiHelperHandler = async (req, res) => {
     if (!req.body) {
         return res.status(400).json({
             success: false,
-            message: "Request body is compulsory",
+            message: "Request body is required",
             data: null,
         });
     }

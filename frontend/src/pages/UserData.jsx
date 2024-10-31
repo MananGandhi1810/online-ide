@@ -28,6 +28,10 @@ function UserData() {
     const [totalProblems, setTotalProblems] = useState(0);
     const [contributionData, setContributionData] = useState([]);
     const [maxSubmissions, setMaxSubmissions] = useState(0);
+    const [submissionRatio, setSubmissionRatio] = useState({
+        success: 0,
+        failure: 0,
+    });
 
     useEffect(() => {
         const freqMap = {};
@@ -44,10 +48,18 @@ function UserData() {
         }
 
         var problems = new Set();
+        var ratio = {
+            success: 0,
+            failure: 0,
+        };
         for (var i = 0; i < userProfile.submissions.length; i++) {
             problems.add(userProfile.submissions[i].problemStatementId);
+            ratio[
+                userProfile.submissions[i].success ? "success" : "failure"
+            ] += 1;
         }
         setTotalProblems(problems.size);
+        setSubmissionRatio(ratio);
 
         const dateFreqMap = {};
         for (const submission of userProfile.submissions) {
@@ -100,9 +112,32 @@ function UserData() {
                                 Total Submissions
                             </p>
                             <NumberTicker
-                                className="text-xl font-semibold"
+                                className="text-xl font-semibold pr-1"
                                 value={totalSubmissions}
                             />
+                            (
+                            {submissionRatio.success > 0 ? (
+                                <NumberTicker
+                                    className="text-green-300"
+                                    value={submissionRatio.success}
+                                />
+                            ) : (
+                                <span className="inline-block tabular-nums tracking-wider text-green-300">
+                                    0
+                                </span>
+                            )}
+                            /
+                            {submissionRatio.failure > 0 ? (
+                                <NumberTicker
+                                    className="text-red-300"
+                                    value={submissionRatio.failure}
+                                />
+                            ) : (
+                                <span className="inline-block tabular-nums tracking-wider text-red-300">
+                                    0
+                                </span>
+                            )}
+                            )
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
