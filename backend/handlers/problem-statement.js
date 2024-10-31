@@ -41,16 +41,26 @@ const getProblemStatementByIdHandler = async (req, res) => {
         });
     }
     const { withHidden } = req.query;
-    const problemStatement = await prisma.problemStatement.findUnique({
+    var problemStatement = await prisma.problemStatement.findUnique({
         where: { id: problemStatementId },
-        include:
-            withHidden && req.user.admin
-                ? { testCase: true }
-                : {
-                      testCase: {
+        include: {
+            testCase:
+                withHidden && req.user.admin
+                    ? true
+                    : {
                           where: { hidden: false },
                       },
-                  },
+            _count: {
+                select: {
+                    submissions: {
+                        where: {
+                            userId: req.user.id,
+                            success: true,
+                        },
+                    },
+                },
+            },
+        },
     });
     if (!problemStatement) {
         return res.status(404).json({
@@ -59,6 +69,8 @@ const getProblemStatementByIdHandler = async (req, res) => {
             data: null,
         });
     }
+    problemStatement.solved = problemStatement._count.submissions > 0;
+    problemStatement._count = undefined;
     res.json({
         success: true,
         message: "Fetched problem statement",
