@@ -9,37 +9,15 @@ import {
 import { checkAuth } from "../middlewares/auth.js";
 import { checkProblemStatement } from "../middlewares/problem-statement.js";
 
-const router = Router();
+const router = Router({ mergeParams: true });
 
-router.get(
-    "/:problemStatementId/",
-    checkAuth,
-    checkProblemStatement,
-    getEditorials,
-);
-router.get(
-    "/:problemStatementId/:editorialId",
-    checkAuth,
-    checkProblemStatement,
-    getEditorialById,
-);
-router.post(
-    "/:problemStatementId/new",
-    checkAuth,
-    checkProblemStatement,
-    newEditorial,
-);
-router.delete(
-    "/:problemStatementId/:editorialId/delete",
-    checkAuth,
-    checkProblemStatement,
-    deleteEditorial,
-);
-router.put(
-    "/:problemStatementId/:editorialId/update",
-    checkAuth,
-    checkProblemStatement,
-    updateEditorial,
-);
+router.use(checkAuth);
+router.use(checkProblemStatement);
+
+router.get("/", getEditorials);
+router.get("/:editorialId", getEditorialById);
+router.post("/new", newEditorial);
+router.delete("/:editorialId/delete", deleteEditorial);
+router.put("/:editorialId/update", updateEditorial);
 
 export default router;

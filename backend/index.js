@@ -24,7 +24,7 @@ app.use("/code", codeRouter);
 app.use("/problem-statement", problemStatementRouter);
 app.use("/leaderboard", leaderboardRouter);
 app.use("/user", userRouter);
-app.use("/editorial", editorialsRouter);
+app.use("/editorial/:problemStatementId", editorialsRouter);
 
 app.use(function (req, res, next) {
     res.status(404).json({
