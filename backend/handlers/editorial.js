@@ -52,7 +52,7 @@ const getEditorialById = async (req, res) => {
 const newEditorial = async (req, res) => {
     const { problemStatementId } = req.params;
     const { title, content } = req.body;
-    if (!title || !content || !title.trim() || !content.trim()) {
+    if (!title || !content || title.trim() == "" || content.trim() == "") {
         return res.status(400).json({
             success: false,
             message: "Title and Content are required",
@@ -97,6 +97,9 @@ const newEditorial = async (req, res) => {
                 problemStatementId: problemStatementId,
                 userId: req.user.id,
             },
+            select: {
+                id: true,
+            },
         });
     } catch (e) {
         return res.status(500).json({
@@ -114,9 +117,96 @@ const newEditorial = async (req, res) => {
     });
 };
 
-const deleteEditorial = async (req, res) => {};
+const deleteEditorial = async (req, res) => {
+    const { editorialId } = req.params;
+    if (!editorialId) {
+        return res.status(400).json({
+            success: false,
+            message: "Editorial Id is required",
+            data: null,
+        });
+    }
+    const editorial = await prisma.editorial.findUnique({
+        where: { id: editorialId, userId: req.user.id },
+    });
+    if (!editorial) {
+        return res.status(404).json({
+            success: false,
+            message: "Editorial not found",
+            data: null,
+        });
+    }
+    try {
+        await prisma.editorial.delete({
+            where: { id: editorialId },
+        });
+    } catch (e) {
+        return res.status(500).json({
+            success: false,
+            message: "Could not delete editorial",
+            data: null,
+        });
+    }
+    res.json({
+        success: true,
+        message: "Editorial delete successfully",
+        data: null,
+    });
+};
 
-const updateEditorial = async (req, res) => {};
+const updateEditorial = async (req, res) => {
+    const { editorialId } = req.params;
+    if (!editorialId) {
+        return res.status(400).json({
+            success: false,
+            message: "Editorial Id is required",
+            data: null,
+        });
+    }
+    const editorial = await prisma.editorial.findUnique({
+        where: { id: editorialId, userId: req.user.id },
+    });
+    if (!editorial) {
+        return res.status(404).json({
+            success: false,
+            message: "Editorial not found",
+            data: null,
+        });
+    }
+    const { title, content } = req.body;
+    if (!title || !content || title.trim() == "" || content.trim() == "") {
+        return res.status(400).json({
+            success: false,
+            message: "Title and Content are required",
+            data: null,
+        });
+    }
+    var updatedEditorial;
+    try {
+        updatedEditorial = await prisma.editorial.update({
+            where: {
+                id: editorialId,
+            },
+            data: { title, content },
+            select: {
+                id: true,
+            },
+        });
+    } catch (e) {
+        res.status(500).json({
+            success: false,
+            message: "Could not update editorial",
+            data: null,
+        });
+    }
+    res.json({
+        success: true,
+        message: "Editorial updated successfully",
+        data: {
+            id: updatedEditorial.id,
+        },
+    });
+};
 
 export {
     getEditorials,
