@@ -33,6 +33,7 @@ model User {
     updatedAt         DateTime     @updatedAt
     passwordUpdatedAt DateTime     @default(now())
     admin             Boolean      @default(false)
+    editorials         Editorial[]
 }
 
 model Submission {
@@ -57,6 +58,7 @@ model ProblemStatement {
     difficulty  Difficulty
     submissions Submission[]
     testCase    Testcase[]
+    editorials   Editorial[]
 }
 
 model Testcase {
@@ -66,4 +68,16 @@ model Testcase {
     hidden             Boolean          @default(true)
     problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
     problemStatementId String
+}
+
+model Editorial {
+    id                 String           @id @default(cuid())
+    title              String
+    content            String
+    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
+    problemStatementId String
+    user               User             @relation(fields: [userId], references: [id])
+    userId             String
+    createdAt          DateTime         @default(now())
+    updatedAt          DateTime         @updatedAt
 }
