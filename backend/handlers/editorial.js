@@ -9,10 +9,13 @@ const getEditorials = async (req, res) => {
             problemStatementId,
             hidden: false,
         },
-        select: {
-            id: true,
-            title: true,
-            createdAt: true,
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                },
+            },
         },
     });
     res.json({

@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/resizable.jsx";
 import { Button } from "@/components/ui/button.jsx";
 import Editor from "@monaco-editor/react";
-import { Loader2, Play, Send, Upload } from "lucide-react";
+import { Loader2, Play, Upload } from "lucide-react";
 import axios from "axios";
 import AuthContext from "@/context/auth-provider.jsx";
 import {
@@ -40,8 +40,8 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 import AIChat from "@/components/custom/AIChat";
+import Editorials from "@/components/custom/Editorials";
 
 function Code() {
     const problemStatement = useLoaderData();
@@ -88,6 +88,12 @@ function Code() {
     const [aiInput, setAiInput] = useState("");
     const [currentResponse, setCurrentResponse] = useState("");
     const [tabValue, setTabValue] = useState("testcases");
+    const [editorials, setEditorials] = useState([]);
+    const [selectedEditorialId, setSelectedEditorialId] = useState("");
+
+    useEffect(() => {
+        getEditorials();
+    }, []);
 
     useEffect(() => {
         if (!Object.values(supportedLanguages).includes(language)) {
@@ -325,6 +331,21 @@ function Code() {
         } catch (e) {}
     };
 
+    const getEditorials = async () => {
+        const res = await axios
+            .get(`${process.env.SERVER_URL}/editorial/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+                validateStatus: false,
+            })
+            .then((res) => res.data);
+        if (!res.success) {
+            return;
+        }
+        setEditorials(res.data.editorials);
+    };
+
     return (
         <div className="w-screen h-full-w-nav">
             <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
@@ -363,6 +384,12 @@ function Code() {
                                     <TabsTrigger value="ai" className="m-0.5">
                                         Ask AI
                                     </TabsTrigger>
+                                    <TabsTrigger
+                                        value="editorials"
+                                        className="m-0.5"
+                                    >
+                                        Editorials
+                                    </TabsTrigger>
                                 </TabsList>
                                 <TabsContent value="problem-statement">
                                     <ScrollArea className="flex h-full w-full flex-col gap-5 pb-14">
@@ -378,6 +405,17 @@ function Code() {
                                         handleSendMessage={handleSendMessage}
                                         aiInput={aiInput}
                                         setAiInput={setAiInput}
+                                    />
+                                </TabsContent>
+                                <TabsContent value="editorials">
+                                    <Editorials
+                                        editorials={editorials}
+                                        selectedEditorialId={
+                                            selectedEditorialId
+                                        }
+                                        setSelectedEditorialId={
+                                            setSelectedEditorialId
+                                        }
                                     />
                                 </TabsContent>
                             </Tabs>
