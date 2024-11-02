@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import {
     ResizableHandle,
@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/resizable.jsx";
 import { Button } from "@/components/ui/button.jsx";
 import Editor from "@monaco-editor/react";
-import { Loader2, Play, Upload } from "lucide-react";
+import { Edit, Loader2, Play, SendHorizontal, Upload, X } from "lucide-react";
 import axios from "axios";
 import AuthContext from "@/context/auth-provider.jsx";
 import {
@@ -42,6 +42,9 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AIChat from "@/components/custom/AIChat";
 import Editorials from "@/components/custom/Editorials";
+import EditorialEditor from "@/components/custom/EditorialEditor";
+import htmlToMarkdown from "@wcj/html-to-markdown";
+import { useToast } from "@/hooks/use-toast";
 
 function Code() {
     const problemStatement = useLoaderData();
@@ -67,7 +70,7 @@ function Code() {
         "C++": "cpp",
         Java: "java",
     };
-    const [submissionResult, setSubmissionResult] = useState({
+    const [dialogData, setDialogData] = useState({
         title: "",
         description: "",
     });
@@ -89,7 +92,12 @@ function Code() {
     const [currentResponse, setCurrentResponse] = useState("");
     const [tabValue, setTabValue] = useState("testcases");
     const [editorials, setEditorials] = useState([]);
-    const [selectedEditorialId, setSelectedEditorialId] = useState("");
+    const [selectedEditorial, setSelectedEditorial] = useState({ id: "" });
+    const [isEditing, setIsEditing] = useState(false);
+    const [editorialTitle, setEditorialTitle] = useState("");
+    const [editorialContent, setEditorialContent] = useState("");
+    const { toast } = useToast();
+    const [isSubmittingEditorial, setIsSubmittingEditorial] = useState(false);
 
     useEffect(() => {
         getEditorials();
@@ -152,7 +160,7 @@ function Code() {
             } else {
                 setSubmitting(false);
             }
-            setSubmissionResult({
+            setDialogData({
                 title: "Error",
                 description: res.message,
             });
@@ -189,7 +197,7 @@ function Code() {
             }
             if (res.data.success) {
                 if (!isTempRun) {
-                    setSubmissionResult({
+                    setDialogData({
                         title: "Success",
                         description: "All testcases passed",
                     });
@@ -208,7 +216,7 @@ function Code() {
                 }
             } else {
                 if (!isTempRun) {
-                    setSubmissionResult({
+                    setDialogData({
                         title: "Error",
                         description: "Could not pass some or all test cases",
                     });
@@ -220,7 +228,7 @@ function Code() {
             return;
         } else if (res.data.status == "Queued") {
             if (tryNo >= 100) {
-                setSubmissionResult({
+                setDialogData({
                     title: "Error",
                     description: "Your code could not be executed",
                 });
@@ -245,7 +253,7 @@ function Code() {
                 setSubmitting(false);
             }
             setShowDialog(true);
-            setSubmissionResult({
+            setDialogData({
                 title: "Error",
                 description: res.message,
             });
@@ -254,7 +262,6 @@ function Code() {
 
     const setupMonacoTheme = (monaco) => {
         monaco.languages.register({ id: "theme" });
-
         (async function () {
             const highlighter = await createHighlighter({
                 themes: ["vitesse-dark"],
@@ -346,16 +353,73 @@ function Code() {
         setEditorials(res.data.editorials);
     };
 
+    const submitEditorial = async () => {
+        setIsSubmittingEditorial(true);
+        const res = await axios
+            .post(
+                `${process.env.SERVER_URL}/editorial/${id}/new`,
+                {
+                    title: editorialTitle,
+                    content: await htmlToMarkdown({ html: editorialContent }),
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                    validateStatus: false,
+                },
+            )
+            .then((res) => res.data);
+        setIsSubmittingEditorial(false);
+        if (!res.success) {
+            toast({
+                title: "An error occurred",
+                description: res.message,
+            });
+            return;
+        }
+        setSelectedEditorial({ id: "" });
+        setIsEditing(false);
+        setEditorialTitle("");
+        setEditorialContent("");
+        getEditorials();
+    };
+
+    const deleteEditorial = async (editorial) => {
+        if (editorial.user.id != user.id) {
+            return;
+        }
+        const res = await axios
+            .delete(
+                `${process.env.SERVER_URL}/editorial/${id}/${editorial.id}/delete`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                    validateStatus: false,
+                },
+            )
+            .then((res) => res.data);
+        if (!res.success) {
+            toast({
+                title: "An error occurred",
+                description: res.message,
+            });
+            return;
+        }
+        setSelectedEditorial({ id: "" });
+        getEditorials();
+        console.log(res);
+    };
+
     return (
         <div className="w-screen h-full-w-nav">
             <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>
-                            {submissionResult.title}
-                        </AlertDialogTitle>
+                        <AlertDialogTitle>{dialogData.title}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            {submissionResult.description}
+                            {dialogData.description}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -408,15 +472,73 @@ function Code() {
                                     />
                                 </TabsContent>
                                 <TabsContent value="editorials">
-                                    <Editorials
-                                        editorials={editorials}
-                                        selectedEditorialId={
-                                            selectedEditorialId
-                                        }
-                                        setSelectedEditorialId={
-                                            setSelectedEditorialId
-                                        }
-                                    />
+                                    <div className="py-2 mx-6 flex flex-row gap-2">
+                                        {selectedEditorial.id == "" &&
+                                        problemStatement.solved ? (
+                                            <Button
+                                                variant="outline"
+                                                onClick={() => {
+                                                    setIsEditing(
+                                                        (prev) => !prev,
+                                                    );
+                                                }}
+                                            >
+                                                {isEditing ? (
+                                                    <div className="flex flex-row gap-2 justify-center items-center">
+                                                        <X />
+                                                        Cancel editing
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex flex-row gap-2 justify-center items-center">
+                                                        <Edit />
+                                                        Compose an editorial
+                                                    </div>
+                                                )}
+                                            </Button>
+                                        ) : (
+                                            <div />
+                                        )}
+                                        {isEditing ? (
+                                            <Button
+                                                className="flex flex-row gap-2 justify-center items-center"
+                                                variant="outline"
+                                                onClick={submitEditorial}
+                                                disabled={
+                                                    editorialTitle == "" ||
+                                                    editorialContent == ""
+                                                }
+                                            >
+                                                {isSubmittingEditorial ? (
+                                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                ) : (
+                                                    <SendHorizontal />
+                                                )}
+                                                Submit Editorial
+                                            </Button>
+                                        ) : (
+                                            <div />
+                                        )}
+                                    </div>
+                                    {isEditing ? (
+                                        <EditorialEditor
+                                            title={editorialTitle}
+                                            setTitle={setEditorialTitle}
+                                            content={editorialContent}
+                                            setContent={setEditorialContent}
+                                        />
+                                    ) : (
+                                        <Editorials
+                                            editorials={editorials}
+                                            selectedEditorial={
+                                                selectedEditorial
+                                            }
+                                            setSelectedEditorial={
+                                                setSelectedEditorial
+                                            }
+                                            userId={user.id}
+                                            deleteEditorial={deleteEditorial}
+                                        />
+                                    )}
                                 </TabsContent>
                             </Tabs>
                         </ResizablePanel>

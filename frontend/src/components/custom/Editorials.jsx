@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import {
     Table,
@@ -8,19 +8,28 @@ import {
     TableHeader,
     TableRow,
 } from "../ui/table";
-import { ArrowLeft, Edit } from "lucide-react";
+import { ArrowLeft, DeleteIcon, Edit } from "lucide-react";
 import Markdown from "react-markdown";
 import { Button } from "../ui/button";
 
 function Editorials({
     editorials,
-    selectedEditorialId,
-    setSelectedEditorialId,
+    selectedEditorial,
+    setSelectedEditorial,
+    userId,
+    deleteEditorial,
 }) {
     if (editorials.length == 0) {
         return (
             <div className="flex h-full-w-nav-w-tab w-full justify-center items-center flex-col gap-2">
                 No Editorials Found
+                <Button
+                    variant="outline"
+                    className="py-2 flex flex-row gap-2 m-2"
+                >
+                    <Edit />
+                    Compose an editorial
+                </Button>
             </div>
         );
     }
@@ -30,46 +39,38 @@ function Editorials({
         month: "2-digit",
         year: "numeric",
     });
-    const [selectedEditorial, setSelectedEditorial] = useState(null);
 
-    useEffect(() => {
-        setSelectedEditorial(
-            editorials.find((editorial) => editorial.id == selectedEditorialId),
-        );
-    }, [selectedEditorialId]);
-
-    if (selectedEditorialId != "") {
-        console.log(selectedEditorial);
-        if (selectedEditorial == undefined) {
-            return (
-                <div className="flex h-full-w-nav-w-tab w-full justify-center items-center flex-col gap-2">
-                    Could not load editorial
-                    <div
-                        className="flex flex-row gap-2 cursor-pointer hover:underline pt-2 w-fit"
-                        onClick={() => {
-                            setSelectedEditorialId("");
-                            setSelectedEditorial(null);
-                        }}
-                    >
-                        <ArrowLeft /> View Other Editorials
-                    </div>
-                </div>
-            );
-        }
-
+    if (selectedEditorial.id != "") {
         return (
             <div className="flex h-full-w-nav-w-tab w-full flex-col">
                 <ScrollArea className="h-full-w-nav-w-tab flex flex-col p-6 py-0 overflow-auto">
-                    <div
-                        className="flex flex-row gap-2 cursor-pointer hover:underline pt-2 w-fit"
-                        onClick={() => setSelectedEditorialId("")}
-                    >
-                        <ArrowLeft /> View Other Editorials
+                    <div className="flex flex-row justify-between">
+                        <div
+                            className="flex flex-row gap-2 cursor-pointer hover:underline w-fit items-center "
+                            onClick={() => setSelectedEditorial({ id: "" })}
+                        >
+                            <ArrowLeft /> View Other Editorials
+                        </div>
+                        {selectedEditorial.user.id == userId ? (
+                            <Button
+                                className="flex flex-row gap-2 justify-center items-center"
+                                onClick={() =>
+                                    deleteEditorial(selectedEditorial)
+                                }
+                            >
+                                <DeleteIcon />
+                                Delete Editorial
+                            </Button>
+                        ) : (
+                            <div />
+                        )}
                     </div>
                     <p className="text-2xl font-bold pt-4">
                         {selectedEditorial.title}
                     </p>
-                    <Markdown>{selectedEditorial.content}</Markdown>
+                    <Markdown className="prose prose-invert">
+                        {selectedEditorial.content}
+                    </Markdown>
                 </ScrollArea>
             </div>
         );
@@ -78,13 +79,6 @@ function Editorials({
     return (
         <div className="flex h-full-w-nav-w-tab w-full flex-col">
             <ScrollArea className="h-full-w-nav-w-tab flex flex-col p-6 py-0 overflow-auto">
-                <Button
-                    variant="outline"
-                    className="py-2 flex flex-row gap-2 m-2"
-                >
-                    <Edit />
-                    Write an editorial
-                </Button>
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -102,9 +96,7 @@ function Editorials({
                                     key={editorial.id}
                                     className="group hover:cursor-pointer"
                                     onClick={() =>
-                                        setSelectedEditorialId(
-                                            `${editorial.id}`,
-                                        )
+                                        setSelectedEditorial(editorial)
                                     }
                                 >
                                     <TableCell className="overflow-ellipsis overflow-hidden w-full flex flex-col items-start justify-items-center">
