@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const getEditorials = async (req, res) => {
+const getEditorialsHandler = async (req, res) => {
     const { problemStatementId } = req.params;
     const editorials = await prisma.editorial.findMany({
         where: {
@@ -27,7 +27,7 @@ const getEditorials = async (req, res) => {
     });
 };
 
-const getEditorialById = async (req, res) => {
+const getEditorialByIdHandler = async (req, res) => {
     const { problemStatementId, editorialId } = req.params;
     const editorial = await prisma.editorial.findUnique({
         where: {
@@ -52,7 +52,7 @@ const getEditorialById = async (req, res) => {
     });
 };
 
-const newEditorial = async (req, res) => {
+const newEditorialHandler = async (req, res) => {
     const { problemStatementId } = req.params;
     const { title, content } = req.body;
     if (!title || !content || title.trim() == "" || content.trim() == "") {
@@ -120,7 +120,7 @@ const newEditorial = async (req, res) => {
     });
 };
 
-const deleteEditorial = async (req, res) => {
+const deleteEditorialHandler = async (req, res) => {
     const { editorialId } = req.params;
     if (!editorialId) {
         return res.status(400).json({
@@ -157,7 +157,7 @@ const deleteEditorial = async (req, res) => {
     });
 };
 
-const updateEditorial = async (req, res) => {
+const updateEditorialHandler = async (req, res) => {
     const { editorialId } = req.params;
     if (!editorialId) {
         return res.status(400).json({
@@ -212,9 +212,9 @@ const updateEditorial = async (req, res) => {
 };
 
 export {
-    getEditorials,
-    getEditorialById,
-    newEditorial,
-    deleteEditorial,
-    updateEditorial,
+    getEditorialsHandler,
+    getEditorialByIdHandler,
+    newEditorialHandler,
+    deleteEditorialHandler,
+    updateEditorialHandler,
 };
