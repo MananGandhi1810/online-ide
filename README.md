@@ -42,6 +42,10 @@ Online IDE, built using Express.js and React.js
     -   Total submissions
     -   Points earned
     -   Problems solved
+-   Editorials for each problem statement
+    -   Markdown rendered editorials
+    -   Code blocks in editorials
+    -   User can submit editorials after solving the problem statement
 
 ## Tech Stack
 
