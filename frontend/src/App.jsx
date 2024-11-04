@@ -70,6 +70,11 @@ function App() {
     const router = createBrowserRouter([
         {
             element: <Layout />,
+            errorElement: (
+                <p className="w-screen h-full-w-nav flex justify-center align-middle items-center">
+                    Something went wrong
+                </p>
+            ),
             children: [
                 {
                     path: "/",
