@@ -1,6 +1,6 @@
 # Online IDE
 
-Online IDE, built using Express.js and React.js
+Leetcode like platform to practice logic based coding problems. Built using Express.js, React.js, Postgres, and Docker
 
 ## Table of Contents
 
