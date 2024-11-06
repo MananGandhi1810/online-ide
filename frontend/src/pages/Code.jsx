@@ -422,7 +422,6 @@ function Code() {
         }
         setSelectedEditorial({ id: "" });
         getEditorials();
-        console.log(res);
     };
 
     return (

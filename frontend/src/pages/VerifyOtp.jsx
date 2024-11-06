@@ -51,7 +51,6 @@ function VerifyOtp() {
                 title: "Success",
                 description: res.message,
             });
-            console.log(res.data);
             navigate("/reset-password", {
                 state: { email, token: res.data.token },
             });
@@ -66,7 +65,6 @@ function VerifyOtp() {
 
     useEffect(() => {
         if (otp.length == 6) {
-            console.log(otp);
             submit(email, otp);
         }
     }, [otp]);
