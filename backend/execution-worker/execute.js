@@ -5,8 +5,15 @@ import { get, set } from "../utils/keyvalue-db.js";
 const prisma = new PrismaClient();
 
 const executeFromQueue = async (message, channel) => {
-    const { code, language, submissionId, problemStatementId, temp } =
-        JSON.parse(message);
+    const {
+        code,
+        language,
+        submissionId,
+        problemStatementId,
+        temp,
+        testcase,
+        containsTestCase,
+    } = JSON.parse(message);
     if (
         code == "" ||
         language == "" ||
@@ -43,20 +50,27 @@ const executeFromQueue = async (message, channel) => {
     if (!submission && !temp) {
         return;
     }
-    const testCases = problemStatement.testCase;
+    var testCases;
+    var expectedResult;
+    if (containsTestCase && temp) {
+        testCases = [{ input: testcase }];
+    } else {
+        testCases = problemStatement.testCase;
+        expectedResult = "";
+        testCases.forEach((testCase) => {
+            expectedResult += testCase.output
+                .replace(/\r?\n|\r/g, "")
+                .normalize()
+                .toLowerCase();
+            expectedResult += "---";
+        });
+    }
+    console.log(testCases);
     const container = await createDockerContainer(
         language,
         code,
         testCases.map((testCase) => testCase.input),
     );
-    var expectedResult = "";
-    testCases.forEach((testCase) => {
-        expectedResult += testCase.output
-            .replace(/\r?\n|\r/g, "")
-            .normalize()
-            .toLowerCase();
-        expectedResult += "---";
-    });
     await container.start();
     const start = process.hrtime();
     var didTLE = false;
@@ -119,12 +133,11 @@ const executeFromQueue = async (message, channel) => {
     const end = process.hrtime();
     const ms = (end[0] - start[0]) * 1e3 + (end[1] - start[1]) * 1e-6;
     console.log(`Executed ${submissionId} in ${ms}ms`);
-    const correctResult = logs == expectedResult;
+    var correctResult = false;
     try {
         const result = {
             output: rawLogs,
             status: "Executed",
-            success: correctResult,
             execTime: ms,
         };
         if (temp) {
@@ -139,6 +152,8 @@ const executeFromQueue = async (message, channel) => {
                 60 * 5,
             );
         } else {
+            correctResult = logs == expectedResult;
+            result.success = correctResult;
             await prisma.submission.update({
                 where: { id: submissionId },
                 data: result,

@@ -33,13 +33,17 @@ const queueCodeHandler = async (req, res, isTempRun = false) => {
             data: null,
         });
     }
-    const { code } = req.body;
+    const { code, customTestcase } = req.body;
+    var containsTestCase = false;
     if (!code) {
         return res.status(400).json({
             success: false,
             message: "Code cannot be empty",
             data: null,
         });
+    }
+    if (customTestcase && customTestcase.trim() != "" && isTempRun) {
+        containsTestCase = true;
     }
     try {
         var submissionId;
@@ -69,6 +73,10 @@ const queueCodeHandler = async (req, res, isTempRun = false) => {
             userId: req.user.id,
             temp: isTempRun,
         };
+        if (containsTestCase) {
+            data.containsTestCase = containsTestCase;
+            data.testcase = customTestcase;
+        }
         await sendQueueMessage("execute", JSON.stringify(data));
         await res.json({
             success: true,
