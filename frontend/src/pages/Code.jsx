@@ -752,7 +752,7 @@ function Code() {
                                                         Code Output
                                                     </p>
                                                     {output.map((o, i) => (
-                                                        <div>
+                                                        <div key={i}>
                                                             <p className="mt-3 text-lg">
                                                                 Test Case{" "}
                                                                 {i + 1}

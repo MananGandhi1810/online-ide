@@ -1,5 +1,4 @@
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import React from "react";
 import Markdown from "react-markdown";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";

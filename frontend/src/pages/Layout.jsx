@@ -1,5 +1,4 @@
 import NavBar from "@/components/custom/NavBar.jsx";
-import React from "react";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster.jsx";
 import { ScrollArea } from "@/components/ui/scroll-area";
