@@ -97,9 +97,9 @@ function Code() {
     const [isEditing, setIsEditing] = useState(false);
     const [editorialTitle, setEditorialTitle] = useState("");
     const [editorialContent, setEditorialContent] = useState("");
-    const { toast } = useToast();
     const [isSubmittingEditorial, setIsSubmittingEditorial] = useState(false);
     const [customTestcase, setCustomTestcase] = useState("");
+    const { toast } = useToast();
 
     useEffect(() => {
         getEditorials();
@@ -132,12 +132,23 @@ function Code() {
         } else {
             setSubmitting(true);
         }
+        toast({
+            title: "Running",
+            description:
+                isTempRun &&
+                (tabValue == "custom-testcase" || tabValue == "output")
+                    ? "Running with custom testcase"
+                    : "Running with sample testcase",
+        });
         const res = await axios
             .post(
                 `${process.env.SERVER_URL}/code/${
                     isTempRun ? "run" : "submit"
                 }/${id}/${language}`,
-                isTempRun ? { code, customTestcase } : { code },
+                isTempRun &&
+                    (tabValue == "custom-testcase" || tabValue == "output")
+                    ? { code, customTestcase }
+                    : { code },
                 {
                     headers: {
                         Authorization: `Bearer ${user.token}`,
