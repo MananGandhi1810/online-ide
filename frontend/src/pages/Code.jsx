@@ -45,6 +45,7 @@ import Editorials from "@/components/custom/Editorials";
 import EditorialEditor from "@/components/custom/EditorialEditor";
 import htmlToMarkdown from "@wcj/html-to-markdown";
 import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
 
 function Code() {
     const problemStatement = useLoaderData();
@@ -98,6 +99,7 @@ function Code() {
     const [editorialContent, setEditorialContent] = useState("");
     const { toast } = useToast();
     const [isSubmittingEditorial, setIsSubmittingEditorial] = useState(false);
+    const [customTestcase, setCustomTestcase] = useState("");
 
     useEffect(() => {
         getEditorials();
@@ -135,7 +137,7 @@ function Code() {
                 `${process.env.SERVER_URL}/code/${
                     isTempRun ? "run" : "submit"
                 }/${id}/${language}`,
-                { code },
+                isTempRun ? { code, customTestcase } : { code },
                 {
                     headers: {
                         Authorization: `Bearer ${user.token}`,
@@ -652,6 +654,15 @@ function Code() {
                                     >
                                         Sample Testcases
                                     </TabsTrigger>
+                                    <TabsTrigger
+                                        className="m-0.5"
+                                        value="custom-testcase"
+                                        onClick={() => {
+                                            setTabValue("custom-testcase");
+                                        }}
+                                    >
+                                        Custom Testcase
+                                    </TabsTrigger>
                                     {output != null ? (
                                         <TabsTrigger
                                             className="m-0.5"
@@ -735,6 +746,23 @@ function Code() {
                                                     </div>
                                                 ),
                                             )}
+                                        </div>
+                                    </ScrollArea>
+                                </TabsContent>
+                                <TabsContent value="custom-testcase">
+                                    <ScrollArea className="flex h-full flex-col gap-5">
+                                        <div className="p-6 pb-14">
+                                            <Textarea
+                                                value={customTestcase}
+                                                onChange={(e) =>
+                                                    setCustomTestcase(
+                                                        e.target.value,
+                                                    )
+                                                }
+                                                placeholder="Check against your own testcases"
+                                                className="flex-1 resize-none"
+                                                rows={10}
+                                            />
                                         </div>
                                     </ScrollArea>
                                 </TabsContent>
