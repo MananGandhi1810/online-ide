@@ -36,7 +36,7 @@ const checkAuth = async (req, res, next, admin = false) => {
         });
     }
     if (!jwtUser) {
-        res.status(500).send({
+        return res.status(500).send({
             success: false,
             message: "There was an error in verifying your account",
             data: null,
