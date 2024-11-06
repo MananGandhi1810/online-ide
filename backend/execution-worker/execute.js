@@ -65,7 +65,6 @@ const executeFromQueue = async (message, channel) => {
             expectedResult += "---";
         });
     }
-    console.log(testCases);
     const container = await createDockerContainer(
         language,
         code,
