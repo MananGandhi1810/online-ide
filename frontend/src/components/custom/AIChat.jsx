@@ -15,24 +15,31 @@ function AIChat({
     return (
         <div className="flex h-full-w-nav-w-tab w-full flex-col">
             <ScrollArea className="h-full-w-nav-w-tab flex flex-col p-6 py-0 overflow-auto">
-                {chatHistory.map((message) => (
-                    <div
-                        key={() => new Date().toISOString()}
-                        className={`mb-4 p-3 rounded-lg ${
-                            message.role === "user"
-                                ? "bg-primary text-primary-foreground ml-auto"
-                                : "bg-muted mr-auto"
-                        } max-w-[80%] w-fit text-wrap break-keep`}
-                    >
-                        {message.role == "assistant" ? (
-                            <Markdown className="prose dark:prose-invert min-w-full max-w-full w-full">
-                                {message.content}
-                            </Markdown>
-                        ) : (
-                            <p>{message.content}</p>
-                        )}
-                    </div>
-                ))}
+                {chatHistory.length != 0 ? (
+                    chatHistory.map((message) => (
+                        <div
+                            key={() => new Date().toISOString()}
+                            className={`mb-4 p-3 rounded-lg ${
+                                message.role === "user"
+                                    ? "bg-primary text-primary-foreground ml-auto"
+                                    : "bg-muted mr-auto"
+                            } max-w-[80%] w-fit text-wrap break-keep`}
+                        >
+                            {message.role == "assistant" ? (
+                                <Markdown className="prose dark:prose-invert min-w-full max-w-full w-full">
+                                    {message.content}
+                                </Markdown>
+                            ) : (
+                                <p>{message.content}</p>
+                            )}
+                        </div>
+                    ))
+                ) : (
+                    <p className="flex justify-center items-center h-full">
+                        You can chat with an AI Assistant and get help with your
+                        code here!
+                    </p>
+                )}
                 {currentResponse.trim() != "" && (
                     <div
                         key={() => Date()}
