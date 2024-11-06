@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button.jsx";
-import { ArrowRight, SquareArrowOutUpRight } from "lucide-react";
+import { ArrowRight, SquareArrowOutUpRight, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { cn } from "@/lib/utils";
@@ -33,7 +33,8 @@ function Home() {
                     <div className="space-4">
                         <Button className="group" asChild>
                             <Link to="https://github.com/MananGandhi1810/online-ide">
-                                View Source Code
+                                <Star className="mr-2 size-[20px] z-10 group-hover:mr-3 duration-200" />
+                                Star on GitHub
                                 <SquareArrowOutUpRight className="ml-2 size-[20px] z-10 group-hover:ml-3 duration-200" />
                             </Link>
                         </Button>
