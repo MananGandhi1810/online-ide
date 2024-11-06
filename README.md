@@ -61,6 +61,10 @@ Leetcode like platform to practice logic based coding problems. Built using Expr
 -   Shiki.js with Monaco Editor (for code editing with syntax highlighting)
 -   Meta LLaMA 3.1 8B (CloudFlare Workers AI)
 
+## How it works
+
+![Diagram](assets/flow-diagram.png)
+
 ## Setup
 
 You can either use the docker-compose file to run the project or run the backend and frontend separately.
