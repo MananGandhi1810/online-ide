@@ -281,7 +281,8 @@ const verifyOtpHandler = async (req, res) => {
     if (!user.isVerified) {
         return res.status(403).json({
             success: false,
-            message: "Please verify your account from your email inbox to continue",
+            message:
+                "Please verify your account from your email inbox to continue",
             data: null,
         });
     }
