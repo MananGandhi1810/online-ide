@@ -23,6 +23,7 @@ Leetcode like platform to practice logic based coding problems. Built using Expr
     -   4 Languages Supported (Python, C, C++, Java)
     -   Problem Statements rendered as Markdown, with support for code blocks
     -   Sample Test Cases for each problem with expected output
+    -   Custom testcases can be set by the user
 -   Sandboxed Code Execution
     -   Docker container for each code execution
     -   Limit time used by code
