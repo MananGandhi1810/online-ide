@@ -6,6 +6,7 @@ Leetcode like platform to practice logic based coding problems. Built using Expr
 
 -   [Features](#features)
 -   [Tech Stack](#tech-stack)
+-   [How It Works](#how-it-works)
 -   [Setup](#setup)
     -   [Using Docker Compose](#using-docker-compose)
     -   [Running Backend and Frontend Separately](#running-backend-and-frontend-separately)
