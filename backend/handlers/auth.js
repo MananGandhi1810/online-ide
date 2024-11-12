@@ -138,7 +138,7 @@ const loginHandler = async (req, res) => {
         return res.status(401).json({
             success: false,
             message: "This user does not have a password associated",
-            data: null
+            data: null,
         });
     }
     const passwordMatch = await compare(password, user.password);
@@ -474,6 +474,7 @@ const githubCallbackHandler = async (req, res) => {
         name: userDataResponse.data.name,
         githubAccessToken: accessToken,
         authProvider: "GITHUB",
+        isVerified: true,
     };
     const userEmail = userEmailResponse.data.find((email) => email.primary);
     if (!userEmail) {
