@@ -42,6 +42,13 @@ const checkAuth = async (req, res, next, admin = false) => {
             data: null,
         });
     }
+    if (jwtUser.scope == "request") {
+        return res.status(401).send({
+            success: false,
+            message: "Invalid token",
+            data: null,
+        });
+    }
     const user = await prisma.user.findUnique({
         where: {
             id: jwtUser.id,

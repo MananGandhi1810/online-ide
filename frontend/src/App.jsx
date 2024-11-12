@@ -233,6 +233,45 @@ function App() {
                     element: <UserData />,
                 },
                 {
+                    path: "/gh-callback",
+                    loader: async ({ request }) => {
+                        var res;
+                        const requestToken = new URL(
+                            request.url,
+                        ).searchParams.get("requestToken");
+                        if (!requestToken) {
+                            return null;
+                        }
+                        try {
+                            res = await axios
+                                .get(
+                                    `${process.env.SERVER_URL}/auth/accessToken`,
+                                    {
+                                        headers: {
+                                            authorization: `Bearer ${requestToken}`,
+                                        },
+                                        validateStatus: false,
+                                    },
+                                )
+                                .then((res) => res.data);
+                        } catch (e) {
+                            return null;
+                        }
+                        if (!res.success) {
+                            return null;
+                        }
+                        setUser((prevUser) => {
+                            return {
+                                ...prevUser,
+                                token: res.data.accessToken,
+                                isAuthenticated: true,
+                            };
+                        });
+                        return redirect("/");
+                    },
+                    element: <Home />,
+                },
+                {
                     path: "*",
                     element: <NoPageFound />,
                 },
@@ -245,9 +284,18 @@ function App() {
     }, [user]);
 
     useEffect(() => {
-        getUserPoints(user.token).then((res) =>
-            setUser({ ...user, points: res.success ? res.data.points : 0 }),
-        );
+        fetchUserData();
+        getUserPoints(user.token).then((res) => {
+            if (!res) return;
+            setUser({ ...user, points: res.success ? res.data.points : 0 });
+        });
+    }, [user.isAuthenticated, user.token]);
+
+    useEffect(() => {
+        getUserPoints(user.token).then((res) => {
+            if (!res) return;
+            setUser({ ...user, points: res.success ? res.data.points : 0 });
+        });
     }, [user.points]);
 
     return (

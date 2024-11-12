@@ -13,6 +13,9 @@ export default defineConfig((mode) => {
         },
         define: {
             "process.env.SERVER_URL": JSON.stringify(env.REACT_APP_SERVER_URL),
+            "process.env.GH_CLIENT_ID": JSON.stringify(
+                env.REACT_APP_GH_CLIENT_ID,
+            ),
         },
     };
 });

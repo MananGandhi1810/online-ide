@@ -15,7 +15,8 @@ import { Loader2 } from "lucide-react";
 import AuthContext from "@/context/auth-provider.jsx";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast.js";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import ghIcon from "@/assets/gh-icon.png";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -66,12 +67,7 @@ function Login() {
     return (
         <div className="h-full-w-nav w-screen m-auto flex items-center justify-center">
             <Card className="w-[350px]">
-                <form
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        login(email, password);
-                    }}
-                >
+                <form>
                     <CardHeader>
                         <CardTitle>Login</CardTitle>
                         <CardDescription>
@@ -100,6 +96,14 @@ function Login() {
                                     placeholder="Your password"
                                 />
                             </div>
+                            <Button className="w-full gap-1" asChild>
+                                <Link
+                                    to={`https://github.com/login/oauth/authorize?client_id=${process.env.GH_CLIENT_ID}&scope=user:email`}
+                                >
+                                    <img src={ghIcon} className="h-6" /> Sign in
+                                    with GitHub
+                                </Link>
+                            </Button>
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end flex-col items-end mt-2 pb-0">
@@ -109,7 +113,12 @@ function Login() {
                                 Logging in
                             </Button>
                         ) : (
-                            <Button onClick={() => login(email, password)}>
+                            <Button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    login(email, password);
+                                }}
+                            >
                                 Log In
                             </Button>
                         )}

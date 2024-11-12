@@ -6,6 +6,11 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { exists, set, get, del } from "../utils/keyvalue-db.js";
 import { randomNum } from "../utils/generate_otp.js";
+import {
+    getAccessToken,
+    getUserDetails,
+    getUserEmails,
+} from "../utils/github-api.js";
 
 dotenv.config();
 const jwtSecret = process.env.SECRET_KEY;
@@ -127,6 +132,13 @@ const loginHandler = async (req, res) => {
             success: false,
             message: "This email does not exist",
             data: null,
+        });
+    }
+    if (user.authProvider != "EMAIl") {
+        return res.status(401).json({
+            success: false,
+            message: "This user does not have a password associated",
+            data: null
         });
     }
     const passwordMatch = await compare(password, user.password);
@@ -434,6 +446,133 @@ const resetPasswordHandler = async (req, res) => {
     });
 };
 
+const githubCallbackHandler = async (req, res) => {
+    const { code } = req.query;
+    const accessTokenResponse = await getAccessToken(code);
+    if (accessTokenResponse.status >= 400) {
+        return res.status(accessTokenResponse.status).json({
+            success: false,
+            messsage: "Could not login",
+            data: accessTokenResponse.data,
+        });
+    }
+    const accessToken = accessTokenResponse.data.access_token;
+    const userDataPromise = getUserDetails(accessToken);
+    const userEmailPromise = getUserEmails(accessToken);
+    const [userDataResponse, userEmailResponse] = await Promise.all([
+        userDataPromise,
+        userEmailPromise,
+    ]);
+    if (userDataResponse.status >= 400 || userEmailResponse.status >= 400) {
+        return res.status(500).json({
+            success: false,
+            messsage: "An error occurred when trying to get details",
+            data: null,
+        });
+    }
+    const userData = {
+        name: userDataResponse.data.name,
+        githubAccessToken: accessToken,
+        authProvider: "GITHUB",
+    };
+    const userEmail = userEmailResponse.data.find((email) => email.primary);
+    if (!userEmail) {
+        return res.status(400).json({
+            success: false,
+            message: "No Email ID",
+            data: null,
+        });
+    }
+    const existingEmailUser = await prisma.user.findUnique({
+        where: {
+            email: userEmail.email,
+            authProvider: { not: "GITHUB" },
+        },
+    });
+    if (existingEmailUser) {
+        return res.status(403).json({
+            success: false,
+            message: "User already has email/password account",
+            data: null,
+        });
+    }
+    userData.email = userEmail.email;
+    const user = await prisma.user.upsert({
+        where: {
+            email: userData.email,
+        },
+        update: userData,
+        create: userData,
+    });
+    const requestToken = jwt.sign(
+        { email: user.email, name: user.name, id: user.id, scope: "request" },
+        jwtSecret,
+        { expiresIn: 5 * 60 },
+    );
+    res.redirect(
+        `${process.env.FRONTEND_URL}/gh-callback?requestToken=${requestToken}`,
+    );
+};
+
+const accessTokenHandler = async (req, res) => {
+    const { authorization } = req.headers;
+    if (!authorization) {
+        return res.status(403).json({
+            success: false,
+            message: "Authorization header is missing",
+            data: null,
+        });
+    }
+    const token = authorization.replace("Bearer ", "");
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: "Authorization bearer token is missing",
+            data: null,
+        });
+    }
+    var tokenData = {};
+    try {
+        tokenData = jwt.verify(token, jwtSecret);
+    } catch (e) {
+        return res.status(500).json({
+            success: false,
+            message: "An error occurred",
+            data: null,
+        });
+    }
+    if (!tokenData || tokenData.scope != "request") {
+        return res.status(403).json({
+            success: false,
+            message: "Invalid token",
+            data: null,
+        });
+    }
+    const user = await prisma.user.findUnique({
+        where: {
+            email: tokenData.email,
+        },
+    });
+    if (!user) {
+        return res.status(403).json({
+            success: false,
+            message: "Could not verify user",
+            data: null,
+        });
+    }
+    const accessToken = jwt.sign(
+        { email: user.email, name: user.name, id: user.id },
+        jwtSecret,
+    );
+    res.json({
+        success: true,
+        message: "Token generated successfully",
+        data: {
+            accessToken,
+        },
+    });
+};
+
 export {
     registerHandler,
     verifyHandler,
@@ -442,4 +581,6 @@ export {
     forgotPasswordHandler,
     verifyOtpHandler,
     resetPasswordHandler,
+    githubCallbackHandler,
+    accessTokenHandler,
 };

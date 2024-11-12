@@ -14,7 +14,8 @@ import { PasswordInput } from "@/components/ui/password-input.jsx";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ghIcon from "@/assets/gh-icon.png";
 
 function Login() {
     const [name, setName] = useState("");
@@ -98,6 +99,14 @@ function Login() {
                                     placeholder="Your password"
                                 />
                             </div>
+                            <Button className="w-full gap-1" asChild>
+                                <Link
+                                    to={`https://github.com/login/oauth/authorize?client_id=${process.env.GH_CLIENT_ID}&scope=user:email`}
+                                >
+                                    <img src={ghIcon} className="h-6" /> Sign in
+                                    with GitHub
+                                </Link>
+                            </Button>
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end">
