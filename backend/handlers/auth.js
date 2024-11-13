@@ -134,7 +134,7 @@ const loginHandler = async (req, res) => {
             data: null,
         });
     }
-    if (user.authProvider != "EMAIl") {
+    if (user.authProvider != "EMAIL") {
         return res.status(401).json({
             success: false,
             message: "This user does not have a password associated",
