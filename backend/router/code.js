@@ -18,7 +18,7 @@ router.post(
 router.post(
     "/run/:problemStatementId/:language",
     checkAuth,
-    (req, res, next) => rateLimit(req, res, next, 5, "code-submission"),
+    (req, res, next) => rateLimit(req, res, next, 3, "code-submission"),
     (req, res) => queueCodeHandler(req, res, true),
 );
 router.get("/check/:submissionId", checkAuth, (req, res) =>
