@@ -253,6 +253,13 @@ const forgotPasswordHandler = async (req, res) => {
             data: null,
         });
     }
+    if (user.authProvider != "EMAIL") {
+        return res.status(403).json({
+            success: false,
+            message: "This account does not have a password associated",
+            data: null,
+        });
+    }
     const otp = await randomNum();
     sendEmail(
         email,
