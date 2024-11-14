@@ -4,12 +4,18 @@ const redis = createClient({ url: process.env.REDIS_URL });
 redis.connect();
 
 const rateLimit = async (req, res, next, limit = 5, use = "") => {
-    const ip =
-        req.headers["x-forwarded-for"] ||
-        req.connection.remoteAddress ||
-        req.socket.remoteAddress ||
-        req.connection.socket.remoteAddress;
-    const redisId = `rate-limit:${use}/${ip}`;
+    var key;
+    if (req.user) {
+        key = req.user.id;
+    } else {
+        key =
+            req.headers["x-forwarded-for"] ||
+            req.connection.remoteAddress ||
+            req.socket.remoteAddress ||
+            req.connection.socket.remoteAddress;
+    }
+    console.log(key);
+    const redisId = `rate-limit:${use}/${key}`;
     const requests = await redis.incr(redisId);
     if (requests === 1) {
         await redis.expire(redisId, 60);
