@@ -59,19 +59,19 @@ export default function NavBar() {
                 <nav className="hidden items-center justify-center gap-6 text-sm font-medium md:flex flex-1">
                     <Link
                         to="/"
-                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all after:duration-300"
+                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                     >
                         Home
                     </Link>
                     <Link
                         to="/problems"
-                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all after:duration-300"
+                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                     >
                         Problems
                     </Link>
                     <Link
                         to="/leaderboard"
-                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all after:duration-300"
+                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                     >
                         Leaderboard
                     </Link>
