@@ -23,13 +23,6 @@ function Editorials({
         return (
             <div className="flex h-full-w-nav-w-tab w-full justify-center items-center flex-col gap-2">
                 No Editorials Found
-                <Button
-                    variant="outline"
-                    className="py-2 flex flex-row gap-2 m-2"
-                >
-                    <Edit />
-                    Compose an editorial
-                </Button>
             </div>
         );
     }
