@@ -14,7 +14,6 @@ const rateLimit = async (req, res, next, limit = 5, use = "") => {
             req.socket.remoteAddress ||
             req.connection.socket.remoteAddress;
     }
-    console.log(key);
     const redisId = `rate-limit:${use}/${key}`;
     const requests = await redis.incr(redisId);
     if (requests === 1) {

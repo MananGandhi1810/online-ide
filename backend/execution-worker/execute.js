@@ -81,7 +81,6 @@ const executeFromQueue = async (message, channel) => {
                     return;
                 }
                 resolve();
-                console.log("TLE");
                 didTLE = true;
                 const result = {
                     status: "TimeLimitExceeded",
