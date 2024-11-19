@@ -1,11 +1,12 @@
-FROM ubuntu:latest
+FROM alpine:latest
 
 WORKDIR /usr/code-runner
-RUN apt update
-RUN apt install gcc g++ -y
-RUN apt install nodejs -y
-RUN apt install python3 -y
-RUN apt install default-jdk -y
+RUN apk update
+RUN apk add gcc g++
+RUN apk add nodejs
+RUN apk add python3
+RUN apk add openjdk11
+RUN apk add bash
 COPY executor.py executor.py
 
 CMD ["bash"]
