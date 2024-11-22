@@ -1,6 +1,6 @@
 # Online IDE
 
-Leetcode like platform to practice logic based coding problems. Built using Express.js, React.js, Postgres, and Docker
+Leetcode like platform to practice logic based coding problems. Built using Express.js, React.js, Postgres, and Docker containers for code execution.
 
 ## Table of Contents
 
