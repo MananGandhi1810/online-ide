@@ -81,7 +81,6 @@ const executeFromQueue = async (message, channel) => {
                     return;
                 }
                 resolve();
-                console.log("TLE");
                 didTLE = true;
                 const result = {
                     status: "TimeLimitExceeded",
@@ -193,7 +192,6 @@ const executeFromQueue = async (message, channel) => {
                     points: true,
                 },
             });
-            console.log(updated.points);
         }
     }
 };

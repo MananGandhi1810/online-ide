@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import {
     Table,
@@ -8,7 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from "../ui/table";
-import { ArrowLeft, DeleteIcon, Edit } from "lucide-react";
+import { ArrowLeft, DeleteIcon } from "lucide-react";
 import Markdown from "react-markdown";
 import { Button } from "../ui/button";
 
@@ -23,13 +23,6 @@ function Editorials({
         return (
             <div className="flex h-full-w-nav-w-tab w-full justify-center items-center flex-col gap-2">
                 No Editorials Found
-                <Button
-                    variant="outline"
-                    className="py-2 flex flex-row gap-2 m-2"
-                >
-                    <Edit />
-                    Compose an editorial
-                </Button>
             </div>
         );
     }
