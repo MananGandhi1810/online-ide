@@ -457,11 +457,9 @@ const githubCallbackHandler = async (req, res) => {
     const { code } = req.query;
     const accessTokenResponse = await getAccessToken(code);
     if (accessTokenResponse.status >= 400) {
-        return res.status(accessTokenResponse.status).json({
-            success: false,
-            messsage: "Could not login",
-            data: accessTokenResponse.data,
-        });
+        return res.redirect(
+            `${process.env.FRONTEND_URL}/gh-callback-error?error=${"Could not login"}`,
+        );
     }
     const accessToken = accessTokenResponse.data.access_token;
     const userDataPromise = getUserDetails(accessToken);
@@ -471,11 +469,9 @@ const githubCallbackHandler = async (req, res) => {
         userEmailPromise,
     ]);
     if (userDataResponse.status >= 400 || userEmailResponse.status >= 400) {
-        return res.status(500).json({
-            success: false,
-            messsage: "An error occurred when trying to get details",
-            data: null,
-        });
+        return res.redirect(
+            `${process.env.FRONTEND_URL}/gh-callback-error?error=${"An error occurred when trying to get details"}`,
+        );
     }
     const userData = {
         name: userDataResponse.data.name,
@@ -485,11 +481,9 @@ const githubCallbackHandler = async (req, res) => {
     };
     const userEmail = userEmailResponse.data.find((email) => email.primary);
     if (!userEmail) {
-        return res.status(400).json({
-            success: false,
-            message: "No Email ID",
-            data: null,
-        });
+        return res.redirect(
+            `${process.env.FRONTEND_URL}/gh-callback-error?error=${"No Email ID"}`,
+        );
     }
     const existingEmailUser = await prisma.user.findUnique({
         where: {
@@ -498,11 +492,9 @@ const githubCallbackHandler = async (req, res) => {
         },
     });
     if (existingEmailUser) {
-        return res.status(403).json({
-            success: false,
-            message: "User already has email/password account",
-            data: null,
-        });
+        return res.redirect(
+            `${process.env.FRONTEND_URL}/gh-callback-error?error=${"User already has email/password account"}`,
+        );
     }
     userData.email = userEmail.email;
     const user = await prisma.user.upsert({
