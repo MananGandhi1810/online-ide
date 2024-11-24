@@ -284,7 +284,7 @@ function App() {
                             description: error,
                         });
                         return redirect("/login");
-                    },  
+                    },
                     element: <Login />,
                 },
                 {
