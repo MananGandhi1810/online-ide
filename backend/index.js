@@ -16,7 +16,7 @@ morgan.token("user-id", (req, res) => {
 });
 app.use(
     logger(
-        `[:date[web]] :remote-addr - ":method :url HTTP/:http-version" :status ":referrer" ":user-agent" UserId: :user-id`,
+        `[:date[web]] :remote-addr - ":method :url HTTP/:http-version" :status ":referrer" ":user-agent" User::user-id - :response-time ms`,
     ),
 );
 app.use(express.json());
