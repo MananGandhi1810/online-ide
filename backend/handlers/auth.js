@@ -106,11 +106,7 @@ const verifyHandler = async (req, res) => {
             .status(500)
             .send("There was an error in verifying your account");
     }
-    res.send(
-        `Your account has been verified successfully. Click <a href="${
-            req.protocol
-        }://${req.get("host")}/">here</a> to go to Online IDE`,
-    );
+    res.redirect(`${process.env.FRONTEND_URL}/login`);
 };
 
 const loginHandler = async (req, res) => {
