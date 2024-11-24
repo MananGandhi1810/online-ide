@@ -7,10 +7,18 @@ import leaderboardRouter from "./router/leaderboard.js";
 import userRouter from "./router/user.js";
 import editorialsRouter from "./router/editorial.js";
 import logger from "morgan";
+import morgan from "morgan";
 
 const app = express();
 
-app.use(logger("dev"));
+morgan.token("user-id", (req, res) => {
+    return req.user != undefined ? req.user.id : "Unauthenticated";
+});
+app.use(
+    logger(
+        `[:date[web]] :remote-addr - ":method :url HTTP/:http-version" :status ":referrer" ":user-agent" UserId: :user-id`,
+    ),
+);
 app.use(express.json());
 app.use(
     cors({
