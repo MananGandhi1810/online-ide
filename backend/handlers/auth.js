@@ -63,13 +63,22 @@ const registerHandler = async (req, res) => {
     user.password = undefined;
     const token = jwt.sign({ name, email, id: user.id }, jwtSecret);
     const url = `${req.protocol}://${req.get("host")}/auth/verify?token=${token}`;
-    await sendEmail(
-        email,
-        "Verify",
-        `<h1>Please verify</h1>
+    try {
+        await sendEmail(
+            email,
+            "Verify",
+            `<h1>Please verify</h1>
 Please verify your account on Online IDE by clicking on this <a href="${url}">link</a>.
 Alternatively, you can visit this URL: ${url}`,
-    );
+        );
+    } catch (e) {
+        return res.status(500).json({
+            success: false,
+            message:
+                "Could not send verification email, please try again after some time",
+            data: null,
+        });
+    }
     res.json({
         success: true,
         message:
