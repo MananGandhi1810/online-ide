@@ -460,6 +460,11 @@ const resetPasswordHandler = async (req, res) => {
 
 const githubCallbackHandler = async (req, res) => {
     const { code } = req.query;
+    if (!code) {
+        return res.redirect(
+            `${process.env.FRONTEND_URL}/gh-callback-error?error=${"Login cancelled"}`,
+        );
+    }
     const accessTokenResponse = await getAccessToken(code);
     if (accessTokenResponse.status >= 400) {
         return res.redirect(
