@@ -11,6 +11,7 @@ import {
     getUserDetails,
     getUserEmails,
 } from "../utils/github-api.js";
+import disposableEmailDomains from "disposable-email-domains-js";
 
 dotenv.config();
 const jwtSecret = process.env.SECRET_KEY;
@@ -37,6 +38,13 @@ const registerHandler = async (req, res) => {
         return res.status(400).json({
             success: false,
             message: "Invalid email format",
+            data: null,
+        });
+    }
+    if (disposableEmailDomains.isDisposableEmail(email)) {
+        return res.status(400).json({
+            success: false,
+            message: "Please use a real email",
             data: null,
         });
     }
