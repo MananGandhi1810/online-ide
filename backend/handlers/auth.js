@@ -91,7 +91,7 @@ Alternatively, you can visit this URL: ${url}`,
         success: true,
         message:
             "Registered successfully, please check your email inbox for verification",
-        data: user,
+        data: null,
     });
 };
 
@@ -234,7 +234,7 @@ Alternatively, you can visit this URL: ${url}`,
     res.json({
         success: true,
         message: "Verification email sent successfully",
-        data: user,
+        data: null,
     });
 };
 
