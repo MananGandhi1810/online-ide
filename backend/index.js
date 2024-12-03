@@ -14,6 +14,7 @@ const app = express();
 morgan.token("user-id", (req, res) => {
     return req.user != undefined ? req.user.id : "Unauthenticated";
 });
+app.enable("trust proxy");
 app.use(
     logger(
         `[:date[web]] :remote-addr - ":method :url HTTP/:http-version" :status ":referrer" ":user-agent" User::user-id - :response-time ms`,
