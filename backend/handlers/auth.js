@@ -5,7 +5,7 @@ import sendEmail from "../utils/email.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { exists, set, get, del } from "../utils/keyvalue-db.js";
-import { randomNum } from "../utils/generate_otp.js";
+import { randomNum } from "../utils/generate-otp.js";
 import {
     getAccessToken,
     getUserDetails,

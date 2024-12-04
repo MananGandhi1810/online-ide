@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { sendQueueMessage } from "../utils/queue-manager.js";
-import { randomNum } from "../utils/generate_otp.js";
+import { randomNum } from "../utils/generate-otp.js";
 import { get, set } from "../utils/keyvalue-db.js";
 import { chat, getSystemPrompt, getUserPrompt } from "../utils/ai-model.js";
 
