@@ -449,6 +449,7 @@ const resetPasswordHandler = async (req, res) => {
             },
             data: {
                 password: hashedPassword,
+                passwordUpdatedAt: new Date(),
             },
         });
     } catch {
