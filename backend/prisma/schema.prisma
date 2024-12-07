@@ -66,6 +66,9 @@ model ProblemStatement {
     submissions Submission[]
     testCase    Testcase[]
     editorials  Editorial[]
+    Tag         Tag?         @relation(fields: [tagId], references: [id])
+    tagId       String?
+    ProblemTag  ProblemTag[]
 }
 
 model Testcase {
@@ -88,4 +91,20 @@ model Editorial {
     hidden             Boolean          @default(false)
     createdAt          DateTime         @default(now())
     updatedAt          DateTime         @updatedAt
+}
+
+model Tag {
+    id         String             @id @default(cuid())
+    name       String
+    problems   ProblemStatement[]
+    ProblemTag ProblemTag[]
+}
+
+model ProblemTag {
+    id        String           @id @default(cuid())
+    problem   ProblemStatement @relation(fields: [problemId], references: [id], onDelete: Cascade)
+    problemId String
+    tag       Tag              @relation(fields: [tagId], references: [id], onDelete: Cascade)
+    tagId     String
+    createdAt DateTime         @default(now())
 }
