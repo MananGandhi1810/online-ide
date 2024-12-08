@@ -6,6 +6,7 @@ import {
     newProblemStatementHandler,
     editProblemStatementHandler,
     deleteProblemStatementHandler,
+    uploadProblem // New handler for uploading problem statements
 } from "../handlers/problem-statement.js";
 
 const router = Router();
@@ -27,5 +28,8 @@ router.delete(
     (req, res, next) => checkAuth(req, res, next, true),
     deleteProblemStatementHandler,
 );
+
+// New route
+router.post("/upload", checkAuth, uploadProblem);
 
 export default router;
