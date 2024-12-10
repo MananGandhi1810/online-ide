@@ -7,3 +7,5 @@ Allow: /forgot-password
 
 Disallow: /problems
 Disallow: /problems/*
+Disallow: /gh-callback
+Disallow: /gh-callback-error
