@@ -1,10 +1,11 @@
 User-Agent: *
 Allow: /
 Allow: /leaderboard
-Allow: /user/*
 Allow: /login
 Allow: /register
 Allow: /forgot-password
 
 Disallow: /problems
 Disallow: /problems/*
+Disallow: /gh-callback
+Disallow: /gh-callback-error
