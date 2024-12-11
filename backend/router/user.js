@@ -1,12 +1,11 @@
 import { Router } from "express";
-import {userDataHandler,getUserByIdHandler,listUsers,addUser,editUser,deleteUser} from "../handlers/user.js";
-
+import { userDataHandler, getUserByIdHandler, listUsers, addUser, editUser, deleteUser } from "../handlers/user.js";
 import { checkAuth } from "../middlewares/auth.js";
 
 const router = Router();
 
 router.get("/", checkAuth, userDataHandler);
-router.get("/:id", getUserByIdHandler);
+router.get("/:id", (req, res, next) => checkAuth(req, res, next, true), getUserByIdHandler);
 
 router.get("/list", checkAuth, listUsers);
 router.post("/add", checkAuth, addUser);

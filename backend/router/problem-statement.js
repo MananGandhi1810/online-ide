@@ -30,6 +30,6 @@ router.delete(
 );
 
 // New route
-router.post("/upload", checkAuth, uploadProblem);
+router.post("/upload", (req, res, next) => checkAuth(req, res, next, true), uploadProblem);
 
 export default router;
