@@ -172,6 +172,13 @@ function App() {
                         try {
                             res = await axios
                                 .get(`${process.env.SERVER_URL}/leaderboard`, {
+                                    headers: {
+                                        Authorization:
+                                            user.token != null ||
+                                            user.token != undefined
+                                                ? `Bearer ${user.token}`
+                                                : "",
+                                    },
                                     validateStatus: false,
                                 })
                                 .then((res) => res.data);
