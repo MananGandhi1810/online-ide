@@ -16,19 +16,19 @@ const router = Router();
 
 router.post(
     "/register",
-    (req, res, next) => rateLimit(req, res, next, 2, "register"),
+    (req, res, next) => rateLimit(req, res, next, 10, "register"),
     registerHandler,
 );
 router.get("/verify", verifyHandler);
 router.post(
     "/login",
-    (req, res, next) => rateLimit(req, res, next, 4, "login"),
+    (req, res, next) => rateLimit(req, res, next, 20, "login"),
     loginHandler,
 );
 router.post("/resend-verification", resendVerificationHandler);
 router.post(
     "/forgot-password",
-    (req, res, next) => rateLimit(req, res, next, 2, "password-reset"),
+    (req, res, next) => rateLimit(req, res, next, 4, "password-reset"),
     forgotPasswordHandler,
 );
 router.post("/verify-otp", verifyOtpHandler);

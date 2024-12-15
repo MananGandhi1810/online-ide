@@ -20,6 +20,7 @@ import getUserPoints from "./utils/getUserPoints";
 import Leaderboard from "./pages/Leaderboard";
 import NoPageFound from "./pages/NoPageFound";
 import UserData from "./pages/UserData";
+import { useToast } from "./hooks/use-toast";
 
 function App() {
     const initialState = {
@@ -30,6 +31,7 @@ function App() {
         points: 0,
         isAuthenticated: false,
     };
+    const { toast } = useToast();
     const [user, setUser] = useState(
         () =>
             JSON.parse(
@@ -170,6 +172,13 @@ function App() {
                         try {
                             res = await axios
                                 .get(`${process.env.SERVER_URL}/leaderboard`, {
+                                    headers: {
+                                        Authorization:
+                                            user.token != null ||
+                                            user.token != undefined
+                                                ? `Bearer ${user.token}`
+                                                : "",
+                                    },
                                     validateStatus: false,
                                 })
                                 .then((res) => res.data);
@@ -270,6 +279,20 @@ function App() {
                         return redirect("/");
                     },
                     element: <Home />,
+                },
+                {
+                    path: "gh-callback-error",
+                    loader: async ({ request }) => {
+                        const error = new URL(request.url).searchParams.get(
+                            "error",
+                        );
+                        toast({
+                            title: "An Error Occurred",
+                            description: error,
+                        });
+                        return redirect("/login");
+                    },
+                    element: <Login />,
                 },
                 {
                     path: "*",

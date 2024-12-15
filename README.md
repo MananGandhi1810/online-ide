@@ -63,6 +63,7 @@ Leetcode like platform to practice logic based coding problems. Built using Expr
 -   Shadcn/UI (for frontend components)
 -   Shiki.js with Monaco Editor (for code editing with syntax highlighting)
 -   Meta LLaMA 3.1 8B (CloudFlare Workers AI)
+-   GitHub Actions (for CI/CD)
 
 ## How it works
 
@@ -75,7 +76,7 @@ You can either use the docker-compose file to run the project or run the backend
 ### Using Docker Compose
 
 -   Clone the repository
--   Copy the `.env.example` file to `.env` and fill in the required values in both `frontend` and `backend` directories.
+-   Copy the `.env.example` file to `.env` and fill in the required values in both `frontend/` and `backend/` directories.
 -   Run `docker compose up` in the root directory
 -   The project will be running on `localhost:8000`
 
@@ -85,7 +86,7 @@ You can either use the docker-compose file to run the project or run the backend
 > You will still need to have Docker installed on your system.
 
 -   Clone the repository
--   Copy the `.env.example` file to `.env` and fill in the required values in both `frontend` and `backend` directories.
+-   Copy the `.env.example` file to `.env` and fill in the required values in both `frontend/` and `backend/` directories.
 -   Run the backend server
     -   Navigate to the `backend` directory
     -   Run `npm install`

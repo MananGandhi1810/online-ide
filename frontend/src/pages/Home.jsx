@@ -33,7 +33,7 @@ function Home() {
                     <div className="space-4">
                         <Button className="group" asChild>
                             <Link to="https://git.new/manan-code">
-                                <Star className="mr-2 size-[20px] z-10 group-hover:mr-3 duration-200" />
+                                <Star className="mr-2 size-[20px] z-10 group-hover:mr-3 duration-200 group-hover:fill-[#E1B44E] group-hover:drop-shadow-sm" />
                                 Star on GitHub
                                 <SquareArrowOutUpRight className="ml-2 size-[20px] z-10 group-hover:ml-3 duration-200" />
                             </Link>

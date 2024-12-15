@@ -36,11 +36,11 @@ model User {
     points            Int          @default(0)
     imageUrl          String?
     submissions       Submission[]
+    admin             Boolean      @default(false)
+    editorials        Editorial[]
     createdAt         DateTime     @default(now())
     updatedAt         DateTime     @updatedAt
     passwordUpdatedAt DateTime     @default(now())
-    admin             Boolean      @default(false)
-    editorials        Editorial[]
 }
 
 model Submission {
@@ -66,6 +66,7 @@ model ProblemStatement {
     submissions Submission[]
     testCase    Testcase[]
     editorials  Editorial[]
+    tagId       String?
 }
 
 model Testcase {

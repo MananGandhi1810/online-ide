@@ -21,6 +21,7 @@
         "axios": "^1.7.7",
         "bcrypt": "^5.1.1",
         "cors": "^2.8.5",
+        "disposable-email-domains-js": "^1.6.0",
         "dockerode": "^4.0.2",
         "dotenv": "^16.4.5",
         "express": "^5.0.0",
@@ -32,8 +33,6 @@
     },
     "devDependencies": {
         "nodemon": "^3.1.4",
-        "prettier": "^3.3.3",
-        "supertest": "^7.0.0",
-        "vitest": "^2.0.5"
+        "prettier": "^3.3.3"
     }
 }

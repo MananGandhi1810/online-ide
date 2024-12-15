@@ -5,12 +5,13 @@ import sendEmail from "../utils/email.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { exists, set, get, del } from "../utils/keyvalue-db.js";
-import { randomNum } from "../utils/generate_otp.js";
+import { randomNum } from "../utils/generate-otp.js";
 import {
     getAccessToken,
     getUserDetails,
     getUserEmails,
 } from "../utils/github-api.js";
+import disposableEmailDomains from "disposable-email-domains-js";
 
 dotenv.config();
 const jwtSecret = process.env.SECRET_KEY;
@@ -40,6 +41,13 @@ const registerHandler = async (req, res) => {
             data: null,
         });
     }
+    if (disposableEmailDomains.isDisposableEmail(email)) {
+        return res.status(400).json({
+            success: false,
+            message: "Please use a real email",
+            data: null,
+        });
+    }
     if (!validatePassword(password)) {
         return res.status(400).json({
             success: false,
@@ -63,18 +71,27 @@ const registerHandler = async (req, res) => {
     user.password = undefined;
     const token = jwt.sign({ name, email, id: user.id }, jwtSecret);
     const url = `${req.protocol}://${req.get("host")}/auth/verify?token=${token}`;
-    await sendEmail(
-        email,
-        "Verify",
-        `<h1>Please verify</h1>
+    try {
+        await sendEmail(
+            email,
+            "Verify",
+            `<h1>Please verify</h1>
 Please verify your account on Online IDE by clicking on this <a href="${url}">link</a>.
 Alternatively, you can visit this URL: ${url}`,
-    );
+        );
+    } catch (e) {
+        return res.status(500).json({
+            success: false,
+            message:
+                "Could not send verification email, please try again after some time",
+            data: null,
+        });
+    }
     res.json({
         success: true,
         message:
             "Registered successfully, please check your email inbox for verification",
-        data: user,
+        data: null,
     });
 };
 
@@ -106,11 +123,7 @@ const verifyHandler = async (req, res) => {
             .status(500)
             .send("There was an error in verifying your account");
     }
-    res.send(
-        `Your account has been verified successfully. Click <a href="${
-            req.protocol
-        }://${req.get("host")}/">here</a> to go to Online IDE`,
-    );
+    res.redirect(`${process.env.FRONTEND_URL}/login`);
 };
 
 const loginHandler = async (req, res) => {
@@ -221,7 +234,7 @@ Alternatively, you can visit this URL: ${url}`,
     res.json({
         success: true,
         message: "Verification email sent successfully",
-        data: user,
+        data: null,
     });
 };
 
@@ -436,6 +449,7 @@ const resetPasswordHandler = async (req, res) => {
             },
             data: {
                 password: hashedPassword,
+                passwordUpdatedAt: new Date(),
             },
         });
     } catch {
@@ -455,13 +469,16 @@ const resetPasswordHandler = async (req, res) => {
 
 const githubCallbackHandler = async (req, res) => {
     const { code } = req.query;
+    if (!code) {
+        return res.redirect(
+            `${process.env.FRONTEND_URL}/gh-callback-error?error=${"Login cancelled"}`,
+        );
+    }
     const accessTokenResponse = await getAccessToken(code);
     if (accessTokenResponse.status >= 400) {
-        return res.status(accessTokenResponse.status).json({
-            success: false,
-            messsage: "Could not login",
-            data: accessTokenResponse.data,
-        });
+        return res.redirect(
+            `${process.env.FRONTEND_URL}/gh-callback-error?error=${"Could not login"}`,
+        );
     }
     const accessToken = accessTokenResponse.data.access_token;
     const userDataPromise = getUserDetails(accessToken);
@@ -471,11 +488,9 @@ const githubCallbackHandler = async (req, res) => {
         userEmailPromise,
     ]);
     if (userDataResponse.status >= 400 || userEmailResponse.status >= 400) {
-        return res.status(500).json({
-            success: false,
-            messsage: "An error occurred when trying to get details",
-            data: null,
-        });
+        return res.redirect(
+            `${process.env.FRONTEND_URL}/gh-callback-error?error=${"An error occurred when trying to get details"}`,
+        );
     }
     const userData = {
         name: userDataResponse.data.name,
@@ -485,11 +500,9 @@ const githubCallbackHandler = async (req, res) => {
     };
     const userEmail = userEmailResponse.data.find((email) => email.primary);
     if (!userEmail) {
-        return res.status(400).json({
-            success: false,
-            message: "No Email ID",
-            data: null,
-        });
+        return res.redirect(
+            `${process.env.FRONTEND_URL}/gh-callback-error?error=${"No Email ID"}`,
+        );
     }
     const existingEmailUser = await prisma.user.findUnique({
         where: {
@@ -498,11 +511,9 @@ const githubCallbackHandler = async (req, res) => {
         },
     });
     if (existingEmailUser) {
-        return res.status(403).json({
-            success: false,
-            message: "User already has email/password account",
-            data: null,
-        });
+        return res.redirect(
+            `${process.env.FRONTEND_URL}/gh-callback-error?error=${"User already has email/password account"}`,
+        );
     }
     userData.email = userEmail.email;
     const user = await prisma.user.upsert({
