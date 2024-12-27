@@ -247,10 +247,24 @@ const deleteProblemStatementHandler = async (req, res) => {
     });
 };
 
+// New handler for uploading problem statements
+const uploadProblemStatement = async (req, res) => {
+    try {
+        const { title, description, input, output } = req.body;
+        const problem = await prisma.problemStatement.create({
+            data: { title, description, input, output },
+        });
+        res.json(problem);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to upload problem statement' });
+    }
+};
+
 export {
     getProblemStatementsHandler,
     getProblemStatementByIdHandler,
     newProblemStatementHandler,
     editProblemStatementHandler,
     deleteProblemStatementHandler,
+    uploadProblemStatement // Add this export
 };
