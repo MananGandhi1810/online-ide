@@ -18,7 +18,7 @@ import VerifyOtp from "./pages/VerifyOtp";
 import ResetPassword from "./pages/ResetPassword";
 import getUserPoints from "./utils/getUserPoints";
 import Leaderboard from "./pages/Leaderboard";
-import NoPageFound from "./pages/NoPageFound";
+import NoPageFound from "./pages/404";
 import UserData from "./pages/UserData";
 import { useToast } from "./hooks/use-toast";
 
