@@ -9,4 +9,4 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/dist ./dist
 EXPOSE 3000
 USER node
-ENTRYPOINT ["npx", "serve", "-d", "dist", "-l", "3000"]
+CMD ["npx", "serve", "-d", "dist", "-l", "3000"]
