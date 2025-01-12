@@ -179,7 +179,7 @@ const executeFromQueue = async (message, channel) => {
                     success: false,
                 },
             });
-            const updated = await prisma.user.update({
+            await prisma.user.update({
                 where: {
                     id: submission.User.id,
                 },
