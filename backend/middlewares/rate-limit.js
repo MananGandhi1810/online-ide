@@ -1,4 +1,5 @@
 import { createClient } from "redis";
+import { getIp } from "../utils/ip-addr.js";
 
 const redis = createClient({ url: process.env.REDIS_URL });
 redis.connect();
@@ -8,11 +9,7 @@ const rateLimit = async (req, res, next, limit = 5, use = "") => {
     if (req.user) {
         key = req.user.id;
     } else {
-        key =
-            req.headers["x-forwarded-for"] ||
-            req.connection.remoteAddress ||
-            req.socket.remoteAddress ||
-            req.connection.socket.remoteAddress;
+        key = getIp(req);
     }
     const redisId = `rate-limit:${use}/${key}`;
     const requests = await redis.incr(redisId);

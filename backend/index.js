@@ -8,16 +8,20 @@ import userRouter from "./router/user.js";
 import editorialsRouter from "./router/editorial.js";
 import logger from "morgan";
 import morgan from "morgan";
+import { getIp } from "./utils/ip-addr.js";
 
 const app = express();
 
-morgan.token("user-id", (req, res) => {
+morgan.token("user-id", (req, _) => {
     return req.user != undefined ? req.user.id : "Unauthenticated";
+});
+morgan.token("ip", (req, _) => {
+    return getIp(req);
 });
 app.enable("trust proxy");
 app.use(
     logger(
-        `[:date[web]] :remote-addr - ":method :url HTTP/:http-version" :status ":referrer" ":user-agent" User::user-id - :response-time ms`,
+        `[:date[web]] :ip - ":method :url HTTP/:http-version" :status ":referrer" ":user-agent" User::user-id - :response-time ms`,
     ),
 );
 app.use(express.json());
