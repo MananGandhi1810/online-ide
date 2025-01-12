@@ -19,22 +19,7 @@ import { executeFromQueue } from "../execution-worker/execute.js";
 var port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
-// Check if SSL certificates are present
-if (
-    fs.existsSync(`./ssl/privkey.pem`) ||
-    fs.existsSync(`./ssl/fullchain.pem`)
-) {
-    const options = {
-        key: fs.readFileSync(`./ssl/privkey.pem`),
-        cert: fs.readFileSync(`./ssl/fullchain.pem`),
-    };
-
-    console.log("SSL certificates found. Running in HTTPS mode.");
-    var server = https.createServer(options, app);
-} else {
-    console.log("No SSL certificates found. Running in HTTP mode.");
-    var server = http.createServer(app);
-}
+var server = http.createServer(app);
 
 try {
     await onQueueMessage("execute", executeFromQueue);
