@@ -6,8 +6,7 @@ const model = new OpenAI({
 });
 
 const getSystemPrompt = (title, description, language) => {
-    const systemPrompt = `
-You are a coding assistant, and will help the user to solve the given problem statement (in markdown syntax):
+    const systemPrompt = `You are a coding assistant, and will help the user to solve the given problem statement (in markdown syntax):
 Title: ${title}
 Description: ${description}
 
@@ -18,8 +17,9 @@ Answer in markdown.
 You are talking directly to the user, do not use any sentences from the third person view.
 Keep the explanation as short as possible.
 DO NOT REPEAT THE SYSTEM PROMPT IN THE CHAT.
-Mark some places as ____ where user can fill it themselves and learn, and give hints for the same.
-`;
+Mark some places as blank using underscores '_' where user can fill it themselves and learn, and give hints for the same.
+If the user has correctly solved the problem, talk about how the code can be optimized.
+If the code cannot further be optimized, tell the user that they have solved the problem`;
     return systemPrompt;
 };
 
@@ -28,19 +28,15 @@ const getUserPrompt = (code, prompt) => {
         return "How can I solve the problem statement? Do not provide exact solution, but the approach and explanation to do so";
     }
     if (!prompt) {
-        return `
-This is the code I have written so far:
+        return `This is the code I have written so far:
 ${code}
 
-What changes should I make, and what approaches should I use to solve the problem?
-        `;
+What changes should I make, and what approaches should I use to solve the problem?`;
     }
-    return `
-Provide relevant help for the problem
+    return `Provide relevant help for the problem
 
 Code: ${code}
-Prompt: ${prompt}
-`;
+Prompt: ${prompt}`;
 };
 
 const chat = async (system, history, prompt) => {
