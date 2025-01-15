@@ -7,10 +7,8 @@
 import app from "../index.js";
 import debug from "debug";
 import http from "http";
-import https from "https";
-import fs from "fs";
 import { onQueueMessage } from "../utils/queue-manager.js";
-import { executeFromQueue } from "../execution-worker/execute.js";
+import { executeCode } from "../execution-worker/execute.js";
 
 /**
  * Get port from environment and store in Express.
@@ -22,7 +20,7 @@ app.set("port", port);
 var server = http.createServer(app);
 
 try {
-    await onQueueMessage("execute", executeFromQueue);
+    await onQueueMessage("execute", executeCode);
 } catch (e) {
     console.log("Could not subscribe to Redis Pub/Sub");
 }

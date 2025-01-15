@@ -4,7 +4,7 @@ import { get, set } from "../utils/keyvalue-db.js";
 
 const prisma = new PrismaClient();
 
-const executeFromQueue = async (message, channel) => {
+const executeCode = async (message, channel) => {
     const {
         code,
         language,
@@ -196,4 +196,4 @@ const executeFromQueue = async (message, channel) => {
     }
 };
 
-export { executeFromQueue };
+export { executeCode };
