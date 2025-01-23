@@ -91,6 +91,10 @@ You can either use the docker-compose file to run the project or run the backend
     -   Run `docker run -d -p 6379:6379 redis`
 -   Run Postgres
     -   Run `docker run -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=onlineide postgres`
+-   Setup Prisma
+    -   Navigate to the `db-interface` directory
+    -   Run `npm install`
+    -   Run `npx prisma:migrate:dev`
 -   Run the backend server
     -   Navigate to the `backend` directory
     -   Run `npm install`
