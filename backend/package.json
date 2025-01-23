@@ -2,7 +2,7 @@
     "name": "express-auth-template",
     "version": "1.0.0",
     "main": "index.js",
-    "homepage": "https://code.manangandhi.tech",
+    "homepage": "https://code.mpst.me",
     "scripts": {
         "dev": "nodemon ./bin/www",
         "start": "node ./bin/www",
