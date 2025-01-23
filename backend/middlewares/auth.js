@@ -1,12 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "db-interface";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { exists } from "../utils/keyvalue-db.js";
 
 dotenv.config();
 const jwtSecret = process.env.SECRET_KEY;
-
-const prisma = new PrismaClient();
 
 const checkAuth = async (req, res, next, admin = false) => {
     const { authorization } = req.headers;

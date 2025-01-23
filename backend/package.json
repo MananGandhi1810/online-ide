@@ -21,6 +21,7 @@
         "axios": "^1.7.7",
         "bcrypt": "^5.1.1",
         "cors": "^2.8.5",
+        "db-interface": "file:../db-interface",
         "disposable-email-domains-js": "^1.6.0",
         "dockerode": "^4.0.2",
         "dotenv": "^16.4.5",

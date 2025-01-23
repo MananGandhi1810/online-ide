@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "db-interface";
 
 const checkProblemStatement = async (req, res, next) => {
     const { problemStatementId } = req.params;

@@ -1,8 +1,6 @@
 import { createDockerContainer } from "../utils/docker.js";
-import { PrismaClient } from "@prisma/client";
+import prisma from "db-interface";
 import { get, set } from "../utils/keyvalue-db.js";
-
-const prisma = new PrismaClient();
 
 const executeCode = async (message, channel) => {
     const {

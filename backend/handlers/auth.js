@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "db-interface";
 import { validateEmail, validatePassword } from "../utils/validators.js";
 import { hash, compare } from "../utils/hashing.js";
 import sendEmail from "../utils/email.js";
@@ -15,8 +15,6 @@ import disposableEmailDomains from "disposable-email-domains-js";
 
 dotenv.config();
 const jwtSecret = process.env.SECRET_KEY;
-
-const prisma = new PrismaClient();
 
 const registerHandler = async (req, res) => {
     const { name, email, password } = req.body;

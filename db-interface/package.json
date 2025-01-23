@@ -1,0 +1,25 @@
+{
+    "exports": {
+        ".": "./index.js"
+    },
+    "dependencies": {
+        "@prisma/client": "^6.2.1"
+    },
+    "name": "db-interface",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "index.js",
+    "devDependencies": {
+        "prisma": "^6.2.1"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prisma:generate": "prisma generate",
+        "prisma:studio": "prisma studio",
+        "prisma:migrate:dev": "prisma migrate dev",
+        "prisma:migrate:deploy": "prisma migrate deploy"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": ""
+}

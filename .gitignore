@@ -5,4 +5,7 @@ backend/.env.prod
 frontend/.env
 frontend/.env.prod
 frontend/dist
+db-interface/.env
+db-interface/.env.prod
+db-interface/node_modules
 .DS_Store

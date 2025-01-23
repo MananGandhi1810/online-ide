@@ -1,11 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "db-interface";
 import { sendQueueMessage } from "../utils/queue-manager.js";
 import { randomNum } from "../utils/generate-otp.js";
 import { get, set } from "../utils/keyvalue-db.js";
 import { chat, getSystemPrompt, getUserPrompt } from "../utils/ai-model.js";
 
 const languages = ["python", "c", "cpp", "java"];
-const prisma = new PrismaClient();
 
 const queueCodeHandler = async (req, res, isTempRun = false) => {
     const { problemStatementId, language } = req.params;
