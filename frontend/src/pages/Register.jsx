@@ -26,6 +26,7 @@ function Login() {
     const navigate = useNavigate();
 
     const register = async (name, email, password) => {
+        posthog.capture("register", { email });
         setLoading(true);
         const res = await axios
             .post(

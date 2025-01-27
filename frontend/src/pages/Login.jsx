@@ -17,6 +17,7 @@ import axios from "axios";
 import { useToast } from "@/hooks/use-toast.js";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import ghIcon from "@/assets/gh-icon.png";
+import posthog from "posthog-js";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -28,6 +29,7 @@ function Login() {
     let [searchParams, setSearchParams] = useSearchParams();
 
     const login = async (email, password) => {
+        posthog.capture("login", { email });
         setLoading(true);
         const res = await axios
             .post(
