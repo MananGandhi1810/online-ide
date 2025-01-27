@@ -51,7 +51,7 @@ const queueCodeHandler = async (req, res, isTempRun = false) => {
             problemStatementId,
             language,
             code,
-            keystrokeTimings,
+            keystrokeTimings: keystrokeTimings ?? [],
             userId: req.user.id,
         };
         if (!isTempRun) {
