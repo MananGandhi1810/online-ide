@@ -21,6 +21,12 @@ import Leaderboard from "./pages/Leaderboard";
 import NoPageFound from "./pages/404";
 import UserData from "./pages/UserData";
 import { useToast } from "./hooks/use-toast";
+import { PostHogProvider } from "posthog-js/react";
+import posthog from "posthog-js";
+
+const options = {
+    api_host: process.env.POSTHOG_HOST,
+};
 
 function App() {
     const initialState = {
@@ -304,6 +310,11 @@ function App() {
 
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(user));
+        if (user.isAuthenticated) {
+            posthog.identify(user.id, user);
+        } else {
+            posthog.reset();
+        }
     }, [user]);
 
     useEffect(() => {
@@ -329,9 +340,14 @@ function App() {
                     setUser,
                 }}
             >
-                <ThemeProvider defaultTheme="dark">
-                    <RouterProvider router={router} />
-                </ThemeProvider>
+                <PostHogProvider
+                    apiKey={process.env.POSTHOG_KEY}
+                    options={options}
+                >
+                    <ThemeProvider defaultTheme="dark">
+                        <RouterProvider router={router} />
+                    </ThemeProvider>
+                </PostHogProvider>
             </AuthContext.Provider>
         </div>
     );

@@ -46,6 +46,7 @@ import EditorialEditor from "@/components/custom/EditorialEditor";
 import htmlToMarkdown from "@wcj/html-to-markdown";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
+import posthog from "posthog-js";
 
 function Code() {
     const problemStatement = useLoaderData();
@@ -103,6 +104,10 @@ function Code() {
 
     useEffect(() => {
         getEditorials();
+        posthog.capture("problem-statement-view", {
+            problemStatement: problemStatement.id,
+            defaultLanguage: language,
+        });
     }, []);
 
     useEffect(() => {
@@ -124,6 +129,10 @@ function Code() {
     }, [code]);
 
     const run = async (isTempRun = false) => {
+        posthog.capture(isTempRun ? "run" : "submit", {
+            language,
+            problemStatement: problemStatement.id,
+        });
         if (submitting || running) {
             return;
         }
@@ -331,6 +340,9 @@ function Code() {
                                         content: res,
                                     },
                                 ]);
+                                posthog.capture("ai-message", {
+                                    messages: chatHistory,
+                                });
                                 setCurrentResponse("");
                                 return;
                             }
