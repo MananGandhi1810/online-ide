@@ -9,6 +9,8 @@ import editorialsRouter from "./router/editorial.js";
 import logger from "morgan";
 import morgan from "morgan";
 import { getIp } from "./utils/ip-addr.js";
+import fs from 'fs'
+import path from "path";
 
 const app = express();
 
@@ -20,9 +22,17 @@ morgan.token("ip", (req, _) => {
 });
 app.enable("trust proxy");
 app.use(
-    logger(
+    morgan(
         `[:date[web]] :ip - ":method :url HTTP/:http-version" :status ":referrer" ":user-agent" User::user-id - :response-time ms`,
-    ),
+        {
+            stream: fs.createWriteStream(path.join('.', 'access.log'), {flags: 'a'}),
+        }
+    )
+);
+app.use(
+    morgan(
+        `[:date[web]] :ip - ":method :url HTTP/:http-version" :status ":referrer" ":user-agent" User::user-id - :response-time ms`,
+    )
 );
 app.use(express.json());
 app.use(

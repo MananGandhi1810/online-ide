@@ -10,6 +10,7 @@ services:
         volumes:
             - ./backend/.env.prod:/usr/src/app/.env
             - /var/run/docker.sock:/var/run/docker.sock
+            - ./backend/access.log:/usr/src/app/access.log
             # - /path/to/ssl/fullchain.pem:/usr/src/app/ssl/fullchain.pem
             # - /path/to/ssl/privkey.pem:/usr/src/app/ssl/privkey.pem
         user: root

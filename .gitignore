@@ -5,4 +5,5 @@ backend/.env.prod
 frontend/.env
 frontend/.env.prod
 frontend/dist
+backend/access.log
 .DS_Store
