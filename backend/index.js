@@ -9,7 +9,7 @@ import editorialsRouter from "./router/editorial.js";
 import logger from "morgan";
 import morgan from "morgan";
 import { getIp } from "./utils/ip-addr.js";
-import fs from 'fs'
+import fs from "fs";
 import path from "path";
 
 const app = express();
@@ -20,20 +20,19 @@ morgan.token("user-id", (req, _) => {
 morgan.token("ip", (req, _) => {
     return getIp(req);
 });
+morgan.token("error", (req, _) => {
+    return req.error ? req.error : "";
+});
 app.enable("trust proxy");
+const logFormat = `[:date[web]] :ip - ":method :url HTTP/:http-version" :status ":referrer" ":user-agent" User::user-id - :response-time ms :error`;
 app.use(
-    morgan(
-        `[:date[web]] :ip - ":method :url HTTP/:http-version" :status ":referrer" ":user-agent" User::user-id - :response-time ms`,
-        {
-            stream: fs.createWriteStream(path.join('.', 'access.log'), {flags: 'a'}),
-        }
-    )
+    morgan(logFormat, {
+        stream: fs.createWriteStream(path.join(".", "access.log"), {
+            flags: "a",
+        }),
+    }),
 );
-app.use(
-    morgan(
-        `[:date[web]] :ip - ":method :url HTTP/:http-version" :status ":referrer" ":user-agent" User::user-id - :response-time ms`,
-    )
-);
+app.use(morgan(logFormat));
 app.use(express.json());
 app.use(
     cors({
@@ -60,6 +59,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = req.app.get("env") === "development" ? err : {};
+    req.error = err;
     res.status(err.status || 500).json({
         success: false,
         message: "An unexpected error occured",
