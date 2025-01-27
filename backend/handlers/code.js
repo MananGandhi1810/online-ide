@@ -33,7 +33,7 @@ const queueCodeHandler = async (req, res, isTempRun = false) => {
             data: null,
         });
     }
-    const { code, customTestcase } = req.body;
+    const { code, customTestcase, keystrokeTimings } = req.body;
     var containsTestCase = false;
     if (!code) {
         return res.status(400).json({
@@ -51,6 +51,7 @@ const queueCodeHandler = async (req, res, isTempRun = false) => {
             problemStatementId,
             language,
             code,
+            keystrokeTimings,
             userId: req.user.id,
         };
         if (!isTempRun) {

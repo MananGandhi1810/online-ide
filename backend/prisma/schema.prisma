@@ -57,6 +57,7 @@ model Submission {
     problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
     problemStatementId String
     execTime           Int?
+    keystrokeTimings   Int[]
 }
 
 model ProblemStatement {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import {
     ResizableHandle,
@@ -101,6 +101,8 @@ function Code() {
     const [isSubmittingEditorial, setIsSubmittingEditorial] = useState(false);
     const [customTestcase, setCustomTestcase] = useState("");
     const { toast } = useToast();
+    const time = useRef(new Date().getTime());
+    const keystrokeTimings = useRef([]);
 
     useEffect(() => {
         getEditorials();
@@ -126,6 +128,11 @@ function Code() {
 
     useEffect(() => {
         localStorage.setItem(`code-${language}-${problemStatement.id}`, code);
+        keystrokeTimings.current = [
+            ...keystrokeTimings.current,
+            new Date().getTime() - time.current,
+        ];
+        time.current = new Date().getTime();
     }, [code]);
 
     const run = async (isTempRun = false) => {
@@ -156,8 +163,15 @@ function Code() {
                 }/${id}/${language}`,
                 isTempRun &&
                     (tabValue == "custom-testcase" || tabValue == "output")
-                    ? { code, customTestcase }
-                    : { code },
+                    ? {
+                          code,
+                          customTestcase,
+                          keystrokeTimings: keystrokeTimings.current,
+                      }
+                    : {
+                          code,
+                          keystrokeTimings: keystrokeTimings.current,
+                      },
                 {
                     headers: {
                         Authorization: `Bearer ${user.token}`,
