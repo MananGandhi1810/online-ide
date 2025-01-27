@@ -138,7 +138,7 @@ const checkExecutionHandler = async (req, res, isTempRun = false) => {
         default:
             message = "Submission status unknown";
     }
-    res.status(submission.status == "Executed" ? 200 : 204).json({
+    res.json({
         success: submission.status == "Executed",
         message,
         data: {
