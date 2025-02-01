@@ -64,6 +64,7 @@ Leetcode like platform to practice logic based coding problems. Built using Expr
 -   Shiki.js with Monaco Editor (for code editing with syntax highlighting)
 -   Meta LLaMA 3.1 8B (CloudFlare Workers AI)
 -   GitHub Actions (for CI/CD)
+-   PostHog (for analytics)
 
 ## How it works
 
