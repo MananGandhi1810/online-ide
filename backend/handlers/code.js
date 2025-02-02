@@ -145,6 +145,7 @@ const checkExecutionHandler = async (req, res, isTempRun = false) => {
             status: submission.status,
             success: submission.success,
             logs: isTempRun ? submission.output : undefined,
+            execTime: submission.execTime,
         },
     });
 };

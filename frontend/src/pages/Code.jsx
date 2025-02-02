@@ -148,14 +148,21 @@ function Code() {
         } else {
             setSubmitting(true);
         }
-        toast({
-            title: "Running",
-            description:
-                isTempRun &&
-                (tabValue == "custom-testcase" || tabValue == "output")
-                    ? "Running with custom testcase"
-                    : "Running with sample testcase",
-        });
+        if (isTempRun) {
+            toast({
+                title: "Running",
+                description:
+                    isTempRun &&
+                    (tabValue == "custom-testcase" || tabValue == "output")
+                        ? "Running with custom testcase"
+                        : "Running with sample testcase",
+            });
+        } else {
+            toast({
+                title: "Submitting",
+                description: "Evaluating your code",
+            });
+        }
         const res = await axios
             .post(
                 `${process.env.SERVER_URL}/code/${
@@ -235,7 +242,7 @@ function Code() {
                 if (!isTempRun) {
                     setDialogData({
                         title: "Success",
-                        description: "All testcases passed",
+                        description: `All testcases passed. Executed in ${res.data.execTime}ms`,
                     });
                     setShowDialog(true);
                     setTimeout(async () => {

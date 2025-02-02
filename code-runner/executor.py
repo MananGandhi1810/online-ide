@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import time
 
 
 def get_compile_command(filename):
@@ -43,6 +44,7 @@ except:
     print("Could not execute code", file=sys.stderr)
     exit()
 
+start = time.time()
 for data in input_data:
     try:
         execute_process = subprocess.run(
@@ -59,4 +61,5 @@ for data in input_data:
         print("---")
     except:
         print("Could not execute code", file=sys.stderr)
-        exit()
+        # exit()
+print((time.time() - start) * 1000)

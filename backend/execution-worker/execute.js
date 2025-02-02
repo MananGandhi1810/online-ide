@@ -71,7 +71,6 @@ const executeCode = async (message, channel) => {
         testCases.map((testCase) => testCase.input),
     );
     await container.start();
-    const start = process.hrtime();
     var didTLE = false;
     var didRun = false;
     const tle = new Promise((resolve, reject) => {
@@ -121,22 +120,28 @@ const executeCode = async (message, channel) => {
     if (didTLE) {
         return;
     }
-    const rawLogs = String(
-        await container.logs({ stdout: true, stderr: true }),
-    );
-    const logs = rawLogs
+    var rawLogs = String(await container.logs({ stdout: true, stderr: true }));
+    var logs = rawLogs
         .replace(/\r?\n|\r/g, "")
         .normalize()
         .toLowerCase();
-    const end = process.hrtime();
-    const ms = (end[0] - start[0]) * 1e3 + (end[1] - start[1]) * 1e-6;
-    console.log(`Executed ${submissionId} in ${ms}ms`);
+    var ms = parseInt(logs.split("---").at(-1)).toFixed(0);
+    if (String(ms) == String(NaN)) {
+        ms = null;
+    }
+    if (ms) {
+        logs = logs.split("---").slice(0, -1).join("---") + "---";
+        rawLogs = rawLogs.split("---").slice(0, -1).join("---") + "---";
+        console.log(`Executed ${submissionId} in ${ms}ms`);
+    } else {
+        console.log(`Executed ${submissionId}`);
+    }
     var correctResult = false;
     try {
         const result = {
             output: rawLogs,
             status: "Executed",
-            execTime: ms,
+            execTime: ms ? parseInt(ms) : null,
         };
         if (temp) {
             const prevData = JSON.parse(await get(`temp-${submissionId}`));
@@ -150,6 +155,7 @@ const executeCode = async (message, channel) => {
                 60 * 5,
             );
         } else {
+            console.log(logs, expectedResult, logs == expectedResult);
             correctResult = logs == expectedResult;
             result.success = correctResult;
             await prisma.submission.update({
