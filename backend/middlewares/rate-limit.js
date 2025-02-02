@@ -5,6 +5,9 @@ const redis = createClient({ url: process.env.REDIS_URL });
 redis.connect();
 
 const rateLimit = async (req, res, next, limit = 5, use = "") => {
+    if (process.env.ENVIRONMENT == "development") {
+        return next();
+    }
     var key;
     if (req.user) {
         key = req.user.id;
