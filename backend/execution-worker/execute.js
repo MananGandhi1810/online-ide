@@ -155,7 +155,6 @@ const executeCode = async (message, channel) => {
                 60 * 5,
             );
         } else {
-            console.log(logs, expectedResult, logs == expectedResult);
             correctResult = logs == expectedResult;
             result.success = correctResult;
             await prisma.submission.update({
