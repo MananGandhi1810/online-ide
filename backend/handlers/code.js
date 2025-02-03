@@ -194,7 +194,6 @@ const aiHelperHandler = async (req, res) => {
         code = "";
     }
     if (!history) {
-        ``;
         history = "";
     }
     if (!prompt) {
