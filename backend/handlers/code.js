@@ -211,7 +211,9 @@ const aiHelperHandler = async (req, res) => {
     res.setHeader("Transfer-Encoding", "chunked");
     for await (const chunk of responseStream) {
         var result = chunk.choices[0]?.delta?.content;
-        res.write(result);
+        if (result) {
+            res.write(result);
+        }
     }
     res.end();
 };
