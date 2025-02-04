@@ -376,7 +376,7 @@ function Code() {
                         });
                     }
 
-                    read(); // Start reading
+                    read(); 
                 })
                 .catch((error) => {
                     console.error("Error fetching or reading stream:", error);
