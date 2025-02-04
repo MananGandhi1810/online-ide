@@ -16,6 +16,7 @@ import axios from "axios";
 import { useToast } from "@/hooks/use-toast.js";
 import { Link, useNavigate } from "react-router-dom";
 import ghIcon from "@/assets/gh-icon.png";
+import posthog from "posthog-js";
 
 function Login() {
     const [name, setName] = useState("");
