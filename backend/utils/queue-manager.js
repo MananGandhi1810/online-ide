@@ -21,7 +21,7 @@ try {
 
 const sendQueueMessage = async (topic, message) => {
     if (!isConnected) {
-        console.log("Couldn't send message to Redis Pub/Sub");
+        console.log("Couldn't connect to Redis Pub/Sub");
         return;
     }
     try {
