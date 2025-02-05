@@ -23,6 +23,7 @@ import UserData from "./pages/UserData";
 import { useToast } from "./hooks/use-toast";
 import { PostHogProvider } from "posthog-js/react";
 import posthog from "posthog-js";
+import "@fontsource/bricolage-grotesque";
 
 const options = {
     api_host: process.env.POSTHOG_HOST,

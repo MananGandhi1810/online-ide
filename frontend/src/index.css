@@ -84,3 +84,7 @@
 .react-calendar-heatmap .color-scale-4 {
     fill: #1e6823;
 }
+
+body {
+    font-family: "Bricolage Grotesque";
+}
