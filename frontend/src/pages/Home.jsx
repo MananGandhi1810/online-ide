@@ -1,43 +1,83 @@
-import { Button } from "@/components/ui/button.jsx";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 import { ArrowRight, SquareArrowOutUpRight, Star } from "lucide-react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { DotPattern } from "@/components/ui/dot-pattern";
-import { cn } from "@/lib/utils";
+import { TypeAnimation } from "react-type-animation";
 
 function Home() {
+    const codeState1 = `$ python submission.py
+    Evaluating Code ......`;
+    const codeState2 = `$ python submission.py
+    Evaluating Code ......
+    ✔ Test 1 passed
+    ✔ Test 2 passed
+    ✔ Test 3 passed
+    ✔ Test 4 passed
+    All Test Cases Passed 🎉`;
     return (
-        <div className="h-full-w-nav w-screen flex justify-center items-center">
-            <DotPattern
-                className={cn(
-                    "lg:[mask-image:radial-gradient(800px_circle_at_center,white,transparent)] md:[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
-                )}
-            />
-            <div className="container px-4 md:px-6">
-                <div className="flex flex-col items-center space-y-4 text-center">
-                    <div className="space-y-2">
-                        <span className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none type-home-heading" />
-                        <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                            Sharpen your coding skills with our vast collection
-                            of programming challenges. Practice, learn, and
-                            excel in your coding journey.
-                        </p>
-                    </div>
-                    <div className="space-4">
+        <div className="h-full-w-nav w-full bg-background text-white flex flex-col justify-center items-center px-4">
+            <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="space-y-6">
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
+                    >
+                        Master Coding Challenges
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="max-w-[600px] text-gray-400 md:text-xl"
+                    >
+                        Sharpen your coding skills with our vast collection of
+                        programming challenges. Practice, learn, and excel in
+                        your coding journey.
+                    </motion.p>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.4 }}
+                        className="flex flex-col sm:flex-row gap-4"
+                    >
                         <Button className="group" asChild>
                             <Link to="/problems">
                                 Start Coding
-                                <ArrowRight className="ml-2 z-10 group-hover:ml-3 duration-200" />
+                                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </Button>
-                    </div>
-                    <div className="space-4">
                         <Button className="group" asChild>
-                            <Link to="https://git.new/manan-code">
-                                <Star className="mr-2 size-[20px] z-10 group-hover:mr-3 duration-200 group-hover:fill-black group-hover:drop-shadow-sm" />
+                            <Link to="https://github.com/MananGandhi1810/online-ide">
+                                <Star className="mr-2 group-hover:fill-black transition-colors" />
                                 Star on GitHub
-                                <SquareArrowOutUpRight className="ml-2 size-[20px] z-10 group-hover:ml-3 duration-200" />
+                                <SquareArrowOutUpRight className="ml-2 transition-transform" />
                             </Link>
                         </Button>
+                    </motion.div>
+                </div>
+                <div>
+                    <div className="bg-gray-900 p-4 rounded-lg shadow-lg w-full max-w-md h-64 overflow-hidden border border-gray-700">
+                        <div className="flex items-center mb-2">
+                            <div className="w-3 h-3 rounded-full bg-gray-500 mr-2"></div>
+                            <div className="w-3 h-3 rounded-full bg-gray-500 mr-2"></div>
+                            <div className="w-3 h-3 rounded-full bg-gray-500"></div>
+                        </div>
+                        <pre className="text-green-400 font-mono text-sm">
+                            <code>
+                                <TypeAnimation
+                                    style={{
+                                        whiteSpace: "pre-line",
+                                        height: "195px",
+                                        display: "block",
+                                    }}
+                                    sequence={[codeState1, 750, codeState2]}
+                                    speed={10}
+                                />
+                            </code>
+                        </pre>
                     </div>
                 </div>
             </div>
