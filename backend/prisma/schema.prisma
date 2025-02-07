@@ -27,21 +27,22 @@ enum AuthProvider {
 }
 
 model User {
-    id                String       @id @default(cuid())
-    email             String       @unique
+    id                String             @id @default(cuid())
+    email             String             @unique
     name              String?
     password          String?
-    authProvider      AuthProvider @default(EMAIL)
+    authProvider      AuthProvider       @default(EMAIL)
     githubAccessToken String?
-    isVerified        Boolean      @default(false)
-    points            Int          @default(0)
+    isVerified        Boolean            @default(false)
+    points            Int                @default(0)
     imageUrl          String?
     submissions       Submission[]
-    admin             Boolean      @default(false)
+    admin             Boolean            @default(false)
     editorials        Editorial[]
-    createdAt         DateTime     @default(now())
-    updatedAt         DateTime     @updatedAt
-    passwordUpdatedAt DateTime     @default(now())
+    createdAt         DateTime           @default(now())
+    updatedAt         DateTime           @updatedAt
+    passwordUpdatedAt DateTime           @default(now())
+    ProblemStatement  ProblemStatement[]
 }
 
 model Submission {
@@ -64,6 +65,8 @@ model ProblemStatement {
     id          String       @id @default(cuid())
     title       String
     description String
+    createdById String?
+    createdBy   User?        @relation(fields: [createdById], references: [id])
     difficulty  Difficulty
     submissions Submission[]
     testCase    Testcase[]

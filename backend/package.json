@@ -10,6 +10,9 @@
         "docker:build": "docker build -t ghcr.io/manangandhi1810/cloud-ide:latest .",
         "test": "vitest"
     },
+    "prisma": {
+        "seed": "node prisma/seed.js"
+    },
     "type": "module",
     "keywords": [],
     "author": "",
