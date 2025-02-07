@@ -65,8 +65,8 @@ model ProblemStatement {
     id          String       @id @default(cuid())
     title       String
     description String
-    createdById String?
-    createdBy   User?        @relation(fields: [createdById], references: [id])
+    createdById String
+    createdBy   User         @relation(fields: [createdById], references: [id])
     difficulty  Difficulty
     submissions Submission[]
     testCase    Testcase[]

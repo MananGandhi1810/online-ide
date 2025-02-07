@@ -113,6 +113,7 @@ const newProblemStatementHandler = async (req, res) => {
                         };
                     }),
                 },
+                createdById: req.user.id,
             },
         });
     } catch (e) {
