@@ -54,6 +54,12 @@ services:
 
     code-runner:
         image: ghcr.io/manangandhi1810/code-runner:latest
+        networks:
+            - no-internet
 
 volumes:
     pg-data:
+
+networks:
+    no-internet:
+        internal: true
