@@ -49,6 +49,8 @@ Leetcode like platform to practice logic based coding problems. Built using Expr
     -   Code blocks in editorials
     -   User can submit editorials after solving the problem statement
 -   Critical endpoints are rate limited to prevent abuse
+-   Analytics using PostHog
+    -   Track user interactions on the platform
 
 ## Tech Stack
 
