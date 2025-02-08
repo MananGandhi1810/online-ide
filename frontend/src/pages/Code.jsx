@@ -679,6 +679,13 @@ function Code() {
                                         value={code}
                                         onChange={(value) => setCode(value)}
                                         beforeMount={setupMonacoTheme}
+                                        options={{
+                                            fontFamily: "Cascadia Code",
+                                            fontLigatures: true,
+                                            autoIndent: true,
+                                            cursorSmoothCaretAnimation: true,
+                                            cursorBlinking: "expand",
+                                        }}
                                     />
                                 </div>
                             </div>

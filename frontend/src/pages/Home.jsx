@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, SquareArrowOutUpRight, Star } from "lucide-react";
 import { motion } from "framer-motion";
@@ -59,14 +58,14 @@ function Home() {
                     </motion.div>
                 </div>
                 <div>
-                    <div className="bg-gray-900 p-4 rounded-lg shadow-lg w-full h-64 overflow-hidden border border-gray-700 group font-mono">
+                    <div className="bg-gray-900 p-4 rounded-lg shadow-lg w-full h-64 overflow-hidden border border-gray-700 group">
                         <div className="flex items-center mb-2">
                             <div className="w-3 h-3 rounded-full bg-gray-500 mr-2 group-hover:bg-red-700"></div>
                             <div className="w-3 h-3 rounded-full bg-gray-500 mr-2 group-hover:bg-yellow-400"></div>
                             <div className="w-3 h-3 rounded-full bg-gray-500 group-hover:bg-green-500"></div>
                         </div>
-                        <pre className="text-green-400 font-mono text-sm">
-                            <code>
+                        <pre className="text-green-400 text-sm">
+                            <code className="code-font">
                                 <TypeAnimation
                                     style={{
                                         whiteSpace: "pre-line",

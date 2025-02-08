@@ -24,6 +24,7 @@ import { useToast } from "./hooks/use-toast";
 import { PostHogProvider } from "posthog-js/react";
 import posthog from "posthog-js";
 import "@fontsource/bricolage-grotesque";
+import "@fontsource/cascadia-code";
 
 const options = {
     api_host: process.env.POSTHOG_HOST,
