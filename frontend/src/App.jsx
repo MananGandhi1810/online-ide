@@ -334,7 +334,7 @@ function App() {
     }, [user.points]);
 
     return (
-        <div className="font-inter overflow-x-hidden">
+        <div className="overflow-x-hidden">
             <AuthContext.Provider
                 value={{
                     user,
