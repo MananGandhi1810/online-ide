@@ -24,6 +24,7 @@ try {
 } catch (e) {
     console.log("Could not subscribe to Redis Pub/Sub");
 }
+
 /**
  * Listen on provided port, on all network interfaces.
  */

@@ -56,4 +56,25 @@ const getUserByIdHandler = async (req, res) => {
     });
 };
 
-export { userDataHandler, getUserByIdHandler };
+const getUserSubmissionsHandler = async (req, res) => {
+    const { page } = req.query;
+    const limit = 25;
+    const start =
+        !isNaN(page) && parseInt(page) > 1 ? (parseInt(page) - 1) * limit : 0;
+    console.log(page, start);
+    const submissions = await prisma.submission.findMany({
+        where: {
+            userId: req.user.id,
+        },
+        skip: start,
+        take: limit,
+    });
+    console.log(submissions);
+    return res.json({
+        success: true,
+        message: "Submissions fetched",
+        data: { submissions },
+    });
+};
+
+export { userDataHandler, getUserByIdHandler, getUserSubmissionsHandler };
