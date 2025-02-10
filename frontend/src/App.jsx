@@ -253,6 +253,9 @@ function App() {
                 {
                     path: "/submissions",
                     loader: async ({ request }) => {
+                        if (!user.isAuthenticated) {
+                            return redirect("/login?next=/submissions");
+                        }
                         const page = new URL(request.url).searchParams.get(
                             "page",
                         );
