@@ -76,6 +76,14 @@ export default function NavBar() {
                     >
                         Leaderboard
                     </Link>
+                    {user.isAuthenticated && (
+                        <Link
+                            to="/submissions"
+                            className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                        >
+                            Submissions
+                        </Link>
+                    )}
                 </nav>
                 <div className="flex items-center justify-end flex-1 gap-4">
                     {!user.isAuthenticated ? (
@@ -166,6 +174,14 @@ export default function NavBar() {
                                 >
                                     Leaderboard
                                 </Link>
+                                {user.isAuthenticated && (
+                                    <Link
+                                        to="/submissions"
+                                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                                    >
+                                        Submissions
+                                    </Link>
+                                )}
                             </div>
                         </SheetContent>
                     </Sheet>

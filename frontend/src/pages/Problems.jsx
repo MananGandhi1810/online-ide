@@ -39,11 +39,11 @@ function Problems() {
                             return (
                                 <TableRow
                                     key={problemStatement.id}
-                                    onClick={() =>
+                                    onClick={() => {
                                         navigate(
                                             `/problem/${problemStatement.id}`,
-                                        )
-                                    }
+                                        );
+                                    }}
                                     className="group hover:cursor-pointer"
                                 >
                                     <TableCell className="group-hover:underline overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center">
@@ -60,8 +60,8 @@ function Problems() {
                                                 d == "Easy"
                                                     ? "bg-green-500"
                                                     : d == "Medium"
-                                                      ? "bg-yellow-500"
-                                                      : "bg-red-500"
+                                                    ? "bg-yellow-500"
+                                                    : "bg-red-500"
                                             }
                                         >
                                             {problemStatement.difficulty}

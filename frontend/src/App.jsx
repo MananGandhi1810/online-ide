@@ -25,6 +25,7 @@ import { PostHogProvider } from "posthog-js/react";
 import posthog from "posthog-js";
 import "@fontsource/bricolage-grotesque";
 import "@fontsource/cascadia-code";
+import Submissions from "./pages/Submissions";
 
 const options = {
     api_host: process.env.POSTHOG_HOST,
@@ -248,6 +249,42 @@ function App() {
                         return res.data.user;
                     },
                     element: <UserData />,
+                },
+                {
+                    path: "/submissions",
+                    loader: async ({ request }) => {
+                        const page = new URL(request.url).searchParams.get(
+                            "page",
+                        );
+                        var res;
+                        try {
+                            res = await axios
+                                .get(
+                                    `${
+                                        process.env.SERVER_URL
+                                    }/user/submissions${
+                                        page ? "?page=" + page : ""
+                                    }`,
+                                    {
+                                        validateStatus: false,
+                                        headers: {
+                                            authorization: `Bearer ${user.token}`,
+                                        },
+                                    },
+                                )
+                                .then((res) => res.data);
+                        } catch (e) {
+                            return null;
+                        }
+                        if (!res.success) {
+                            return null;
+                        }
+                        return {
+                            page: parseInt(page) ?? 1,
+                            submissions: res.data.submissions,
+                        };
+                    },
+                    element: <Submissions />,
                 },
                 {
                     path: "/gh-callback",
