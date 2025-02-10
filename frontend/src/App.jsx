@@ -283,7 +283,7 @@ function App() {
                             return null;
                         }
                         return {
-                            page: parseInt(page) ?? 1,
+                            page: isNaN(parseInt(page)) ? 1 : parseInt(page),
                             submissions: res.data.submissions,
                         };
                     },
