@@ -17,6 +17,7 @@ const getLeaderboardHandler = async (req, res) => {
             name: true,
             points: true,
         },
+        take: 10,
     });
     res.json({
         success: true,
