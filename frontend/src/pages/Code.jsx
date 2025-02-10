@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useLocation, useParams } from "react-router-dom";
 import {
     ResizableHandle,
     ResizablePanel,
@@ -59,12 +59,17 @@ function Code() {
         );
     }
 
+    const location = useLocation();
+    const { initialCodeState, initialCodeLanguage } = location.state ?? {};
     const [submitting, setSubmitting] = useState(false);
     const [running, setRunning] = useState(false);
     const { id } = useParams();
     const { user, setUser } = useContext(AuthContext);
     const [language, setLanguage] = useState(
-        () => localStorage.getItem("preferredLanguage") || "python",
+        () =>
+            initialCodeLanguage ||
+            localStorage.getItem("preferredLanguage") ||
+            "python",
     );
     const supportedLanguages = {
         Python: "python",
@@ -120,9 +125,11 @@ function Code() {
         localStorage.setItem("preferredLanguage", language);
         setCode(
             () =>
+                (initialCodeLanguage == language ? initialCodeState : null) ||
                 localStorage.getItem(
                     `code-${language}-${problemStatement.id}`,
-                ) || initialCode[language],
+                ) ||
+                initialCode[language],
         );
     }, [language]);
 
@@ -674,8 +681,13 @@ function Code() {
                                 <div className="h-full">
                                     <Editor
                                         theme="vitesse-dark"
-                                        language={language}
-                                        defaultValue={initialCode[language]}
+                                        language={
+                                            initialCodeLanguage || language
+                                        }
+                                        defaultValue={
+                                            initialCodeState ||
+                                            initialCode[language]
+                                        }
                                         value={code}
                                         onChange={(value) => setCode(value)}
                                         beforeMount={setupMonacoTheme}
