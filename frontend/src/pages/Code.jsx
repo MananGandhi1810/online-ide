@@ -7,7 +7,14 @@ import {
 } from "@/components/ui/resizable.jsx";
 import { Button } from "@/components/ui/button.jsx";
 import Editor from "@monaco-editor/react";
-import { Edit, Loader2, Play, SendHorizontal, Upload, X } from "lucide-react";
+import {
+    CornerUpRight,
+    Edit,
+    Loader2,
+    Play,
+    SendHorizontal,
+    X,
+} from "lucide-react";
 import axios from "axios";
 import AuthContext from "@/context/auth-provider.jsx";
 import {
@@ -665,9 +672,9 @@ function Code() {
                                                         onClick={() =>
                                                             run(false)
                                                         }
-                                                        className="z-10 self-end"
+                                                        className="z-10 self-end bg-green-500 hover:bg-green-300 text-black"
                                                     >
-                                                        <Upload className="mr-2 h-4 w-4" />
+                                                        <CornerUpRight className="mr-2 h-4 w-4" />
                                                         Submit
                                                     </Button>
                                                 </TooltipTrigger>

@@ -53,33 +53,33 @@ export default function NavBar() {
                         to="/"
                         className="flex items-center gap-2 justify-start w-min"
                     >
-                        <Terminal color="#34dded" />{" "}
+                        <Terminal color="#22c55e" />{" "}
                         <span className="font-medium">Code</span>
                     </Link>
                 </div>
                 <nav className="hidden items-center justify-center gap-6 text-sm font-medium md:flex flex-1">
                     <Link
                         to="/"
-                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                     >
                         Home
                     </Link>
                     <Link
                         to="/problems"
-                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                     >
                         Problems
                     </Link>
                     <Link
                         to="/leaderboard"
-                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                     >
                         Leaderboard
                     </Link>
                     {user.isAuthenticated && (
                         <Link
                             to="/submissions"
-                            className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                            className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                         >
                             Submissions
                         </Link>
@@ -105,7 +105,7 @@ export default function NavBar() {
                                 onClick={() => navigate("/leaderboard")}
                             >
                                 <Zap
-                                    className="group-hover:fill-white duration-1000"
+                                    className="group-hover:fill-green-500 group-hover:stroke-green-500 fill-black duration-500"
                                     height={20}
                                 />
                                 <NumberTicker value={user.points} />
@@ -177,7 +177,7 @@ export default function NavBar() {
                                 {user.isAuthenticated && (
                                     <Link
                                         to="/submissions"
-                                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-white after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                                     >
                                         Submissions
                                     </Link>

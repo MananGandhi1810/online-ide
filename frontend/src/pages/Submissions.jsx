@@ -62,7 +62,7 @@ function Submissions() {
                                         }
                                         className="group hover:cursor-pointer"
                                     >
-                                        <TableCell className="group-hover:underline overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center">
+                                        <TableCell className="group-hover:underline decoration-green-500 overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center">
                                             {submission.problemStatement.title}
                                         </TableCell>
                                         <TableCell>

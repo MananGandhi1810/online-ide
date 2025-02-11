@@ -54,7 +54,7 @@ function Leaderboard() {
                                     onClick={() => navigate(`/user/${user.id}`)}
                                 >
                                     <TableCell>#{rank + 1}</TableCell>
-                                    <TableCell className="overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center group-hover:underline">
+                                    <TableCell className="overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center group-hover:underline decoration-green-500">
                                         {user.name}
                                         {user.id == currentUser.id ? (
                                             <Badge>You</Badge>

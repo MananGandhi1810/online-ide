@@ -42,7 +42,7 @@ function Home() {
                         transition={{ duration: 0.5, delay: 0.4 }}
                         className="flex flex-col sm:flex-row gap-4"
                     >
-                        <Button className="group" asChild>
+                        <Button className="group bg-green-500 hover:bg-green-300" asChild>
                             <Link to="/problems">
                                 Start Coding
                                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
