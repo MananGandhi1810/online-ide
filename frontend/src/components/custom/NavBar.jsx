@@ -102,7 +102,7 @@ export default function NavBar() {
                         <div className="flex flex-row items-center gap-4">
                             <div
                                 className="flex flex-row gap-1 items-center group cursor-pointer"
-                                onClick={() => navigate("/leaderboard")}
+                                onClick={() => navigate(`/user/${user.id}`)}
                             >
                                 <Zap
                                     className="group-hover:fill-green-500 group-hover:stroke-green-500 fill-black duration-500"
