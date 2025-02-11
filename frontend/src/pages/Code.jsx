@@ -672,7 +672,7 @@ function Code() {
                                                         onClick={() =>
                                                             run(false)
                                                         }
-                                                        className="z-10 self-end bg-green-500 hover:bg-green-300 text-black"
+                                                        className="z-10 self-end" variant="primary"
                                                     >
                                                         <CornerUpRight className="mr-2 h-4 w-4" />
                                                         Submit

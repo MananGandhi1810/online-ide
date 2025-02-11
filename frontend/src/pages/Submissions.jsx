@@ -99,9 +99,15 @@ function Submissions() {
                             </Link>
                         </Button>
                         <Button
-                            disabled={submissions.length == 0}
+                            disabled={
+                                submissions.length == 0 ||
+                                submissions.length < 10
+                            }
                             variant="outline"
-                            asChild={submissions.length > 0}
+                            asChild={
+                                submissions.length > 0 &&
+                                submissions.length == 10
+                            }
                         >
                             <Link to={`/submissions?page=${page + 1}`}>
                                 <ChevronRight />
