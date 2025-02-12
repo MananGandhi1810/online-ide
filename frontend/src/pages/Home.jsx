@@ -58,7 +58,12 @@ function Home() {
                     </motion.div>
                 </div>
                 <div>
-                    <div className="bg-gray-900 p-4 rounded-lg shadow-lg w-full h-64 overflow-hidden border border-gray-700 group">
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="bg-gray-900 p-4 rounded-lg shadow-lg w-full h-64 overflow-hidden border border-gray-700 group"
+                    >
                         <div className="flex items-center mb-2">
                             <div className="w-3 h-3 rounded-full bg-gray-500 mr-2 group-hover:bg-red-700"></div>
                             <div className="w-3 h-3 rounded-full bg-gray-500 mr-2 group-hover:bg-yellow-400"></div>
@@ -77,7 +82,7 @@ function Home() {
                                 />
                             </code>
                         </pre>
-                    </div>
+                    </motion.h1>
                 </div>
             </div>
         </div>
