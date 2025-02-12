@@ -51,19 +51,10 @@ const executeCode = async (message, channel) => {
         return;
     }
     var testCases;
-    var expectedResult;
     if (containsTestCase && temp) {
         testCases = [{ input: testcase }];
     } else {
         testCases = problemStatement.testCase;
-        expectedResult = "";
-        testCases.forEach((testCase) => {
-            expectedResult += testCase.output
-                .replace(/\r?\n|\r/g, "")
-                .normalize()
-                .toLowerCase();
-            expectedResult += "---";
-        });
     }
     const container = await createDockerContainer(
         language,
@@ -138,11 +129,22 @@ const executeCode = async (message, channel) => {
     }
     var correctResult = false;
     try {
+        const outputResults = logs.split("---").filter((o) => o.trim() !== "");
+        const passedTests = outputResults
+            .map(
+                (output, idx) =>
+                    output.toLowerCase() ===
+                    testCases[idx].output.toLowerCase(),
+            )
+            .filter((result) => result);
+
         const result = {
             output: rawLogs,
             status: "Executed",
             execTime: ms ? parseInt(ms) : null,
+            passedTestCases: passedTests.length,
         };
+
         if (temp) {
             const prevData = JSON.parse(await get(`temp-${submissionId}`));
             result.output = result.output.split("---");
@@ -155,7 +157,7 @@ const executeCode = async (message, channel) => {
                 60 * 5,
             );
         } else {
-            correctResult = logs == expectedResult;
+            correctResult = passedTests.length === testCases.length;
             result.success = correctResult;
             await prisma.submission.update({
                 where: { id: submissionId },

@@ -25,6 +25,9 @@ const queueCodeHandler = async (req, res, isTempRun = false) => {
     }
     const problemStatement = await prisma.problemStatement.findUnique({
         where: { id: problemStatementId },
+        select: {
+            _count: { select: { testCase: true } },
+        },
     });
     if (!problemStatement) {
         return res.status(404).json({
@@ -53,6 +56,7 @@ const queueCodeHandler = async (req, res, isTempRun = false) => {
             code,
             keystrokeTimings: keystrokeTimings ?? [],
             userId: req.user.id,
+            totalTestCases: problemStatement._count.testCase,
         };
         if (!isTempRun) {
             const submission = await prisma.submission.create({
@@ -107,6 +111,15 @@ const checkExecutionHandler = async (req, res, isTempRun = false) => {
     if (!isTempRun) {
         submission = await prisma.submission.findUnique({
             where: { id: submissionId, userId: req.user.id },
+            select: {
+                id: true,
+                status: true,
+                success: true,
+                output: true,
+                execTime: true,
+                passedTestCases: true,
+                totalTestCases: true,
+            },
         });
     } else {
         submission = JSON.parse(await get(`temp-${submissionId}`));
@@ -146,6 +159,8 @@ const checkExecutionHandler = async (req, res, isTempRun = false) => {
             success: submission.success,
             logs: isTempRun ? submission.output : undefined,
             execTime: submission.execTime,
+            passedTestCases: submission.passedTestCases,
+            totalTestCases: submission.totalTestCases,
         },
     });
 };
