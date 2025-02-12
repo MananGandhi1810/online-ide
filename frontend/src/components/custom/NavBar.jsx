@@ -91,7 +91,7 @@ export default function NavBar() {
                             <Button variant="outline" asChild>
                                 <Link to="/login">Login</Link>
                             </Button>
-                            <Button className="group" asChild>
+                            <Button className="group" asChild variant="primary">
                                 <Link to="/register">
                                     Register
                                     <ArrowRight className="ml-2 z-10 group-hover:ml-3 duration-200" />

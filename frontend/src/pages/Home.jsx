@@ -48,9 +48,9 @@ function Home() {
                                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </Button>
-                        <Button className="group" asChild>
+                        <Button className="group" variant="outline" asChild>
                             <Link to="https://github.com/MananGandhi1810/online-ide">
-                                <Star className="mr-2 group-hover:fill-black transition-colors" />
+                                <Star className="mr-2 group-hover:fill-white transition-colors" />
                                 Star on GitHub
                                 <SquareArrowOutUpRight className="ml-2 transition-transform" />
                             </Link>
