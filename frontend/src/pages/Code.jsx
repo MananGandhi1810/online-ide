@@ -275,7 +275,7 @@ function Code() {
                 if (!isTempRun) {
                     setDialogData({
                         title: "Error",
-                        description: "Could not pass some or all test cases",
+                        description: `${res.data.passedTestCases}/${res.data.totalTestCases} test cases passed. Try again!`,
                     });
                     setShowDialog(true);
                 } else {
@@ -672,7 +672,8 @@ function Code() {
                                                         onClick={() =>
                                                             run(false)
                                                         }
-                                                        className="z-10 self-end" variant="primary"
+                                                        className="z-10 self-end"
+                                                        variant="primary"
                                                     >
                                                         <CornerUpRight className="mr-2 h-4 w-4" />
                                                         Submit
