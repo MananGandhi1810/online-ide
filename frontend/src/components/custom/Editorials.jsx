@@ -93,7 +93,7 @@ function Editorials({
                                     }
                                 >
                                     <TableCell className="overflow-ellipsis overflow-hidden w-full flex flex-col items-start justify-items-center">
-                                        <p className="text-lg group-hover:underline">
+                                        <p className="text-lg group-hover:underline underline-offset-2">
                                             {editorial.title}
                                         </p>
                                         <p className="text-md">
