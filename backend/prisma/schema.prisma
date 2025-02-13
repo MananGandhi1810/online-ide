@@ -47,18 +47,20 @@ model User {
 
 model Submission {
     id                 String           @id @default(cuid())
-    User               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId             String
     time               DateTime         @default(now())
     success            Boolean?
     code               String
     language           String
-    output             String?
     status             SubmissionStatus @default(Queued)
-    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
     problemStatementId String
+    output             String?
     execTime           Int?
     keystrokeTimings   Int[]
+    passedTestCases    Int?
+    totalTestCases     Int?
+    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
+    user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ProblemStatement {
