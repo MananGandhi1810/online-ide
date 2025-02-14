@@ -6,7 +6,6 @@ import problemStatementRouter from "./router/problem-statement.js";
 import leaderboardRouter from "./router/leaderboard.js";
 import userRouter from "./router/user.js";
 import editorialsRouter from "./router/editorial.js";
-import logger from "morgan";
 import morgan from "morgan";
 import { getIp } from "./utils/ip-addr.js";
 import fs from "fs";

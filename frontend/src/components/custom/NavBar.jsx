@@ -177,7 +177,7 @@ export default function NavBar() {
                                 {user.isAuthenticated && (
                                     <Link
                                         to="/submissions"
-                                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                                        className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
                                     >
                                         Submissions
                                     </Link>
