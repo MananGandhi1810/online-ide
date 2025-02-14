@@ -13,8 +13,12 @@ export default defineConfig((mode) => {
         },
         define: {
             "process.env.SERVER_URL": JSON.stringify(env.REACT_APP_SERVER_URL),
-            "process.env.POSTHOG_KEY": JSON.stringify(env.REACT_APP_PUBLIC_POSTHOG_KEY),
-            "process.env.POSTHOG_HOST": JSON.stringify(env.REACT_APP_PUBLIC_POSTHOG_HOST),
+            "process.env.POSTHOG_KEY": JSON.stringify(
+                env.REACT_APP_PUBLIC_POSTHOG_KEY,
+            ),
+            "process.env.POSTHOG_HOST": JSON.stringify(
+                env.REACT_APP_PUBLIC_POSTHOG_HOST,
+            ),
             "process.env.GH_CLIENT_ID": JSON.stringify(
                 env.REACT_APP_GH_CLIENT_ID,
             ),

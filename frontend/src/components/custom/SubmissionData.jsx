@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function SubmissionData() {
-  return (
-    <div>SubmissionData</div>
-  )
+    return <div>SubmissionData</div>;
 }
 
-export default SubmissionData
+export default SubmissionData;

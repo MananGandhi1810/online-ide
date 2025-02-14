@@ -58,9 +58,8 @@ function UserData() {
         };
         for (var i = 0; i < userProfile.submissions.length; i++) {
             problems.add(userProfile.submissions[i].problemStatementId);
-            ratio[
-                userProfile.submissions[i].success ? "success" : "failure"
-            ] += 1;
+            ratio[userProfile.submissions[i].success ? "success" : "failure"] +=
+                1;
         }
         setTotalProblems(problems.size);
         setSubmissionRatio(ratio);

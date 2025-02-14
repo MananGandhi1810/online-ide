@@ -263,9 +263,7 @@ function App() {
                         try {
                             res = await axios
                                 .get(
-                                    `${
-                                        process.env.SERVER_URL
-                                    }/user/submissions${
+                                    `${process.env.SERVER_URL}/user/submissions${
                                         page ? "?page=" + page : ""
                                     }`,
                                     {
