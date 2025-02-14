@@ -93,9 +93,15 @@ You can either use the docker-compose file to run the project or run the backend
 -   Clone the repository
 -   Copy the `.env.example` file to `.env` and fill in the required values in both `frontend/` and `backend/` directories.
 -   Run Redis
-    -   Run `docker run -d -p 6379:6379 redis`
+    -   Run:
+        ```bash
+        docker run -d -p 6379:6379 redis
+        ```
 -   Run Postgres
-    -   Run `docker run -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=onlineide postgres`
+    -   Run:
+        ```bash
+        docker run -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=onlineide postgres
+        ```
 -   Run the backend server
     -   Navigate to the `backend` directory
     -   Run `npm install`
