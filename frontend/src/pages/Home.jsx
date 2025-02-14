@@ -50,7 +50,7 @@ function Home() {
                         </Button>
                         <Button className="group" variant="outline" asChild>
                             <Link to="https://github.com/MananGandhi1810/online-ide">
-                                <Star className="mr-2 group-hover:fill-white transition-colors" />
+                                <Star className="mr-2 group-hover:fill-green-500 group-hover:stroke-green-500 fill-black duration-500" />
                                 Star on GitHub
                                 <SquareArrowOutUpRight className="ml-2 transition-transform" />
                             </Link>
