@@ -44,7 +44,7 @@ const executeCode = async (message, channel) => {
     const submission = await prisma.submission.findUnique({
         where: { id: submissionId },
         include: {
-            User: true,
+            user: true,
         },
     });
     if (!submission && !temp) {
@@ -174,7 +174,7 @@ const executeCode = async (message, channel) => {
         const isSolvedByUser = await prisma.submission.count({
             where: {
                 problemStatementId,
-                userId: submission.User.id,
+                userId: submission.user.id,
                 success: true,
             },
         });
@@ -182,13 +182,13 @@ const executeCode = async (message, channel) => {
             const failedAttempts = await prisma.submission.count({
                 where: {
                     problemStatementId,
-                    userId: submission.User.id,
+                    userId: submission.user.id,
                     success: false,
                 },
             });
             await prisma.user.update({
                 where: {
-                    id: submission.User.id,
+                    id: submission.user.id,
                 },
                 data: {
                     points: {
