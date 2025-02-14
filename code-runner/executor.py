@@ -60,6 +60,6 @@ for data in input_data:
             print(execute_process.stdout.decode())
         print("---")
     except:
-        print("Could not execute code", file=sys.stderr)
+        print("Could not execute code\n---", file=sys.stderr)
         # exit()
 print((time.time() - start) * 1000)
