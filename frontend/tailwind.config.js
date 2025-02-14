@@ -12,7 +12,8 @@ export default {
                 "full-w-nav-w-tab": "calc(100vh - 113px)",
             },
             fontFamily: {
-                inter: ["inter"],
+                bg: ["bricolage grotesque"],
+                code: ["Cascadia Code"],
             },
             borderRadius: {
                 lg: "var(--radius)",

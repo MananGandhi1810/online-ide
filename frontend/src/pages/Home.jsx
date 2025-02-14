@@ -70,7 +70,7 @@ function Home() {
                             <div className="w-3 h-3 rounded-full bg-gray-500 group-hover:bg-green-500"></div>
                         </div>
                         <pre className="text-green-400 text-sm">
-                            <code className="code-font">
+                            <code className="font-code">
                                 <TypeAnimation
                                     style={{
                                         whiteSpace: "pre-line",
