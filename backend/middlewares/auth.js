@@ -94,7 +94,7 @@ const checkAuth = async (req, res, next, admin = false) => {
             data: null,
         });
     }
-    user.password = undefined;
+    delete user.password;
     req.user = user;
     next();
 };

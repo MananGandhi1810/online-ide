@@ -19,7 +19,7 @@ const getProblemStatementsHandler = async (req, res) => {
     });
     problemStatements = problemStatements.map((problemStatement) => {
         problemStatement.solved = problemStatement._count.submissions > 0;
-        problemStatement._count = undefined;
+        delete problemStatement._count;
         return problemStatement;
     });
     res.json({
@@ -70,7 +70,7 @@ const getProblemStatementByIdHandler = async (req, res) => {
         });
     }
     problemStatement.solved = problemStatement._count.submissions > 0;
-    problemStatement._count = undefined;
+    delete problemStatement._count;
     res.json({
         success: true,
         message: "Fetched problem statement",

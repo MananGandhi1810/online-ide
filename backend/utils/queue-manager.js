@@ -2,8 +2,8 @@ import redis from "redis";
 
 var isConnected = false;
 
-var publisher = undefined;
-var subscriber = undefined;
+var publisher = null;
+var subscriber = null;
 
 try {
     publisher = redis.createClient({

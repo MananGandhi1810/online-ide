@@ -68,7 +68,7 @@ const registerHandler = async (req, res) => {
     var user = await prisma.user.create({
         data: { name, email, password: hashedPassword },
     });
-    user.password = undefined;
+    delete user.password;
     const token = jwt.sign({ name, email, id: user.id }, jwtSecret);
     const url = `${req.protocol}://${req.get("host")}/auth/verify?token=${token}`;
     try {
@@ -180,7 +180,7 @@ const loginHandler = async (req, res) => {
             data: null,
         });
     }
-    user.password = undefined;
+    delete user.password;
     const token = jwt.sign({ email, name: user.name, id: user.id }, jwtSecret);
     res.json({
         success: true,
@@ -459,7 +459,7 @@ const resetPasswordHandler = async (req, res) => {
             data: null,
         });
     }
-    newUser.password = undefined;
+    delete newUser.password;
     res.status(200).json({
         success: true,
         message: "Password updated succesfully",
