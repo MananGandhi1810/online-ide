@@ -7,3 +7,5 @@ frontend/.env.prod
 frontend/dist
 backend/access.log
 .DS_Store
+frontend/.DS_Store
+backend/.DS_Store
