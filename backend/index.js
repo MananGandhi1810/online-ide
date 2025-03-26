@@ -10,7 +10,6 @@ import morgan from "morgan";
 import { getIp } from "./utils/ip-addr.js";
 import fs from "fs";
 import path from "path";
-import { expressAnalytics } from "node-api-analytics";
 
 const app = express();
 
@@ -40,9 +39,6 @@ app.use(
         credentials: true,
     }),
 );
-if (process.env.ENVIRONMENT != "development") {
-    app.use(expressAnalytics(process.env.API_ANALYTICS_API_KEY));
-}
 
 app.use("/auth", authRouter);
 app.use("/code", codeRouter);
