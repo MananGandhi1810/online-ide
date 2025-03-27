@@ -134,7 +134,10 @@ const executeCode = async (message, channel) => {
             .map(
                 (output, idx) =>
                     output.toLowerCase() ===
-                    testCases[idx].output.toLowerCase(),
+                    testCases[idx].output
+                        .replace(/\r?\n|\r/g, "")
+                        .normalize()
+                        .toLowerCase(),
             )
             .filter((result) => result);
 
