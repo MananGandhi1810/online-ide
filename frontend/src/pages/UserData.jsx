@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import { Code2, FileText, Zap, Send } from "lucide-react";
+import { Code2, FileText, Zap, Send, Linkedin, Share2 } from "lucide-react";
 import {
     Card,
     CardContent,
@@ -11,13 +11,14 @@ import {
 import NumberTicker from "@/components/ui/number-ticker";
 import ReactCalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
-import SubmissionData from "@/components/custom/SubmissionData";
 import AuthContext from "@/context/auth-provider";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 function UserData() {
     const userProfile = useLoaderData();
     const { user } = useContext(AuthContext);
-    console.log(user, userProfile.id);
+    const { toast } = useToast();
 
     if (!userProfile) {
         return (
@@ -58,8 +59,9 @@ function UserData() {
         };
         for (var i = 0; i < userProfile.submissions.length; i++) {
             problems.add(userProfile.submissions[i].problemStatementId);
-            ratio[userProfile.submissions[i].success ? "success" : "failure"] +=
-                1;
+            ratio[
+                userProfile.submissions[i].success ? "success" : "failure"
+            ] += 1;
         }
         setTotalProblems(problems.size);
         setSubmissionRatio(ratio);
@@ -90,8 +92,24 @@ function UserData() {
         <div className="flex w-full h-full-w-nav items-center justify-center flex-col">
             <Card className="w-5/12 min-w-[300px] sm:min-w-[400px] md:min-w-[600px] mx-auto px-2 py-8 sm:space-y-3 md:px-8">
                 <CardHeader className="text-center">
-                    <CardTitle className="text-4xl font-bold">
+                    <CardTitle className="text-4xl font-bold flex flex-row justify-center align-middle">
                         {userProfile.name}
+                        {user?.id === userProfile.id && (
+                            <Button
+                                variant="ghost"
+                                className="ml-2"
+                                onClick={() => {
+                                    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                                        window.location.href,
+                                    )}&text=Check out my profile on ${
+                                        window.location.origin
+                                    }`;
+                                    window.open(linkedInUrl, "_blank");
+                                }}
+                            >
+                                <Share2 className="w-5 h-5" />
+                            </Button>
+                        )}
                     </CardTitle>
                 </CardHeader>
 
