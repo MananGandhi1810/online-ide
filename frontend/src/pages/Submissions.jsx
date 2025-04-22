@@ -12,12 +12,9 @@ import {
     Link,
     useLoaderData,
     useNavigate,
-    useSearchParams,
 } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
-    ArrowLeft,
-    ArrowLeftIcon,
     ChevronLeft,
     ChevronRight,
 } from "lucide-react";

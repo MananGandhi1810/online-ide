@@ -11,7 +11,6 @@ import {
 import NumberTicker from "@/components/ui/number-ticker";
 import ReactCalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
-import SubmissionData from "@/components/custom/SubmissionData";
 import AuthContext from "@/context/auth-provider";
 
 function UserData() {
