@@ -19,6 +19,8 @@ const rateLimit = async (req, res, next, limit = 5, use = "") => {
     if (requests === 1) {
         await redis.expire(redisId, 60);
     }
+    res.set("X-RateLimit-Limit", limit);
+    res.set("X-RateLimit-Remaining", limit - requests);
     if (requests > limit) {
         res.locals.message = "Rate limit exceeded";
         return res.status(429).json({
