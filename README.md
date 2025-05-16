@@ -115,4 +115,4 @@ You can either use the docker-compose file to run the project or run the backend
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. For more details, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file.
