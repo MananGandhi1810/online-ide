@@ -2,6 +2,13 @@ import dockerode from "dockerode";
 
 const docker = dockerode();
 
+const filenames = {
+    python: "code.py",
+    cpp: "code.cpp",
+    c: "code.c",
+    java: "code.java",
+};
+
 const cleanStr = (str) => {
     return str.replaceAll('"', '\\"');
 };
@@ -9,21 +16,7 @@ const cleanStr = (str) => {
 const getExecutionCommand = (language, code, input) => {
     let cmd;
     code = cleanStr(code);
-    var filename = "";
-    switch (language) {
-        case "python":
-            filename = "code.py";
-            break;
-        case "cpp":
-            filename = "code.cpp";
-            break;
-        case "c":
-            filename = "code.c";
-            break;
-        case "java":
-            filename = "code.java";
-            break;
-    }
+    const filename = filenames[language];
     var input_str = filename + "\n---\n";
     input.forEach((line, i) => {
         input_str += cleanStr(line);
