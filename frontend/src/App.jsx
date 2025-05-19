@@ -20,6 +20,8 @@ import getUserPoints from "./utils/getUserPoints";
 import Leaderboard from "./pages/Leaderboard";
 import NoPageFound from "./pages/404";
 import UserData from "./pages/UserData";
+import AdminPanel from "./pages/AdminPanel";
+import SetupAdmin from "./pages/SetupAdmin";
 import { useToast } from "./hooks/use-toast";
 import { PostHogProvider } from "posthog-js/react";
 import posthog from "posthog-js";
@@ -38,6 +40,7 @@ function App() {
         email: null,
         token: null,
         points: 0,
+        admin: false,
         isAuthenticated: false,
     };
     const { toast } = useToast();
@@ -70,6 +73,7 @@ function App() {
             name: res.data.name,
             email: res.data.email,
             points: res.data.points,
+            admin: res.data.admin,
         });
     };
 
@@ -339,6 +343,20 @@ function App() {
                         return redirect("/login");
                     },
                     element: <Login />,
+                },
+                {
+                    path: "/admin",
+                    loader: async () => {
+                        if (!user.isAuthenticated) {
+                            return redirect("/login?next=/admin");
+                        }
+                        return null;
+                    },
+                    element: <AdminPanel />,
+                },
+                {
+                    path: "/setup-admin",
+                    element: <SetupAdmin />,
                 },
                 {
                     path: "*",
