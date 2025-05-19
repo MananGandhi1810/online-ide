@@ -50,6 +50,7 @@ function Login() {
                 email: res.data.user.email,
                 token: res.data.token,
                 points: res.data.user.points,
+                admin: res.data.user.admin,
                 isAuthenticated: true,
             });
             toast({
