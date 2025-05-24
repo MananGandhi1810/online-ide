@@ -37,6 +37,8 @@ const createDockerContainer = async (language, code, input) => {
         Tty: true,
         HostConfig: {
             NetworkMode: "online-ide_no-internet",
+            Memory: 128 * 1024 * 1024,
+            PidsLimit: 64,
         },
     });
 };
