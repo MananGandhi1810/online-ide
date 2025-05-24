@@ -18,6 +18,11 @@ jobs:
         if: (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[code-runner]') || contains(github.event.head_commit.message, '[all]')) && github.repository_owner == 'MananGandhi1810'
         runs-on: ubuntu-latest
         steps:
+            - name: Setup QEMU
+              uses: docker/setup-qemu-action@v3
+              with:
+                  platforms: linux/amd64,linux/arm64
+
             - name: Checkout
               uses: actions/checkout@v4
 
