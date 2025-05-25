@@ -64,16 +64,17 @@ model Submission {
 }
 
 model ProblemStatement {
-    id          String       @id @default(cuid())
+    id          String        @id @default(cuid())
     title       String
     description String
     createdById String
-    createdBy   User         @relation(fields: [createdById], references: [id])
+    createdBy   User          @relation(fields: [createdById], references: [id])
     difficulty  Difficulty
     submissions Submission[]
     testCase    Testcase[]
     editorials  Editorial[]
     tagId       String?
+    starterCode StarterCode[]
 }
 
 model Testcase {
@@ -83,6 +84,16 @@ model Testcase {
     hidden             Boolean          @default(true)
     problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
     problemStatementId String
+}
+
+model StarterCode {
+    id                 String           @id @default(cuid())
+    language           String
+    code               String
+    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
+    problemStatementId String
+
+    @@unique([problemStatementId, language])
 }
 
 model Editorial {

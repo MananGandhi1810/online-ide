@@ -8,16 +8,9 @@ import {
 } from "@/components/ui/table.jsx";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
-import {
-    Link,
-    useLoaderData,
-    useNavigate,
-} from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {
-    ChevronLeft,
-    ChevronRight,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 function Submissions() {
     const { submissions, page } = useLoaderData();
