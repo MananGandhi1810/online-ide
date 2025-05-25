@@ -19,6 +19,19 @@ Leetcode like platform to practice logic based coding problems. Built using Expr
     -   Login
     -   Email token verification
     -   Forgot password with OTP
+-   Admin Panel
+    -   User Management
+        - View all users and their statistics
+        - Toggle admin privileges
+        - Ban/unban users with reason and duration
+        - View user submissions
+    -   Problem Statement Management
+        - Moderate new problem statements
+        - Add moderation comments
+        - View all problem statements with statistics
+    -   Dashboard Statistics
+        - Total users, problems, and submissions
+        - Success rate tracking
 -   Code Editor
     -   Syntax Highlighting (with Shiki.js)
     -   4 Languages Supported (Python, C, C++, Java)

@@ -1,99 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
-    provider      = "prisma-client-js"
-    binaryTargets = ["native", "linux-musl"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
-}
-
-enum SubmissionStatus {
-    Queued
-    Executing
-    Executed
-    TimeLimitExceeded
-}
-
-enum Difficulty {
-    Easy
-    Medium
-    Hard
-}
-
-enum AuthProvider {
-    EMAIL
-    GITHUB
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    id                String             @id @default(cuid())
-    email             String             @unique
-    name              String?
-    password          String?
-    authProvider      AuthProvider       @default(EMAIL)
-    githubAccessToken String?
-    isVerified        Boolean            @default(false)
-    points            Int                @default(0)
-    imageUrl          String?
-    submissions       Submission[]
-    admin             Boolean            @default(false)
-    editorials        Editorial[]
-    createdAt         DateTime           @default(now())
-    updatedAt         DateTime           @updatedAt
-    passwordUpdatedAt DateTime           @default(now())
-    ProblemStatement  ProblemStatement[]
-}
-
-model Submission {
-    id                 String           @id @default(cuid())
-    userId             String
-    time               DateTime         @default(now())
-    success            Boolean?
-    code               String
-    language           String
-    status             SubmissionStatus @default(Queued)
-    problemStatementId String
-    output             String?
-    execTime           Int?
-    keystrokeTimings   Int[]
-    passedTestCases    Int?
-    totalTestCases     Int?
-    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
-    user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                  String            @id @default(uuid())
+  email               String            @unique
+  name                String
+  password            String?
+  isVerified          Boolean           @default(false)
+  admin               Boolean           @default(false)
+  isBanned            Boolean           @default(false)
+  banReason           String?
+  banExpiry           DateTime?
+  points              Int               @default(0)
+  authProvider        String            @default("local")
+  imageUrl            String?
+  lastPasswordChange  DateTime?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  submissions         Submission[]
+  problemStatements   ProblemStatement[]
+  editorials          Editorial[]
+  moderatedProblems   ProblemStatement[] @relation("ModeratedBy")
 }
 
 model ProblemStatement {
-    id          String       @id @default(cuid())
-    title       String
-    description String
-    createdById String
-    createdBy   User         @relation(fields: [createdById], references: [id])
-    difficulty  Difficulty
-    submissions Submission[]
-    testCase    Testcase[]
-    editorials  Editorial[]
-    tagId       String?
+  id                String       @id @default(uuid())
+  title             String
+  description       String
+  difficulty        String
+  moderationStatus  String       @default("PENDING")
+  moderationComment String?
+  moderatedAt       DateTime?
+  moderatedById     String?
+  createdById       String
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  testCase          TestCase[]
+  submissions       Submission[]
+  editorials        Editorial[]
+  createdBy         User         @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  moderatedBy       User?        @relation("ModeratedBy", fields: [moderatedById], references: [id], onDelete: SetNull)
 }
 
-model Testcase {
-    id                 String           @id @default(cuid())
-    input              String
-    output             String
-    hidden             Boolean          @default(true)
-    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
-    problemStatementId String
+model TestCase {
+  id                String          @id @default(uuid())
+  input            String
+  output           String
+  hidden           Boolean         @default(true)
+  problemStatementId String
+  problemStatement ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
+}
+
+model Submission {
+  id                String          @id @default(uuid())
+  code             String
+  language         String
+  status           String          @default("PENDING")
+  success          Boolean         @default(false)
+  execTime         Float?
+  output           String?
+  passedTestCases  Int             @default(0)
+  totalTestCases   Int             @default(0)
+  time             DateTime        @default(now())
+  userId           String
+  problemStatementId String
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemStatement ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
+  keystrokeTimings Json?
 }
 
 model Editorial {
-    id                 String           @id @default(cuid())
-    title              String
-    content            String
-    problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
-    problemStatementId String
-    user               User             @relation(fields: [userId], references: [id])
-    userId             String
-    hidden             Boolean          @default(false)
-    createdAt          DateTime         @default(now())
-    updatedAt          DateTime         @updatedAt
+  id                String          @id @default(uuid())
+  content          String
+  hidden           Boolean         @default(true)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  userId           String
+  problemStatementId String
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemStatement ProblemStatement @relation(fields: [problemStatementId], references: [id], onDelete: Cascade)
 }
