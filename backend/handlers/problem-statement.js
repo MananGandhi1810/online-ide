@@ -50,6 +50,12 @@ const getProblemStatementByIdHandler = async (req, res) => {
                     : {
                           where: { hidden: false },
                       },
+            starterCode: {
+                select: {
+                    code: true,
+                    language: true,
+                },
+            },
             _count: {
                 select: {
                     submissions: {
@@ -79,12 +85,13 @@ const getProblemStatementByIdHandler = async (req, res) => {
 };
 
 const newProblemStatementHandler = async (req, res) => {
-    const { title, description, difficulty, testCases } = req.body;
+    const { title, description, difficulty, testCases, starterCode } = req.body;
     if (
         !title ||
         !description ||
         !difficulty ||
         !testCases ||
+        !starterCode ||
         title.trim() == "" ||
         description.trim() == "" ||
         !["Easy", "Medium", "Hard"].includes(difficulty.trim()) ||
@@ -93,37 +100,69 @@ const newProblemStatementHandler = async (req, res) => {
         return res.status(400).json({
             success: false,
             message:
-                "Title, description, difficulty and testcases are required",
+                "Title, description, difficulty, testcases and starterCode are required",
             data: null,
         });
     }
-    var problemStatement;
-    try {
-        problemStatement = await prisma.problemStatement.create({
-            data: {
-                title,
-                description,
-                difficulty,
-                testCase: {
-                    create: testCases.map((testCase) => {
-                        return {
-                            input: testCase.input,
-                            output: testCase.output,
-                            hidden: testCase.hidden ?? true,
-                        };
-                    }),
-                },
-                createdById: req.user.id,
-            },
-        });
-    } catch (e) {
-        console.log("An error occurred", e);
-        return res.status(500).json({
+    const allowedLanguages = ["python", "c", "cpp", "java"];
+    const providedLanguages = Object.keys(starterCode).map((lang) =>
+        lang.toLowerCase(),
+    );
+    if (providedLanguages.length !== 4) {
+        return res.status(400).json({
             success: false,
-            message: "An error occurred",
+            message: "Starter code must be provided for exactly 4 languages",
             data: null,
         });
     }
+    const invalidLanguages = providedLanguages.filter(
+        (lang) => !allowedLanguages.includes(lang),
+    );
+    if (invalidLanguages.length > 0) {
+        return res.status(400).json({
+            success: false,
+            message: `Invalid languages: ${invalidLanguages.join(", ")}. Only python, c, cpp, java are allowed`,
+            data: null,
+        });
+    }
+
+    const missingLanguages = allowedLanguages.filter(
+        (lang) => !providedLanguages.includes(lang),
+    );
+    if (missingLanguages.length > 0) {
+        return res.status(400).json({
+            success: false,
+            message: `Missing languages: ${missingLanguages.join(", ")}. All 4 languages (python, c, cpp, java) are required`,
+            data: null,
+        });
+    }
+    const codeToUse = {};
+    for (const [lang, code] of Object.entries(starterCode)) {
+        codeToUse[lang.toLowerCase()] = code;
+    }
+    const problemStatement = await prisma.problemStatement.create({
+        data: {
+            title,
+            description,
+            difficulty,
+            testCase: {
+                create: testCases.map((testCase) => {
+                    return {
+                        input: testCase.input,
+                        output: testCase.output,
+                        hidden: testCase.hidden ?? true,
+                    };
+                }),
+            },
+            starterCode: {
+                create: Object.entries(codeToUse).map(([language, code]) => ({
+                    language,
+                    code: code || "",
+                })),
+            },
+            createdById: req.user.id,
+        },
+    });
     res.json({
         success: true,
         message: "Created problem statement",
@@ -142,12 +181,13 @@ const editProblemStatementHandler = async (req, res) => {
             data: null,
         });
     }
-    const { title, description, difficulty, testCases } = req.body;
+    const { title, description, difficulty, testCases, starterCode } = req.body;
     if (
         !title ||
         !description ||
         !difficulty ||
         !testCases ||
+        !starterCode ||
         title.trim() == "" ||
         description.trim() == "" ||
         !["Easy", "Medium", "Hard"].includes(difficulty.trim()) ||
@@ -156,7 +196,7 @@ const editProblemStatementHandler = async (req, res) => {
         return res.status(400).json({
             success: false,
             message:
-                "Title, description, difficulty and testcases are required",
+                "Title, description, difficulty, testcases and starterCode are required",
             data: null,
         });
     }
@@ -170,35 +210,77 @@ const editProblemStatementHandler = async (req, res) => {
             data: null,
         });
     }
-    try {
-        await prisma.testcase.deleteMany({
-            where: { problemStatementId: problemStatementId },
-        });
-        problemStatement = await prisma.problemStatement.update({
-            where: { id: problemStatementId },
-            data: {
-                title,
-                description,
-                difficulty,
-                testCase: {
-                    create: testCases.map((testCase) => {
-                        return {
-                            input: testCase.input,
-                            output: testCase.output,
-                            hidden: testCase.hidden ?? true,
-                        };
-                    }),
-                },
-            },
-        });
-    } catch (e) {
-        console.log("An error occurred", e);
-        return res.status(500).json({
+
+    const allowedLanguages = ["python", "c", "cpp", "java"];
+    const providedLanguages = Object.keys(starterCode).map((lang) =>
+        lang.toLowerCase(),
+    );
+
+    if (providedLanguages.length !== 4) {
+        return res.status(400).json({
             success: false,
-            message: "An error occurred",
+            message: "Starter code must be provided for exactly 4 languages",
             data: null,
         });
     }
+
+    const invalidLanguages = providedLanguages.filter(
+        (lang) => !allowedLanguages.includes(lang),
+    );
+    if (invalidLanguages.length > 0) {
+        return res.status(400).json({
+            success: false,
+            message: `Invalid languages: ${invalidLanguages.join(", ")}. Only python, c, cpp, java are allowed`,
+            data: null,
+        });
+    }
+
+    const missingLanguages = allowedLanguages.filter(
+        (lang) => !providedLanguages.includes(lang),
+    );
+    if (missingLanguages.length > 0) {
+        return res.status(400).json({
+            success: false,
+            message: `Missing languages: ${missingLanguages.join(", ")}. All 4 languages (python, c, cpp, java) are required`,
+            data: null,
+        });
+    }
+
+    const codeToUse = {};
+    for (const [lang, code] of Object.entries(starterCode)) {
+        codeToUse[lang.toLowerCase()] = code;
+    }
+
+    await prisma.testcase.deleteMany({
+        where: { problemStatementId: problemStatementId },
+    });
+    await prisma.starterCode.deleteMany({
+        where: { problemStatementId: problemStatementId },
+    });
+    problemStatement = await prisma.problemStatement.update({
+        where: { id: problemStatementId },
+        data: {
+            title,
+            description,
+            difficulty,
+            testCase: {
+                create: testCases.map((testCase) => {
+                    return {
+                        input: testCase.input,
+                        output: testCase.output,
+                        hidden: testCase.hidden ?? true,
+                    };
+                }),
+            },
+            starterCode: {
+                create: Object.entries(codeToUse).map(([language, code]) => ({
+                    language,
+                    code: code || "",
+                })),
+            },
+        },
+    });
+
     res.json({
         success: true,
         message: "Updated problem statement",
@@ -229,18 +311,11 @@ const deleteProblemStatementHandler = async (req, res) => {
             data: null,
         });
     }
-    try {
-        await prisma.problemStatement.delete({
-            where: { id: problemStatementId },
-        });
-    } catch (e) {
-        console.log(e);
-        return res.status(500).json({
-            success: false,
-            message: "An error occurred",
-            data: null,
-        });
-    }
+
+    await prisma.problemStatement.delete({
+        where: { id: problemStatementId },
+    });
+
     res.json({
         success: true,
         message: "Problem Statement deleted successfully",

@@ -95,12 +95,24 @@ function Code() {
             localStorage.getItem(`code-${language}-${problemStatement.id}`) ||
             "",
     );
-    const initialCode = {
-        c: "// Your code here",
-        cpp: "// Your code here",
-        python: "# Your code here",
-        java: "// Your code here",
+
+    const getStarterCode = (lang) => {
+        const starterCodeEntry = problemStatement.starterCode?.find(
+            (sc) => sc.language === lang,
+        );
+        if (starterCodeEntry && starterCodeEntry.code) {
+            return starterCodeEntry.code;
+        }
+
+        const defaultCode = {
+            python: "# Your code here",
+            c: "// Your code here",
+            cpp: "// Your code here",
+            java: "// Your code here",
+        };
+        return defaultCode[lang] || "// Your code here";
     };
+
     const [chatHistory, setChatHistory] = useState([]);
     const [aiInput, setAiInput] = useState("");
     const [currentResponse, setCurrentResponse] = useState("");
@@ -136,7 +148,7 @@ function Code() {
                 localStorage.getItem(
                     `code-${language}-${problemStatement.id}`,
                 ) ||
-                initialCode[language],
+                getStarterCode(language),
         );
     }, [language]);
 
@@ -692,10 +704,7 @@ function Code() {
                                         language={
                                             initialCodeLanguage || language
                                         }
-                                        defaultValue={
-                                            initialCodeState ||
-                                            initialCode[language]
-                                        }
+                                        defaultValue={code}
                                         value={code}
                                         onChange={(value) => setCode(value)}
                                         beforeMount={setupMonacoTheme}

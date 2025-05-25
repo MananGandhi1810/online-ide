@@ -25,6 +25,7 @@ Leetcode like platform to practice logic based coding problems. Built using Expr
     -   Problem Statements rendered as Markdown, with support for code blocks
     -   Sample Test Cases for each problem with expected output
     -   Custom testcases can be set by the user
+    -   Custom starter code for each problem statement and language
 -   Sandboxed Code Execution
     -   Docker container for each code execution
     -   Limit time used by code
