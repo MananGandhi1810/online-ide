@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import LoadingBar from "react-top-loading-bar";
 import NumberTicker from "@/components/ui/number-ticker";
+import ThemeToggle from "@/components/custom/ThemeToggle.jsx";
 
 export default function NavBar() {
     const { user, setUser } = useContext(AuthContext);
@@ -86,6 +87,7 @@ export default function NavBar() {
                     )}
                 </nav>
                 <div className="flex items-center justify-end flex-1 gap-4">
+                    <ThemeToggle />
                     {!user.isAuthenticated ? (
                         <div className="flex gap-4">
                             <Button variant="outline" asChild>
@@ -182,6 +184,9 @@ export default function NavBar() {
                                         Submissions
                                     </Link>
                                 )}
+                                <div className="flex items-center justify-start pt-2">
+                                    <ThemeToggle />
+                                </div>
                             </div>
                         </SheetContent>
                     </Sheet>
