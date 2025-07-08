@@ -58,10 +58,10 @@ function Problems() {
                                         <Badge
                                             className={
                                                 d == "Easy"
-                                                    ? "bg-green-500 text-white"
+                                                    ? "bg-green-600 text-white dark:bg-green-500"
                                                     : d == "Medium"
-                                                      ? "bg-yellow-500 text-black"
-                                                      : "bg-red-500 text-white"
+                                                      ? "bg-amber-500 text-black dark:bg-amber-400 dark:text-black"
+                                                      : "bg-red-600 text-white dark:bg-red-500"
                                             }
                                         >
                                             {problemStatement.difficulty}
