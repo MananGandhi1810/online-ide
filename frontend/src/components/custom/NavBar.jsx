@@ -61,26 +61,26 @@ export default function NavBar() {
                 <nav className="hidden items-center justify-center gap-6 text-sm font-medium md:flex flex-1">
                     <Link
                         to="/"
-                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                        className="text-muted-foreground hover:text-foreground relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                     >
                         Home
                     </Link>
                     <Link
                         to="/problems"
-                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                        className="text-muted-foreground hover:text-foreground relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                     >
                         Problems
                     </Link>
                     <Link
                         to="/leaderboard"
-                        className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                        className="text-muted-foreground hover:text-foreground relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                     >
                         Leaderboard
                     </Link>
                     {user.isAuthenticated && (
                         <Link
                             to="/submissions"
-                            className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
+                            className="text-muted-foreground hover:text-foreground relative after:bg-green-500 after:absolute after:h-0.5 after:w-0 after:-bottom-1 after:left-0 hover:after:w-full after:transition-all duration-300"
                         >
                             Submissions
                         </Link>
@@ -107,7 +107,7 @@ export default function NavBar() {
                                 onClick={() => navigate(`/user/${user.id}`)}
                             >
                                 <Zap
-                                    className="group-hover:fill-green-500 group-hover:stroke-green-500 fill-black duration-500"
+                                    className="group-hover:fill-green-500 group-hover:stroke-green-500 fill-foreground duration-500"
                                     height={20}
                                 />
                                 <NumberTicker value={user.points} />
@@ -150,7 +150,7 @@ export default function NavBar() {
                                 size="icon"
                                 className="rounded-full md:hidden"
                             >
-                                <MenuIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                                <MenuIcon className="h-5 w-5 text-muted-foreground" />
                                 <span className="sr-only">
                                     Toggle navigation menu
                                 </span>
@@ -160,26 +160,26 @@ export default function NavBar() {
                             <div className="grid gap-4 p-4">
                                 <Link
                                     to="/"
-                                    className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                                    className="text-sm font-medium text-muted-foreground hover:text-foreground"
                                 >
                                     Home
                                 </Link>
                                 <Link
                                     to="/problems"
-                                    className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                                    className="text-sm font-medium text-muted-foreground hover:text-foreground"
                                 >
                                     Problems
                                 </Link>
                                 <Link
                                     to="/leaderboard"
-                                    className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                                    className="text-sm font-medium text-muted-foreground hover:text-foreground"
                                 >
                                     Leaderboard
                                 </Link>
                                 {user.isAuthenticated && (
                                     <Link
                                         to="/submissions"
-                                        className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                                        className="text-sm font-medium text-muted-foreground hover:text-foreground"
                                     >
                                         Submissions
                                     </Link>
