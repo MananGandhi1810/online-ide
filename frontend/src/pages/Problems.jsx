@@ -49,7 +49,7 @@ function Problems() {
                                     <TableCell className="group-hover:underline underline-offset-2 decoration-green-500 overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center">
                                         {problemStatement.title}
                                         {problemStatement.solved ? (
-                                            <Check color="#22c55e" />
+                                            <Check className="text-green-500" />
                                         ) : (
                                             <></>
                                         )}
@@ -58,10 +58,10 @@ function Problems() {
                                         <Badge
                                             className={
                                                 d == "Easy"
-                                                    ? "bg-green-500"
+                                                    ? "bg-green-500 text-white"
                                                     : d == "Medium"
-                                                      ? "bg-yellow-500"
-                                                      : "bg-red-500"
+                                                      ? "bg-yellow-500 text-black"
+                                                      : "bg-red-500 text-white"
                                             }
                                         >
                                             {problemStatement.difficulty}

@@ -59,7 +59,7 @@ function Leaderboard() {
                                             {user.name}
                                         </span>
                                         {user.id == currentUser.id && (
-                                            <Badge className="bg-green-500">
+                                            <Badge className="bg-green-500 text-white">
                                                 You
                                             </Badge>
                                         )}

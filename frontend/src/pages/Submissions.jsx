@@ -59,8 +59,8 @@ function Submissions() {
                                             <Badge
                                                 className={
                                                     submission.success
-                                                        ? "bg-green-500"
-                                                        : "bg-red-500"
+                                                        ? "bg-green-500 text-white"
+                                                        : "bg-red-500 text-white"
                                                 }
                                             >
                                                 {submission.success

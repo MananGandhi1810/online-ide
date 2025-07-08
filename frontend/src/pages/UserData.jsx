@@ -138,22 +138,22 @@ function UserData() {
                             (
                             {submissionRatio.success > 0 ? (
                                 <NumberTicker
-                                    className="text-green-300"
+                                    className="text-green-500"
                                     value={submissionRatio.success}
                                 />
                             ) : (
-                                <span className="inline-block tabular-nums tracking-wider text-green-300">
+                                <span className="inline-block tabular-nums tracking-wider text-green-500">
                                     0
                                 </span>
                             )}
                             /
                             {submissionRatio.failure > 0 ? (
                                 <NumberTicker
-                                    className="text-red-300"
+                                    className="text-red-500"
                                     value={submissionRatio.failure}
                                 />
                             ) : (
-                                <span className="inline-block tabular-nums tracking-wider text-red-300">
+                                <span className="inline-block tabular-nums tracking-wider text-red-500">
                                     0
                                 </span>
                             )}
