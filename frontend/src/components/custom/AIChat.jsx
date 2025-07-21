@@ -10,6 +10,7 @@ function AIChat({
     handleSendMessage,
     aiInput,
     setAiInput,
+    isDisabled,
 }) {
     return (
         <div className="flex h-full-w-nav-w-tab w-full flex-col">
@@ -66,7 +67,7 @@ function AIChat({
                         }
                     }}
                 />
-                <Button type="submit" size="icon">
+                <Button type="submit" size="icon" disabled={isDisabled}>
                     <Send className="h-4 w-4" />
                     <span className="sr-only">Send message</span>
                 </Button>

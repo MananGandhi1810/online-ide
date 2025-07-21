@@ -127,6 +127,7 @@ function Code() {
     const { toast } = useToast();
     const time = useRef(new Date().getTime());
     const keystrokeTimings = useRef([]);
+    const [disableChat, setDisableChat] = useState(false);
 
     useEffect(() => {
         getEditorials();
@@ -359,6 +360,7 @@ function Code() {
         };
         setChatHistory([...chatHistory, newMessage]);
         setAiInput("");
+        setDisableChat(true);
         try {
             fetch(`${process.env.SERVER_URL}/code/ai/${id}/${language}`, {
                 method: "POST",
@@ -391,6 +393,7 @@ function Code() {
                                     messages: chatHistory,
                                 });
                                 setCurrentResponse("");
+                                setDisableChat(false);
                                 return;
                             }
 
@@ -539,6 +542,7 @@ function Code() {
                                         handleSendMessage={handleSendMessage}
                                         aiInput={aiInput}
                                         setAiInput={setAiInput}
+                                        isDisabled={disableChat}
                                     />
                                 </TabsContent>
                                 <TabsContent value="editorials">
@@ -549,7 +553,7 @@ function Code() {
                                                 variant="outline"
                                                 onClick={() => {
                                                     setIsEditing(
-                                                        (prev) => !prev,
+                                                        (prev) => !prev
                                                     );
                                                 }}
                                             >
@@ -774,7 +778,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line,
+                                                                            line
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -787,7 +791,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        ),
+                                                                        )
                                                                     )}
                                                             </div>
                                                             Output
@@ -796,7 +800,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line,
+                                                                            line
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -809,7 +813,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        ),
+                                                                        )
                                                                     )}
                                                             </div>
                                                         </div>
@@ -822,7 +826,7 @@ function Code() {
                                                             <div />
                                                         )}
                                                     </div>
-                                                ),
+                                                )
                                             )}
                                         </div>
                                     </ScrollArea>
@@ -834,7 +838,7 @@ function Code() {
                                                 value={customTestcase}
                                                 onChange={(e) =>
                                                     setCustomTestcase(
-                                                        e.target.value,
+                                                        e.target.value
                                                     )
                                                 }
                                                 placeholder="Check against your own testcases"
@@ -868,7 +872,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line,
+                                                                            line
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -881,7 +885,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        ),
+                                                                        )
                                                                     )}
                                                             </div>
                                                         </div>
