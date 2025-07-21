@@ -23,8 +23,6 @@ function ForgotPassword() {
     const location = useLocation();
     const { email: initialEmail } = location.state || {};
 
-    console.log("Initial Email:", initialEmail);
-
     useEffect(() => {
         if (initialEmail) {
             setEmail(initialEmail);
