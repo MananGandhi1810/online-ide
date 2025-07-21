@@ -67,7 +67,7 @@ Leetcode like platform to practice logic based coding problems. Built using Expr
 -   Resend (for sending emails)
 -   Shadcn/UI (for frontend components)
 -   Shiki.js with Monaco Editor (for code editing with syntax highlighting)
--   Meta LLaMA 3.1 8B (CloudFlare Workers AI)
+-   Meta LLaMA 4 17b (CloudFlare Workers AI)
 -   GitHub Actions (for CI/CD)
 -   PostHog (for analytics)
 
