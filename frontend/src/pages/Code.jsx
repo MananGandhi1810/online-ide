@@ -689,7 +689,6 @@ function Code() {
                                                             run(false)
                                                         }
                                                         className="z-10 self-end"
-                                                        variant="primary"
                                                     >
                                                         <CornerUpRight className="mr-2 h-4 w-4" />
                                                         Submit

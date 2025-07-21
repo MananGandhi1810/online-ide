@@ -55,11 +55,11 @@ function Leaderboard() {
                                 >
                                     <TableCell>#{rank + 1}</TableCell>
                                     <TableCell className="overflow-ellipsis w-full max-w-[90%] flex flex-row gap-2 items-center">
-                                        <span className="group-hover:underline underline-offset-2 decoration-green-500">
+                                        <span className="group-hover:underline underline-offset-2 decoration-primary">
                                             {user.name}
                                         </span>
                                         {user.id == currentUser.id && (
-                                            <Badge className="bg-green-500">
+                                            <Badge className="bg-primary">
                                                 You
                                             </Badge>
                                         )}
