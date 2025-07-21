@@ -128,7 +128,10 @@ function Login() {
                             variant="link"
                             className="m-0 p-0 mt-2"
                             onClick={() => {
-                                navigate("/forgot-password");
+                                console.log(email);
+                                navigate("/forgot-password", {
+                                    state: { email },
+                                });
                             }}
                         >
                             Forgot Password?
