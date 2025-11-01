@@ -553,7 +553,7 @@ function Code() {
                                                 variant="outline"
                                                 onClick={() => {
                                                     setIsEditing(
-                                                        (prev) => !prev
+                                                        (prev) => !prev,
                                                     );
                                                 }}
                                             >
@@ -777,7 +777,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line
+                                                                            line,
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -790,7 +790,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        )
+                                                                        ),
                                                                     )}
                                                             </div>
                                                             Output
@@ -799,7 +799,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line
+                                                                            line,
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -812,7 +812,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        )
+                                                                        ),
                                                                     )}
                                                             </div>
                                                         </div>
@@ -825,7 +825,7 @@ function Code() {
                                                             <div />
                                                         )}
                                                     </div>
-                                                )
+                                                ),
                                             )}
                                         </div>
                                     </ScrollArea>
@@ -837,7 +837,7 @@ function Code() {
                                                 value={customTestcase}
                                                 onChange={(e) =>
                                                     setCustomTestcase(
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                                 placeholder="Check against your own testcases"
@@ -871,7 +871,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line
+                                                                            line,
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -884,7 +884,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        )
+                                                                        ),
                                                                     )}
                                                             </div>
                                                         </div>
