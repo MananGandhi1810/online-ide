@@ -56,7 +56,14 @@ function Login() {
                 title: "Success",
                 description: res.message,
             });
-            navigate(searchParams.get("next") || "/");
+            const nextParam = searchParams.get("next");
+            const safeNext =
+                typeof nextParam === "string" &&
+                nextParam.startsWith("/") &&
+                !nextParam.startsWith("//")
+                    ? nextParam
+                    : "/";
+            navigate(safeNext);
         } else {
             toast({
                 title: "Couldn't log in",
