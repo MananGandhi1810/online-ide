@@ -5,7 +5,6 @@
  */
 
 import app from "../index.js";
-import debug from "debug";
 import http from "http";
 import { onQueueMessage } from "../utils/queue-manager.js";
 import { executeCode } from "../execution-worker/execute.js";
@@ -84,5 +83,5 @@ function onError(error) {
 function onListening() {
     var addr = server.address();
     var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-    debug("Listening on " + bind);
+    console.log("Listening on " + bind);
 }
