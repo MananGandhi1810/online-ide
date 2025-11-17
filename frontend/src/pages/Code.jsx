@@ -76,7 +76,7 @@ function Code() {
         () =>
             initialCodeLanguage ||
             localStorage.getItem("preferredLanguage") ||
-            "python",
+            "python"
     );
     const supportedLanguages = {
         Python: "python",
@@ -93,12 +93,12 @@ function Code() {
     const [code, setCode] = useState(
         () =>
             localStorage.getItem(`code-${language}-${problemStatement.id}`) ||
-            "",
+            ""
     );
 
     const getStarterCode = (lang) => {
         const starterCodeEntry = problemStatement.starterCode?.find(
-            (sc) => sc.language === lang,
+            (sc) => sc.language === lang
         );
         if (starterCodeEntry && starterCodeEntry.code) {
             return starterCodeEntry.code;
@@ -147,9 +147,9 @@ function Code() {
             () =>
                 (initialCodeLanguage == language ? initialCodeState : null) ||
                 localStorage.getItem(
-                    `code-${language}-${problemStatement.id}`,
+                    `code-${language}-${problemStatement.id}`
                 ) ||
-                getStarterCode(language),
+                getStarterCode(language)
         );
     }, [language]);
 
@@ -211,7 +211,7 @@ function Code() {
                         Authorization: `Bearer ${user.token}`,
                     },
                     validateStatus: false,
-                },
+                }
             )
             .then((res) => res.data)
             .catch((e) => {
@@ -244,7 +244,7 @@ function Code() {
     const pollForResult = async (
         submissionId,
         isTempRun = false,
-        tryNo = 0,
+        tryNo = 0
     ) => {
         const res = await axios
             .get(
@@ -256,7 +256,7 @@ function Code() {
                         Authorization: `Bearer ${user.token}`,
                     },
                     validateStatus: false,
-                },
+                }
             )
             .then((res) => res.data);
         if (res.success) {
@@ -314,7 +314,7 @@ function Code() {
                 setTimeout(async () => {
                     await pollForResult(submissionId, isTempRun, tryNo + 1);
                     resolve();
-                }, 400),
+                }, 400)
             );
         } else {
             if (isTempRun) {
@@ -441,7 +441,7 @@ function Code() {
                         Authorization: `Bearer ${user.token}`,
                     },
                     validateStatus: false,
-                },
+                }
             )
             .then((res) => res.data);
         setIsSubmittingEditorial(false);
@@ -471,7 +471,7 @@ function Code() {
                         Authorization: `Bearer ${user.token}`,
                     },
                     validateStatus: false,
-                },
+                }
             )
             .then((res) => res.data);
         if (!res.success) {
@@ -505,118 +505,102 @@ function Code() {
                 className="border h-full w-full"
             >
                 <ResizablePanel defaultSize={50}>
-                    <ResizablePanelGroup
-                        direction="vertical"
-                        className="border h-full w-full"
-                    >
-                        <ResizablePanel defaultSize={100}>
-                            <Tabs defaultValue="problem-statement">
-                                <TabsList>
-                                    <TabsTrigger
-                                        value="problem-statement"
-                                        className="m-0.5"
+                    <Tabs defaultValue="problem-statement">
+                        <TabsList>
+                            <TabsTrigger
+                                value="problem-statement"
+                                className="m-0.5"
+                            >
+                                Problem Statement
+                            </TabsTrigger>
+                            <TabsTrigger value="ai" className="m-0.5">
+                                Ask AI
+                            </TabsTrigger>
+                            <TabsTrigger value="editorials" className="m-0.5">
+                                Editorials
+                            </TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="problem-statement">
+                            <ScrollArea className="flex h-full w-full flex-col gap-5 pb-14">
+                                <Markdown className="prose dark:prose-invert min-w-full p-6">
+                                    {problemStatement.description}
+                                </Markdown>
+                            </ScrollArea>
+                        </TabsContent>
+                        <TabsContent value="ai">
+                            <AIChat
+                                chatHistory={chatHistory}
+                                currentResponse={currentResponse}
+                                handleSendMessage={handleSendMessage}
+                                aiInput={aiInput}
+                                setAiInput={setAiInput}
+                                isDisabled={disableChat}
+                            />
+                        </TabsContent>
+                        <TabsContent value="editorials">
+                            <div className="py-2 mx-6 flex flex-row gap-2">
+                                {selectedEditorial.id == "" &&
+                                problemStatement.solved ? (
+                                    <Button
+                                        variant="outline"
+                                        onClick={() => {
+                                            setIsEditing((prev) => !prev);
+                                        }}
                                     >
-                                        Problem Statement
-                                    </TabsTrigger>
-                                    <TabsTrigger value="ai" className="m-0.5">
-                                        Ask AI
-                                    </TabsTrigger>
-                                    <TabsTrigger
-                                        value="editorials"
-                                        className="m-0.5"
-                                    >
-                                        Editorials
-                                    </TabsTrigger>
-                                </TabsList>
-                                <TabsContent value="problem-statement">
-                                    <ScrollArea className="flex h-full w-full flex-col gap-5 pb-14">
-                                        <Markdown className="prose dark:prose-invert min-w-full p-6">
-                                            {problemStatement.description}
-                                        </Markdown>
-                                    </ScrollArea>
-                                </TabsContent>
-                                <TabsContent value="ai">
-                                    <AIChat
-                                        chatHistory={chatHistory}
-                                        currentResponse={currentResponse}
-                                        handleSendMessage={handleSendMessage}
-                                        aiInput={aiInput}
-                                        setAiInput={setAiInput}
-                                        isDisabled={disableChat}
-                                    />
-                                </TabsContent>
-                                <TabsContent value="editorials">
-                                    <div className="py-2 mx-6 flex flex-row gap-2">
-                                        {selectedEditorial.id == "" &&
-                                        problemStatement.solved ? (
-                                            <Button
-                                                variant="outline"
-                                                onClick={() => {
-                                                    setIsEditing(
-                                                        (prev) => !prev,
-                                                    );
-                                                }}
-                                            >
-                                                {isEditing ? (
-                                                    <div className="flex flex-row gap-2 justify-center items-center">
-                                                        <X />
-                                                        Cancel editing
-                                                    </div>
-                                                ) : (
-                                                    <div className="flex flex-row gap-2 justify-center items-center">
-                                                        <Edit />
-                                                        Compose an editorial
-                                                    </div>
-                                                )}
-                                            </Button>
-                                        ) : (
-                                            <div />
-                                        )}
                                         {isEditing ? (
-                                            <Button
-                                                className="flex flex-row gap-2 justify-center items-center"
-                                                variant="outline"
-                                                onClick={submitEditorial}
-                                                disabled={
-                                                    editorialTitle == "" ||
-                                                    editorialContent == ""
-                                                }
-                                            >
-                                                {isSubmittingEditorial ? (
-                                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                ) : (
-                                                    <SendHorizontal />
-                                                )}
-                                                Submit Editorial
-                                            </Button>
+                                            <div className="flex flex-row gap-2 justify-center items-center">
+                                                <X />
+                                                Cancel editing
+                                            </div>
                                         ) : (
-                                            <div />
+                                            <div className="flex flex-row gap-2 justify-center items-center">
+                                                <Edit />
+                                                Compose an editorial
+                                            </div>
                                         )}
-                                    </div>
-                                    {isEditing ? (
-                                        <EditorialEditor
-                                            title={editorialTitle}
-                                            setTitle={setEditorialTitle}
-                                            content={editorialContent}
-                                            setContent={setEditorialContent}
-                                        />
-                                    ) : (
-                                        <Editorials
-                                            editorials={editorials}
-                                            selectedEditorial={
-                                                selectedEditorial
-                                            }
-                                            setSelectedEditorial={
-                                                setSelectedEditorial
-                                            }
-                                            userId={user.id}
-                                            deleteEditorial={deleteEditorial}
-                                        />
-                                    )}
-                                </TabsContent>
-                            </Tabs>
-                        </ResizablePanel>
-                    </ResizablePanelGroup>
+                                    </Button>
+                                ) : (
+                                    <div />
+                                )}
+                                {isEditing ? (
+                                    <Button
+                                        className="flex flex-row gap-2 justify-center items-center"
+                                        variant="outline"
+                                        onClick={submitEditorial}
+                                        disabled={
+                                            editorialTitle == "" ||
+                                            editorialContent == ""
+                                        }
+                                    >
+                                        {isSubmittingEditorial ? (
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        ) : (
+                                            <SendHorizontal />
+                                        )}
+                                        Submit Editorial
+                                    </Button>
+                                ) : (
+                                    <div />
+                                )}
+                            </div>
+                            {isEditing ? (
+                                <EditorialEditor
+                                    title={editorialTitle}
+                                    setTitle={setEditorialTitle}
+                                    content={editorialContent}
+                                    setContent={setEditorialContent}
+                                />
+                            ) : (
+                                <Editorials
+                                    editorials={editorials}
+                                    selectedEditorial={selectedEditorial}
+                                    setSelectedEditorial={setSelectedEditorial}
+                                    userId={user.id}
+                                    deleteEditorial={deleteEditorial}
+                                />
+                            )}
+                        </TabsContent>
+                    </Tabs>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel defaultSize={50}>
@@ -777,7 +761,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line,
+                                                                            line
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -790,7 +774,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        ),
+                                                                        )
                                                                     )}
                                                             </div>
                                                             Output
@@ -799,7 +783,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line,
+                                                                            line
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -812,7 +796,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        ),
+                                                                        )
                                                                     )}
                                                             </div>
                                                         </div>
@@ -825,7 +809,7 @@ function Code() {
                                                             <div />
                                                         )}
                                                     </div>
-                                                ),
+                                                )
                                             )}
                                         </div>
                                     </ScrollArea>
@@ -837,7 +821,7 @@ function Code() {
                                                 value={customTestcase}
                                                 onChange={(e) =>
                                                     setCustomTestcase(
-                                                        e.target.value,
+                                                        e.target.value
                                                     )
                                                 }
                                                 placeholder="Check against your own testcases"
@@ -871,7 +855,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line,
+                                                                            line
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -884,7 +868,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        ),
+                                                                        )
                                                                     )}
                                                             </div>
                                                         </div>
