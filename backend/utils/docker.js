@@ -83,6 +83,7 @@ const createDockerContainer = async (language, code, input) => {
         });
     } catch (error) {
         console.error("Error creating Docker container:", error);
+        return null;
     }
 };
 

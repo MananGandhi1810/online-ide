@@ -13,6 +13,7 @@ enum SubmissionStatus {
     Executing
     Executed
     TimeLimitExceeded
+    ExecutionError
 }
 
 enum Difficulty {

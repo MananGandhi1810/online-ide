@@ -148,6 +148,9 @@ const checkExecutionHandler = async (req, res, isTempRun = false) => {
         case "TimeLimitExceeded":
             message = "Time limit exceeded";
             break;
+        case "ExecutionError":
+            message = "Could not execute code";
+            break;
         default:
             message = "Submission status unknown";
     }

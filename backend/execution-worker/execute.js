@@ -61,6 +61,31 @@ const executeCode = async (message, channel) => {
         code,
         testCases.map((testCase) => testCase.input),
     );
+    if (!container && !temp) {
+        console.log(submissionId)
+        await prisma.submission.update({
+            where: { id: submission.id },
+            data: {
+                status: "ExecutionError",
+                success: false,
+                output: "Error executing code.",
+            },
+        });
+        return;
+    }
+    if (!container && temp) {
+        const prevData = JSON.parse(await get(`temp-${submissionId}`));
+        await set(
+            `temp-${submissionId}`,
+            JSON.stringify({
+                ...prevData,
+                status: "ExecutionError",
+                output: "Error executing code.",
+            }),
+            60 * 5
+        );
+        return;
+    }
     await container.start();
     var didTLE = false;
     var didRun = false;
