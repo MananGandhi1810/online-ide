@@ -1,6 +1,6 @@
 import twAnimate from "tailwindcss-animate";
 import twTypography from "@tailwindcss/typography";
-import twTypewriter from "tailwind-typewriter";
+
 /** @type {import('tailwindcss').Config} */
 export default {
     darkMode: ["class"],
@@ -77,15 +77,5 @@ export default {
     plugins: [
         twAnimate,
         twTypography,
-        twTypewriter({
-            wordsets: {
-                "home-heading": {
-                    words: ["Master Coding Challenges"],
-                    delay: 0.5,
-                    writeSpeed: 0.25,
-                    repeat: -1,
-                },
-            },
-        }),
     ],
 };
