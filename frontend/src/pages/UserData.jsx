@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import { Code2, FileText, Zap, Send, Linkedin, Share2 } from "lucide-react";
+import { Code2, FileText, Zap, Send, Share2 } from "lucide-react";
 import {
     Card,
     CardContent,

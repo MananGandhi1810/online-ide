@@ -76,7 +76,7 @@ function Code() {
         () =>
             initialCodeLanguage ||
             localStorage.getItem("preferredLanguage") ||
-            "python"
+            "python",
     );
     const supportedLanguages = {
         Python: "python",
@@ -93,12 +93,12 @@ function Code() {
     const [code, setCode] = useState(
         () =>
             localStorage.getItem(`code-${language}-${problemStatement.id}`) ||
-            ""
+            "",
     );
 
     const getStarterCode = (lang) => {
         const starterCodeEntry = problemStatement.starterCode?.find(
-            (sc) => sc.language === lang
+            (sc) => sc.language === lang,
         );
         if (starterCodeEntry && starterCodeEntry.code) {
             return starterCodeEntry.code;
@@ -147,9 +147,9 @@ function Code() {
             () =>
                 (initialCodeLanguage == language ? initialCodeState : null) ||
                 localStorage.getItem(
-                    `code-${language}-${problemStatement.id}`
+                    `code-${language}-${problemStatement.id}`,
                 ) ||
-                getStarterCode(language)
+                getStarterCode(language),
         );
     }, [language]);
 
@@ -211,7 +211,7 @@ function Code() {
                         Authorization: `Bearer ${user.token}`,
                     },
                     validateStatus: false,
-                }
+                },
             )
             .then((res) => res.data)
             .catch((e) => {
@@ -244,7 +244,7 @@ function Code() {
     const pollForResult = async (
         submissionId,
         isTempRun = false,
-        tryNo = 0
+        tryNo = 0,
     ) => {
         const res = await axios
             .get(
@@ -256,7 +256,7 @@ function Code() {
                         Authorization: `Bearer ${user.token}`,
                     },
                     validateStatus: false,
-                }
+                },
             )
             .then((res) => res.data);
         if (res.success) {
@@ -314,7 +314,7 @@ function Code() {
                 setTimeout(async () => {
                     await pollForResult(submissionId, isTempRun, tryNo + 1);
                     resolve();
-                }, 400)
+                }, 400),
             );
         } else {
             if (isTempRun) {
@@ -441,7 +441,7 @@ function Code() {
                         Authorization: `Bearer ${user.token}`,
                     },
                     validateStatus: false,
-                }
+                },
             )
             .then((res) => res.data);
         setIsSubmittingEditorial(false);
@@ -471,7 +471,7 @@ function Code() {
                         Authorization: `Bearer ${user.token}`,
                     },
                     validateStatus: false,
-                }
+                },
             )
             .then((res) => res.data);
         if (!res.success) {
@@ -761,7 +761,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line
+                                                                            line,
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -774,7 +774,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        )
+                                                                        ),
                                                                     )}
                                                             </div>
                                                             Output
@@ -783,7 +783,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line
+                                                                            line,
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -796,7 +796,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        )
+                                                                        ),
                                                                     )}
                                                             </div>
                                                         </div>
@@ -809,7 +809,7 @@ function Code() {
                                                             <div />
                                                         )}
                                                     </div>
-                                                )
+                                                ),
                                             )}
                                         </div>
                                     </ScrollArea>
@@ -821,7 +821,7 @@ function Code() {
                                                 value={customTestcase}
                                                 onChange={(e) =>
                                                     setCustomTestcase(
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                                 placeholder="Check against your own testcases"
@@ -855,7 +855,7 @@ function Code() {
                                                                     .split("\n")
                                                                     .map(
                                                                         (
-                                                                            line
+                                                                            line,
                                                                         ) => (
                                                                             <div
                                                                                 key={
@@ -868,7 +868,7 @@ function Code() {
                                                                                     }
                                                                                 </p>
                                                                             </div>
-                                                                        )
+                                                                        ),
                                                                     )}
                                                             </div>
                                                         </div>

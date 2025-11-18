@@ -44,8 +44,8 @@ function App() {
     const [user, setUser] = useState(
         () =>
             JSON.parse(
-                localStorage.getItem("user") ?? JSON.stringify(initialState)
-            ) || initialState
+                localStorage.getItem("user") ?? JSON.stringify(initialState),
+            ) || initialState,
     );
 
     const fetchUserData = async () => {
@@ -175,7 +175,7 @@ function App() {
                                         headers: {
                                             authorization: `Bearer ${user.token}`,
                                         },
-                                    }
+                                    },
                                 )
                                 .then((res) => res.data);
                         } catch (e) {
@@ -231,7 +231,7 @@ function App() {
                                         headers: {
                                             authorization: `Bearer ${user.token}`,
                                         },
-                                    }
+                                    },
                                 )
                                 .then((res) => res.data);
                         } catch (e) {
@@ -271,7 +271,7 @@ function App() {
                             return redirect("/login?next=/submissions");
                         }
                         const page = new URL(request.url).searchParams.get(
-                            "page"
+                            "page",
                         );
                         var res;
                         try {
@@ -287,7 +287,7 @@ function App() {
                                         headers: {
                                             authorization: `Bearer ${user.token}`,
                                         },
-                                    }
+                                    },
                                 )
                                 .then((res) => res.data);
                         } catch (e) {
@@ -308,7 +308,7 @@ function App() {
                     loader: async ({ request }) => {
                         var res;
                         const requestToken = new URL(
-                            request.url
+                            request.url,
                         ).searchParams.get("requestToken");
                         if (!requestToken) {
                             return null;
@@ -322,7 +322,7 @@ function App() {
                                             authorization: `Bearer ${requestToken}`,
                                         },
                                         validateStatus: false,
-                                    }
+                                    },
                                 )
                                 .then((res) => res.data);
                         } catch (e) {
@@ -346,7 +346,7 @@ function App() {
                     path: "gh-callback-error",
                     loader: async ({ request }) => {
                         const error = new URL(request.url).searchParams.get(
-                            "error"
+                            "error",
                         );
                         toast({
                             title: "An Error Occurred",

@@ -74,8 +74,5 @@ export default {
             },
         },
     },
-    plugins: [
-        twAnimate,
-        twTypography,
-    ],
+    plugins: [twAnimate, twTypography],
 };
