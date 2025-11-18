@@ -35,7 +35,7 @@ function AIChat({
                         </div>
                     ))
                 ) : (
-                    <p className="flex justify-center items-center h-full">
+                    <p className="flex justify-center items-center">
                         You can chat with an AI Assistant and get help with your
                         code here!
                     </p>
