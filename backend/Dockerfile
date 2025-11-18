@@ -3,7 +3,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci --only=production --silent && npm cache clean --force
 COPY prisma ./prisma/
-RUN npx prisma generate
+RUN npx prisma@6.5.0 generate
 
 FROM node:lts-alpine AS production
 WORKDIR /usr/src/app
