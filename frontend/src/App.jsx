@@ -102,7 +102,7 @@ function App() {
                                 !nextParam.startsWith("//")
                                     ? nextParam
                                     : "/";
-                            navigate(safeNext);
+                            return redirect(safeNext);
                         }
                         return null;
                     },
@@ -120,7 +120,7 @@ function App() {
                                 !nextParam.startsWith("//")
                                     ? nextParam
                                     : "/";
-                            navigate(safeNext);
+                            return redirect(safeNext);
                         }
                         return null;
                     },
