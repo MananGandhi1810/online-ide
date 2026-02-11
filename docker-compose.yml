@@ -14,7 +14,7 @@ services:
             # - /path/to/ssl/fullchain.pem:/usr/src/app/ssl/fullchain.pem
             # - /path/to/ssl/privkey.pem:/usr/src/app/ssl/privkey.pem
         user: root
-        command: sh -c "npx prisma migrate deploy && npm run start"
+        command: sh -c "npx prisma@6.5.0 migrate deploy && npm run start"
 
     postgresql:
         image: bitnami/postgresql:latest
