@@ -13,7 +13,17 @@ const filenames = {
 };
 
 const cleanStr = (str) => {
-    return str.replaceAll('"', '\\"');
+    const replacements = {
+        "\\": "\\\\",
+        '"': '\\"',
+        "`": "\\`",
+        "$": "\\$",
+    };
+    let cleaned = str;
+    for (const [key, value] of Object.entries(replacements)) {
+        cleaned = cleaned.split(key).join(value);
+    }
+    return cleaned;
 };
 
 const setupExecutionEngine = async () => {
