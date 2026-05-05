@@ -77,6 +77,16 @@ Leetcode like platform to practice logic based coding problems. Built using Expr
 
 ![Diagram](assets/flow-diagram.png)
 
+1. The user writes code in the frontend and clicks execute or submit.
+2. The frontend sends the request to the backend server.
+3. The backend stores user and code data in PostgreSQL.
+4. The backend publishes the execution job to Redis PubSub.
+5. The code execution worker consumes the queued job.
+6. The worker starts a Docker container and runs the submitted code with the provided test cases.
+7. The worker records the execution result, execution time, and success or failure status back in PostgreSQL.
+
+This setup keeps the web request fast, isolates code execution inside containers, and lets the backend and worker communicate asynchronously through Redis.
+
 ## Setup
 
 You can either use the docker-compose file to run the project or run the backend and frontend separately.
