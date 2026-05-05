@@ -19,9 +19,9 @@ const cleanStr = (str) => {
         "`": "\\`",
         "$": "\\$",
     };
-    let cleaned = str;
+    let cleaned = String(str);
     for (const [key, value] of Object.entries(replacements)) {
-        cleaned = cleaned.split(key).join(value);
+        cleaned = cleaned.replaceAll(key, value);
     }
     return cleaned;
 };
