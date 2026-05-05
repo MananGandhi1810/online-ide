@@ -135,3 +135,91 @@
 .react-calendar-heatmap .color-scale-4 {
     fill: #1e6823;
 }
+
+.ProseMirror {
+    outline: none;
+}
+
+.ProseMirror h1 {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 0.67em 0;
+}
+
+.ProseMirror h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0.75em 0;
+}
+
+.ProseMirror h3 {
+    font-size: 1.17em;
+    font-weight: bold;
+    margin: 0.83em 0;
+}
+
+.ProseMirror p {
+    margin: 0.5em 0;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+    margin: 0.5em 0;
+    padding-left: 2em;
+}
+
+.ProseMirror li {
+    margin: 0.25em 0;
+}
+
+.ProseMirror blockquote {
+    border-left: 3px solid currentColor;
+    margin: 0.5em 0;
+    padding-left: 1em;
+    opacity: 0.8;
+}
+
+.ProseMirror code {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.3em;
+    font-family: monospace;
+    padding: 0.1em 0.4em;
+}
+
+.ProseMirror pre {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 0.5em;
+    margin: 0.5em 0;
+    overflow-x: auto;
+    padding: 1em;
+}
+
+.ProseMirror pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+.ProseMirror a {
+    color: #3b82f6;
+    text-decoration: underline;
+}
+
+.ProseMirror a:hover {
+    color: #1d4ed8;
+}
+
+.ProseMirror strong {
+    font-weight: bold;
+}
+
+.ProseMirror em {
+    font-style: italic;
+}
+
+.ProseMirror u {
+    text-decoration: underline;
+}
+
+.ProseMirror s {
+    text-decoration: line-through;
+}
