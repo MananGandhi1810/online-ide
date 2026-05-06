@@ -7,4 +7,6 @@ RUN apk add nodejs
 RUN apk add python3
 RUN apk add openjdk11
 RUN apk add bash
+RUN addgroup -S group && adduser -S notroot -G group
+RUN chown notroot .
 COPY executor.py executor.py

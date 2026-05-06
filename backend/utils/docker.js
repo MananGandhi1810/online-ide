@@ -14,7 +14,7 @@ const cleanStr = (str) => {
         "\\": "\\\\",
         '"': '\\"',
         "`": "\\`",
-        "$": "\\$",
+        $: "\\$",
     };
     let cleaned = String(str);
     for (const [key, value] of Object.entries(replacements)) {
@@ -66,8 +66,10 @@ const createDockerContainer = async (language, code, input) => {
             Image: process.env.CODE_RUNNER_CONTAINER,
             Cmd: getExecutionCommand(language, code, input),
             Tty: true,
+            Hostname: "hehe-you-wont-be-able-to-hack-me",
+            User: "notroot",
             HostConfig: {
-                NetworkMode: 'none',
+                NetworkMode: "none",
                 Memory: 128 * 1024 * 1024,
                 PidsLimit: 16,
             },
