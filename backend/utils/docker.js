@@ -1,8 +1,5 @@
 import dockerode from "dockerode";
 
-const networkName = "no-internet";
-var useNetwork = true;
-
 const docker = dockerode();
 
 const filenames = {
@@ -27,22 +24,6 @@ const cleanStr = (str) => {
 };
 
 const setupExecutionEngine = async () => {
-    const allNetworks = await docker.listNetworks();
-    const networkExists = allNetworks.some(
-        (network) => network.Name === networkName
-    );
-    if (!networkExists) {
-        console.log("Creating Docker network for code execution...");
-        try {
-            await docker.createNetwork({ Name: networkName, Internal: true });
-        } catch (error) {
-            console.error("Error creating Docker network:", error);
-            console.error(
-                "Proceeding without network isolation for code execution."
-            );
-            useNetwork = false;
-        }
-    }
     const allImages = await docker.listImages({ all: true });
     const executionImageExists = allImages.some((container) =>
         container.RepoTags.includes(process.env.CODE_RUNNER_CONTAINER)
@@ -86,9 +67,9 @@ const createDockerContainer = async (language, code, input) => {
             Cmd: getExecutionCommand(language, code, input),
             Tty: true,
             HostConfig: {
-                NetworkMode: useNetwork ? networkName : undefined,
+                NetworkMode: 'none',
                 Memory: 128 * 1024 * 1024,
-                PidsLimit: 64,
+                PidsLimit: 16,
             },
         });
     } catch (error) {
