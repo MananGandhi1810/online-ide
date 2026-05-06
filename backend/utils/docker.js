@@ -14,7 +14,7 @@ const cleanStr = (str) => {
         "\\": "\\\\",
         '"': '\\"',
         "`": "\\`",
-        $: "\\$",
+        "\$": "\\$",
     };
     let cleaned = String(str);
     for (const [key, value] of Object.entries(replacements)) {
