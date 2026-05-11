@@ -316,7 +316,7 @@ function App() {
                         try {
                             res = await axios
                                 .get(
-                                    `${process.env.SERVER_URL}/auth/accessToken`,
+                                    `${process.env.SERVER_URL}/auth/access-token`,
                                     {
                                         headers: {
                                             authorization: `Bearer ${requestToken}`,

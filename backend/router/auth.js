@@ -34,6 +34,6 @@ router.post(
 router.post("/verify-otp", verifyOtpHandler);
 router.post("/reset-password", resetPasswordHandler);
 router.get("/gh-callback", githubCallbackHandler);
-router.get("/accessToken", accessTokenHandler);
+router.get("/access-token", accessTokenHandler);
 
 export default router;

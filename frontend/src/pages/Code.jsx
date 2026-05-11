@@ -249,7 +249,7 @@ function Code() {
         const res = await axios
             .get(
                 `${process.env.SERVER_URL}/code/${
-                    isTempRun ? "checkTemp" : "check"
+                    isTempRun ? "check-temp" : "check"
                 }/${submissionId}`,
                 {
                     headers: {
