@@ -8,6 +8,6 @@ import {
 const router = Router();
 
 router.get("/", getLeaderboardHandler);
-router.get("/getUserPoints", checkAuth, getUserPointsHandler);
+router.get("/points", checkAuth, getUserPointsHandler);
 
 export default router;

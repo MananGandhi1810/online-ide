@@ -5,7 +5,7 @@ const getUserPoints = async (token) => {
         return;
     }
     return await axios
-        .get(`${process.env.SERVER_URL}/leaderboard/getUserPoints`, {
+        .get(`${process.env.SERVER_URL}/leaderboard/points`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
