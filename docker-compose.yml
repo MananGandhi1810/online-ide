@@ -24,11 +24,6 @@ services:
         volumes:
             - pg-data:/bitnami/postgresql
         environment:
-            - POSTGRESQL_PGAUDIT_LOG=READ,WRITE
-            - POSTGRESQL_LOG_HOSTNAME=true
-            - POSTGRESQL_REPLICATION_MODE=master
-            - POSTGRESQL_REPLICATION_USER=repl_user
-            - POSTGRESQL_REPLICATION_PASSWORD=repl_user
             - POSTGRESQL_USERNAME=postgres
             - POSTGRESQL_PASSWORD=postgres
             - POSTGRESQL_DATABASE=cloud-ide
