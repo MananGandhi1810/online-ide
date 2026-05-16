@@ -34,6 +34,7 @@ try:
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
+        timeout=30,
     )
     if compile_process.stderr:
         print(compile_process.stderr.decode(), file=sys.stderr)
@@ -53,6 +54,7 @@ for data in input_data:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             input=data.strip().encode(),
+            timeout=30,
         )
         if execute_process.stderr:
             print(execute_process.stderr.decode(), file=sys.stderr)
