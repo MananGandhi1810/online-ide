@@ -7,6 +7,14 @@ import { chat, getSystemPrompt, getUserPrompt } from "../utils/ai-model.js";
 const languages = ["python", "c", "cpp", "java"];
 const prisma = new PrismaClient();
 
+const submissionStatusMessage = {
+    Executed: "Submission Executed",
+    Executing: "Submissing Executing",
+    Queued: "Waiting for submission to be executed",
+    TimeLimitExceeded: "Time Limit Exceeded",
+    ExecutionError: "Could Not Execute Code",
+};
+
 const queueCodeHandler = async (req, res, isTempRun = false) => {
     const { problemStatementId, language } = req.params;
     if (!language || !languages.includes(language)) {
@@ -67,7 +75,7 @@ const queueCodeHandler = async (req, res, isTempRun = false) => {
             submissionId = (await randomNum(10)).toString();
             await set(
                 `temp-${submissionId}`,
-                JSON.stringify({ ...initialData, status: "Queued" }),
+                JSON.stringify({ ...initialData, status: "Queued" })
             );
         }
         const data = {
@@ -134,26 +142,9 @@ const checkExecutionHandler = async (req, res, isTempRun = false) => {
             data: null,
         });
     }
-    var message;
-    switch (submission.status) {
-        case "Executed":
-            message = "Submission executed";
-            break;
-        case "Executing":
-            message = "Submission executing";
-            break;
-        case "Queued":
-            message = "Waiting for submission to be executed";
-            break;
-        case "TimeLimitExceeded":
-            message = "Time limit exceeded";
-            break;
-        case "ExecutionError":
-            message = "Could not execute code";
-            break;
-        default:
-            message = "Submission status unknown";
-    }
+    const message =
+        submissionStatusMessage[submission.status] ||
+        "Submission Status Unknown";
     res.json({
         success: submission.status == "Executed",
         message,
@@ -220,7 +211,7 @@ const aiHelperHandler = async (req, res) => {
     const systemPrompt = getSystemPrompt(
         problemStatement.title,
         problemStatement.description,
-        language,
+        language
     );
     const generatedPrompt = getUserPrompt(code, prompt);
     const responseStream = await chat(systemPrompt, history, generatedPrompt);
