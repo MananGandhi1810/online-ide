@@ -16,7 +16,6 @@ function Submissions() {
     const { submissions, page } = useLoaderData();
     const navigate = useNavigate();
 
-    console.log(submissions);
     return (
         <div className="w-screen flex justify-center">
             {submissions.length > 0 ? (

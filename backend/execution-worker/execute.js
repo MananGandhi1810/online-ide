@@ -62,7 +62,6 @@ const executeCode = async (message, channel) => {
         testCases.map((testCase) => testCase.input),
     );
     if (!container && !temp) {
-        console.log(submissionId)
         await prisma.submission.update({
             where: { id: submission.id },
             data: {
@@ -193,7 +192,7 @@ const executeCode = async (message, channel) => {
             });
         }
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
     try {
         await container.remove();

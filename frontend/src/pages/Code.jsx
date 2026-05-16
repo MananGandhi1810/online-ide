@@ -215,7 +215,6 @@ function Code() {
             )
             .then((res) => res.data)
             .catch((e) => {
-                console.log(e);
                 if (isTempRun) {
                     setRunning(false);
                 } else {

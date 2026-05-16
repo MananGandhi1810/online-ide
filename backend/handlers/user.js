@@ -85,7 +85,6 @@ const getUserSubmissionsHandler = async (req, res) => {
         skip: start,
         take: limit,
     });
-    console.log(submissions);
     return res.json({
         success: true,
         message: "Submissions fetched",

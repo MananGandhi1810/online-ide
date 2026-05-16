@@ -97,7 +97,7 @@ const queueCodeHandler = async (req, res, isTempRun = false) => {
             data: { submissionId: submissionId },
         });
     } catch (e) {
-        console.log("Error occurred when submitting code", e);
+        console.error("Error occurred when submitting code", e);
         await res.status(500).json({
             success: false,
             message: "Error occurred when submitting code",

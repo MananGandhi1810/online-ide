@@ -15,20 +15,20 @@ try {
     isConnected = true;
     console.log("Connected to Redis Pub/Sub");
 } catch (e) {
-    console.log("Couldn't connect to Redis Pub/Sub");
-    console.log(e);
+    console.error("Couldn't connect to Redis Pub/Sub");
+    console.error(e);
 }
 
 const sendQueueMessage = async (topic, message) => {
     if (!isConnected) {
-        console.log("Couldn't connect to Redis Pub/Sub");
+        console.error("Couldn't connect to Redis Pub/Sub");
         return;
     }
     try {
         publisher.publish(topic, message);
     } catch (e) {
-        console.log("Couldn't send message to Redis Pub/Sub");
-        console.log(e);
+        console.error("Couldn't send message to Redis Pub/Sub");
+        console.error(e);
     }
 };
 
