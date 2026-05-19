@@ -75,7 +75,7 @@ const queueCodeHandler = async (req, res, isTempRun = false) => {
             submissionId = (await randomNum(10)).toString();
             await set(
                 `temp-${submissionId}`,
-                JSON.stringify({ ...initialData, status: "Queued" })
+                JSON.stringify({ ...initialData, status: "Queued" }),
             );
         }
         const data = {
@@ -211,7 +211,7 @@ const aiHelperHandler = async (req, res) => {
     const systemPrompt = getSystemPrompt(
         problemStatement.title,
         problemStatement.description,
-        language
+        language,
     );
     const generatedPrompt = getUserPrompt(code, prompt);
     const responseStream = await chat(systemPrompt, history, generatedPrompt);

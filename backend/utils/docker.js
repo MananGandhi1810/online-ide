@@ -26,7 +26,7 @@ const cleanStr = (str) => {
 const setupExecutionEngine = async () => {
     const allImages = await docker.listImages({ all: true });
     const executionImageExists = allImages.some((container) =>
-        container.RepoTags.includes(process.env.CODE_RUNNER_CONTAINER)
+        container.RepoTags.includes(process.env.CODE_RUNNER_CONTAINER),
     );
     if (!executionImageExists) {
         console.log("Pulling code runner Docker image...");
@@ -35,7 +35,7 @@ const setupExecutionEngine = async () => {
         } catch (error) {
             console.error("Error pulling Docker image:", error);
             console.error(
-                `Please run 'docker pull ${process.env.CODE_RUNNER_CONTAINER}' manually.`
+                `Please run 'docker pull ${process.env.CODE_RUNNER_CONTAINER}' manually.`,
             );
             process.exit(1);
         }

@@ -77,19 +77,37 @@ function EditorialEditor({ title, setTitle, content, setContent }) {
                 <div className="flex flex-wrap gap-1 p-3 rounded-t-md border border-slate-700 border-b-0">
                     <ToolbarButton
                         icon={Heading1}
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleHeading({ level: 1 })
+                                .run()
+                        }
                         isActive={editor.isActive("heading", { level: 1 })}
                         title="Heading 1"
                     />
                     <ToolbarButton
                         icon={Heading2}
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleHeading({ level: 2 })
+                                .run()
+                        }
                         isActive={editor.isActive("heading", { level: 2 })}
                         title="Heading 2"
                     />
                     <ToolbarButton
                         icon={Heading3}
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleHeading({ level: 3 })
+                                .run()
+                        }
                         isActive={editor.isActive("heading", { level: 3 })}
                         title="Heading 3"
                     />
@@ -98,25 +116,33 @@ function EditorialEditor({ title, setTitle, content, setContent }) {
 
                     <ToolbarButton
                         icon={Bold}
-                        onClick={() => editor.chain().focus().toggleBold().run()}
+                        onClick={() =>
+                            editor.chain().focus().toggleBold().run()
+                        }
                         isActive={editor.isActive("bold")}
                         title="Bold"
                     />
                     <ToolbarButton
                         icon={Italic}
-                        onClick={() => editor.chain().focus().toggleItalic().run()}
+                        onClick={() =>
+                            editor.chain().focus().toggleItalic().run()
+                        }
                         isActive={editor.isActive("italic")}
                         title="Italic"
                     />
                     <ToolbarButton
                         icon={UnderlineIcon}
-                        onClick={() => editor.chain().focus().toggleUnderline().run()}
+                        onClick={() =>
+                            editor.chain().focus().toggleUnderline().run()
+                        }
                         isActive={editor.isActive("underline")}
                         title="Underline"
                     />
                     <ToolbarButton
                         icon={Code}
-                        onClick={() => editor.chain().focus().toggleCode().run()}
+                        onClick={() =>
+                            editor.chain().focus().toggleCode().run()
+                        }
                         isActive={editor.isActive("code")}
                         title="Inline Code"
                     />
@@ -125,7 +151,9 @@ function EditorialEditor({ title, setTitle, content, setContent }) {
 
                     <ToolbarButton
                         icon={Quote}
-                        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                        onClick={() =>
+                            editor.chain().focus().toggleBlockquote().run()
+                        }
                         isActive={editor.isActive("blockquote")}
                         title="Quote"
                     />
@@ -134,7 +162,11 @@ function EditorialEditor({ title, setTitle, content, setContent }) {
                         onClick={() => {
                             const url = prompt("Enter URL:");
                             if (url) {
-                                editor.chain().focus().setLink({ href: url }).run();
+                                editor
+                                    .chain()
+                                    .focus()
+                                    .setLink({ href: url })
+                                    .run();
                             }
                         }}
                         isActive={editor.isActive("link")}
@@ -145,13 +177,17 @@ function EditorialEditor({ title, setTitle, content, setContent }) {
 
                     <ToolbarButton
                         icon={List}
-                        onClick={() => editor.chain().focus().toggleBulletList().run()}
+                        onClick={() =>
+                            editor.chain().focus().toggleBulletList().run()
+                        }
                         isActive={editor.isActive("bulletList")}
                         title="Bullet List"
                     />
                     <ToolbarButton
                         icon={ListOrdered}
-                        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                        onClick={() =>
+                            editor.chain().focus().toggleOrderedList().run()
+                        }
                         isActive={editor.isActive("orderedList")}
                         title="Ordered List"
                     />
@@ -170,7 +206,9 @@ function EditorialEditor({ title, setTitle, content, setContent }) {
                     />
                     <ToolbarButton
                         icon={Trash2}
-                        onClick={() => editor.chain().focus().clearNodes().run()}
+                        onClick={() =>
+                            editor.chain().focus().clearNodes().run()
+                        }
                         title="Clear Formatting"
                     />
                 </div>

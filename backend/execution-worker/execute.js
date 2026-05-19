@@ -81,7 +81,7 @@ const executeCode = async (message, channel) => {
                 status: "ExecutionError",
                 output: "Error executing code.",
             }),
-            60 * 5
+            60 * 5,
         );
         return;
     }
