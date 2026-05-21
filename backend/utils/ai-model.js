@@ -44,7 +44,7 @@ Prompt: ${prompt}`;
 
 const chat = async (system, history, prompt) => {
     const stream = await model.chat.completions.create({
-        model: "@cf/meta/llama-4-scout-17b-16e-instruct",
+        model: "@cf/moonshotai/kimi-k2.6",
         messages: [
             { role: "system", content: system },
             ...history,
